@@ -48,7 +48,7 @@ jobs:
     executor: default
     steps:
       - build_and_test
-      - run: echo "TODO: deploy website"
+      # TODO: deploy website
 
 workflows:
   version: 2.1

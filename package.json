@@ -1,34 +1,45 @@
 {
+  "name": "@exmg/livery-demo",
+  "version": "0.0.0",
+  "description": "Demo use of Ex Machina Group Livery Web SDK (@exmg/livery).",
+  "author": "Ex Machina Group",
+  "homepage": "https://www.liveryvideo.com/",
+  "license": "MIT",
+  "repository": "github:exmg/livery-demo",
   "scripts": {
-    "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
-    "format:eslint": "eslint --ext .js,.html . --fix --ignore-path .gitignore",
-    "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
-    "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
-    "lint": "npm run lint:eslint && npm run lint:prettier",
-    "format": "npm run format:eslint && npm run format:prettier",
-    "test": "karma start --coverage",
-    "test:watch": "karma start --auto-watch=true --single-run=false",
-    "test:update-snapshots": "karma start --update-snapshots",
-    "test:prune-snapshots": "karma start --prune-snapshots",
-    "test:bs": "karma start karma.bs.config.js --coverage",
-    "start:build": "cd dist && es-dev-server --open",
     "build": "rimraf dist && rollup -c rollup.config.js",
-    "start": "es-dev-server --app-index index.html --node-resolve --open --watch"
+    "format:eslint": "eslint --ext .js,.html . --fix --ignore-path .gitignore",
+    "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
+    "format": "npm run format:eslint && npm run format:prettier",
+    "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
+    "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "start:build": "cd dist && es-dev-server --open",
+    "start": "es-dev-server --app-index index.html --node-resolve --open --watch",
+    "test:bs": "karma start karma.bs.config.js --coverage",
+    "test:prune-snapshots": "karma start --prune-snapshots",
+    "test:update-snapshots": "karma start --update-snapshots",
+    "test:watch": "karma start --auto-watch=true --single-run=false",
+    "test": "karma start --coverage"
+  },
+  "dependencies": {
+    "lit-element": "^2.0.1",
+    "lit-html": "^1.0.0"
   },
   "devDependencies": {
-    "eslint": "^6.1.0",
+    "@open-wc/building-rollup": "^0.19.1",
     "@open-wc/eslint-config": "^2.0.0",
     "@open-wc/prettier-config": "^0.1.10",
+    "@open-wc/testing": "^2.0.0",
+    "@open-wc/testing-karma": "^3.0.0",
+    "@open-wc/testing-karma-bs": "^1.0.0",
+    "deepmerge": "^3.2.0",
+    "es-dev-server": "^1.5.0",
+    "eslint": "^6.1.0",
     "husky": "^1.0.0",
     "lint-staged": "^8.0.0",
-    "@open-wc/testing-karma": "^3.0.0",
-    "deepmerge": "^3.2.0",
-    "@open-wc/testing-karma-bs": "^1.0.0",
-    "@open-wc/testing": "^2.0.0",
-    "@open-wc/building-rollup": "^0.15.1",
     "rimraf": "^2.6.3",
-    "rollup": "^1.15.4",
-    "es-dev-server": "^1.5.0"
+    "rollup": "^1.15.4"
   },
   "eslintConfig": {
     "extends": [
@@ -48,14 +59,5 @@
       "prettier --write",
       "git add"
     ]
-  },
-  "name": "livery-demo",
-  "version": "0.0.0",
-  "description": "Webcomponent livery-demo following open-wc recommendations",
-  "author": "livery-demo",
-  "license": "MIT",
-  "dependencies": {
-    "lit-html": "^1.0.0",
-    "lit-element": "^2.0.1"
   }
 }

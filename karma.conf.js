@@ -11,7 +11,12 @@ module.exports = config => {
         //
         // npm run test -- --grep test/foo/bar.test.js
         // npm run test -- --grep test/bar/*
-        { pattern: config.grep ? config.grep : 'components/*/test/**/*.test.js', type: 'module' },
+        {
+          pattern: config.grep
+            ? config.grep
+            : 'build/components/*/test/**/*.test.js',
+          type: 'module',
+        },
       ],
 
       esm: {

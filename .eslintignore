@@ -1,4 +1,6 @@
-# Copy any changes made here to .eslintignore
+# Copy any changes made here to .prettierignore
+
+# Copied from .gitignore
 
 ## editors
 /.idea

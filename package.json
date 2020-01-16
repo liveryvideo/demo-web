@@ -7,14 +7,15 @@
   "license": "MIT",
   "repository": "github:exmg/livery-demo",
   "scripts": {
-    "build": "rimraf dist && rollup -c rollup.config.js",
-    "format:eslint": "eslint --ext .js,.html . --fix --ignore-path .gitignore",
+    "build": "npm run clean && tsc && rollup -c rollup.config.js",
+    "clean": "rimraf build dist",
+    "format:eslint": "eslint --ext .ts,.js,.html . --fix",
     "format:markdown": "markdownlint README.md --fix",
-    "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
+    "format:prettier": "prettier \"**/*.{ts,js,json,html}\" --write",
     "format": "npm run format:eslint && npm run format:prettier && npm run format:markdown",
-    "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
+    "lint:eslint": "eslint --ext .ts,.js,.html .",
     "lint:markdown": "markdownlint README.md",
-    "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
+    "lint:prettier": "prettier \"**/*.{ts,js,json,html}\" --check",
     "lint": "npm run lint:eslint && npm run lint:prettier && npm run lint:markdown",
     "start:build": "cd dist && es-dev-server --open",
     "start": "es-dev-server --app-index index.html --node-resolve --open --watch",
@@ -22,7 +23,8 @@
     "test:prune-snapshots": "karma start --prune-snapshots",
     "test:update-snapshots": "karma start --update-snapshots",
     "test:watch": "karma start --auto-watch=true --single-run=false",
-    "test": "karma start --coverage"
+    "test": "karma start --coverage",
+    "watch": "tsc -w"
   },
   "dependencies": {
     "lit-element": "^2.0.1",
@@ -31,26 +33,23 @@
   "devDependencies": {
     "@open-wc/building-rollup": "^0.19.1",
     "@open-wc/eslint-config": "^2.0.0",
-    "@open-wc/prettier-config": "^0.1.10",
     "@open-wc/testing": "^2.0.0",
     "@open-wc/testing-karma": "^3.0.0",
     "@open-wc/testing-karma-bs": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.16.0",
+    "@typescript-eslint/parser": "^2.16.0",
     "deepmerge": "^4.2.2",
     "es-dev-server": "^1.5.0",
     "eslint": "^6.1.0",
+    "eslint-config-prettier": "^6.9.0",
     "husky": "^4.0.10",
     "lint-staged": "^9.5.0",
     "markdownlint-cli": "^0.21.0",
+    "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
-    "rollup": "^1.15.4"
+    "rollup": "^1.15.4",
+    "typescript": "^3.7.4"
   },
-  "eslintConfig": {
-    "extends": [
-      "@open-wc/eslint-config",
-      "eslint-config-prettier"
-    ]
-  },
-  "prettier": "@open-wc/prettier-config",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"

@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "lib": ["es2017", "dom"],
+    "rootDir": ".",
+    "outDir": "build",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true
+  },
+  "include": ["**/*.ts", "node_modules/@open-wc/**/*.js"],
+  "exclude": ["build", "node_modules/!(@open-wc)"]
+}

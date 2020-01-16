@@ -1,6 +1,6 @@
 import { html, fixture, expect } from '@open-wc/testing';
 
-import '../livery-demo.js';
+import '../livery-demo';
 
 describe('LiveryDemo', () => {
   it('matches the snapshot', async () => {
@@ -16,6 +16,6 @@ describe('LiveryDemo', () => {
       <livery-demo></livery-demo>
     `);
 
-    await expect(el).shadowDom.to.be.accessible();
+    expect(el).shadowDom.to.be.accessible();
   });
 });

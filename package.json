@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Demo use of Ex Machina Group Livery Web SDK (@exmg/livery).",
   "author": "Ex Machina Group",
-  "homepage": "https://www.liveryvideo.com/",
+  "homepage": "https://demo.liveryvideo.com/",
   "license": "MIT",
   "repository": "github:exmg/livery-demo",
   "scripts": {

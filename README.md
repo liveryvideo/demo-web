@@ -5,6 +5,10 @@
 
 Demo use of Ex Machina Group Livery Web SDK ([@exmg/livery](https://www.npmjs.com/package/@exmg/livery)).
 
+Check it out at: [demo.liveryvideo.com](https://demo.liveryvideo.com)
+
+More information can be found at: [liveryvideo.com](https://liveryvideo.com)
+
 ## Scripts
 
 - `watch` compiles TypeScript and outputs JavaScript to `build` directory, updating on file changes

@@ -1,196 +1,127 @@
-import { LitElement, html, css, property } from 'lit-element';
 import '@exmg/livery';
+import { html, LitElement } from 'lit-element';
+import { liveryDemoStyle } from './liveryDemoStyle';
 
 export class LiveryDemo extends LitElement {
-  static styles = css`
-    :host {
-      display: block;
-      background-color: #222;
-      color: #aaa;
-      font-family: 'Open Sans', sans-serif;
-      line-height: 1.25em;
-      font-size: 14px;
-    }
+  static defaultCustomer = '5ddb986ee4b0937e6a4507e9';
 
-    .panel {
-      background-color: #444;
-      color: #ccc;
-      margin: 0 0 4px 0;
-      padding: 4px;
-    }
+  static defaultLogLevel = 'info';
 
-    form {
-      display: flex;
-      flex-wrap: wrap;
-      margin: 0 -2px;
-    }
+  static styles = liveryDemoStyle;
 
-    label {
-      display: block;
-      font-size: 0.8em;
-      line-height: 1.2em;
-      color: orange;
-    }
+  config: string;
 
-    input,
-    select {
-      font-size: 1em;
-      background-color: #666;
-      color: #eee;
-      border-color: #888;
-    }
+  customer: string;
 
-    .input {
-      margin: 0 8px 2px 0;
-    }
+  customLatency: string;
 
-    .input.source {
-      flex: 1;
-    }
+  customSource: string;
 
-    .source-container {
-      display: flex;
-    }
+  logLevel: string;
 
-    .source-container .icon {
-      margin: 4px 0 0 4px;
-    }
+  source: string;
 
-    .input.source input {
-      width: 100%;
-      min-width: 250px;
-    }
+  constructor() {
+    super();
 
-    .input.latency input {
-      width: 50px;
-    }
+    const urlParams = new URLSearchParams(window.location.search);
 
-    .input.submit input {
-      margin-top: 4px;
-      height: 80%;
-      background-color: #08c;
-      border-color: #00bfff;
-      font-weight: bold;
-    }
+    this.customer = urlParams.get('customer') || LiveryDemo.defaultCustomer;
+    this.customSource = urlParams.get('source') || '';
+    this.customLatency = urlParams.get('latency') || '';
+    this.logLevel = urlParams.get('log') || LiveryDemo.defaultLogLevel;
 
-    livery-player {
-      max-width: 600px;
-      overflow: auto;
-    }
+    const [customerId, envSuffix = ''] = this.customer.split('-');
 
-    th {
-      padding-left: 4px;
-      text-align: right;
-    }
+    this.config = `https://cdn.playtotv.com/video-encoder${envSuffix}/remoteconfigs/${customerId}.json`;
+    this.source =
+      this.customSource ||
+      `https://exmachina-ull-demo.akamaized.net/cmaf/live/664379/${customerId}-TESTING/out.mpd`;
+  }
 
-    code {
-      word-wrap: break-word;
+  $<T extends Element>(selector: string) {
+    const element = this.renderRoot.querySelector<T>(selector);
+    if (!element) {
+      throw new Error(`Could not find element with selector: ${selector}`);
     }
+    return element;
+  }
 
-    /* Icons */
-    .icon {
-      width: 1em;
-    }
+  firstUpdated(changedProperties: Map<PropertyKey, unknown>) {
+    super.firstUpdated(changedProperties);
 
-    a.icon {
-      text-decoration: none;
-    }
-
-    /* Playback states */
-    .icon-buffering::before {
-      content: '⏳';
-    }
-    .icon-ended::before {
-      content: '⏹';
-    }
-    .icon-fast-forward::before {
-      content: '⏩';
-    }
-    .icon-paused::before {
-      content: '⏸';
-    }
-    .icon-playing::before {
-      content: '▶️';
-    }
-    .icon-rewind::before {
-      content: '⏪';
-    }
-    .icon-seeking::before {
-      content: '⏭';
-    }
-    .icon-slow-mo::before {
-      content: '🔽';
-    }
-  `;
-
-  @property({ type: String })
-  foo = '';
+    this.setSelected('#customer-select', this.customer);
+    this.setSelected('#log-select', this.logLevel);
+  }
 
   render() {
     return html`
       <div class="panel">
-        <form id="form">
+        <form id="form" @submit="${(event: Event) => this.onFormSubmit(event)}">
           <div class="input">
             <label for="customer-select">Customer:</label>
             <select id="customer-select">
               <optgroup label="ExMG">
-                <option value="staging 5c8b790e8f08e4ad1d1dc339"
+                <option value="5c8b790e8f08e4ad1d1dc339-staging"
                   >Angry Bytes</option
                 >
-                <option value="dev 5c52edb53e930320967a5d55">Ex Machina</option>
+                <option value="5c52edb53e930320967a5d55-dev">Ex Machina</option>
                 <option value="5ddb986ee4b0937e6a4507e9">Livery Demo</option>
                 <option value="5d931e67e4b0748e5a09b99f">Nerve</option>
               </optgroup>
             </select>
           </div>
 
-          <div class="input">
-            <label for="source-select">Source:</label>
-            <select id="source-select">
-              <optgroup label="Akamai">
-                <option
-                  value="https://akamaibroadcasteruseast.akamaized.net/cmaf/live/657078/akasource/out.mpd"
-                  >Akamai LLS
-                </option>
-              </optgroup>
+          <div class="input source">
+            <label for="source-input">Source:</label>
+            <input
+              id="source-input"
+              type="url"
+              list="sources"
+              .value="${this.customSource}"
+            />
+            <datalist id="sources">
+              <option
+                value="https://akamaibroadcasteruseast.akamaized.net/cmaf/live/657078/akasource/out.mpd"
+                >Akamai LLS
+              </option>
 
               <!-- Source: https://reference.dashif.org/dash.js/nightly/samples/dash-if-reference-player/index.html -->
-              <optgroup label="DASH-IF">
-                <option
-                  value="https://livesim.dashif.org/livesim-chunked/chunkdur_1/ato_7/testpic4_8s/Manifest300.mpd"
-                >
-                  DASH-IF LLS</option
-                >
-                <option
-                  value="https://livesim.dashif.org/livesim-chunked/chunkdur_1/ato_7/testpic4_8s/Manifest.mpd"
-                  >DASH-IF LLS ABR</option
-                >
-                <option
-                  value="https://vm2.dashif.org/livesim/testpic_2s/Manifest.mpd"
-                  >DASH-IF 2s</option
-                >
-              </optgroup>
-            </select>
-          </div>
-
-          <div class="input source">
-            <label for="source-input">Source URL:</label>
-            <input id="source-input" type="url" />
+              <option
+                value="https://livesim.dashif.org/livesim-chunked/chunkdur_1/ato_7/testpic4_8s/Manifest300.mpd"
+              >
+                DASH-IF LLS</option
+              >
+              <option
+                value="https://livesim.dashif.org/livesim-chunked/chunkdur_1/ato_7/testpic4_8s/Manifest.mpd"
+                >DASH-IF LLS ABR</option
+              >
+              <option
+                value="https://vm2.dashif.org/livesim/testpic_2s/Manifest.mpd"
+                >DASH-IF 2s</option
+              >
+            </datalist>
           </div>
 
           <div class="input latency">
             <label for="latency-input">Latency:</label>
-            <input id="latency-input" type="number" min="0" step="0.1" />s
+            <input
+              id="latency-input"
+              type="number"
+              min="0"
+              step="0.1"
+              .value="${this.customLatency}"
+            />s
           </div>
 
           <div class="input">
             <label for="log-select">Log Level:</label>
             <select id="log-select">
-              <option value="ERROR">ERROR</option>
-              <option value="WARN">WARN</option>
-              <option value="INFO" selected>INFO</option>
-              <option value="DEBUG">DEBUG</option>
-              <option value="SPAM">SPAM</option>
+              <option>error</option>
+              <option>warn</option>
+              <option>info</option>
+              <option>debug</option>
+              <option>spam</option>
             </select>
           </div>
 
@@ -201,18 +132,17 @@ export class LiveryDemo extends LitElement {
       </div>
 
       <div class="panel">
+        <!-- TODO: Add support for overriding latency from remote config to this.customLatency -->
         <livery-sdk
-          config="https://cdn.playtotv.com/video-encoder-dev/remoteconfigs/5c52edb53e930320967a5d55.json"
-          log-level="info"
+          config="${this.config}"
+          log-level="${this.logLevel}"
         ></livery-sdk>
         <livery-player
           autoplay-muted
           persist-muted
           controls="mute fullscreen quality"
         >
-          <source
-            src="https://akamaibroadcasteruseast.akamaized.net/cmaf/live/657078/akasource/out.mpd"
-          />
+          <source src="${this.source}" />
         </livery-player>
       </div>
 
@@ -253,5 +183,49 @@ export class LiveryDemo extends LitElement {
         <code id="log"></code>
       </div>
     `;
+  }
+
+  // TODO: Replace use of form submit by having form input value changes updating livery elements directly
+  // Do however change location using history.pushState so page can be reloaded and URL copy pasted
+  // eslint-disable-next-line class-methods-use-this
+  onFormSubmit(event: Event) {
+    event.preventDefault();
+
+    const urlParams = new URLSearchParams();
+
+    const customer = this.$<HTMLSelectElement>('#customer-select').value;
+    if (customer !== LiveryDemo.defaultCustomer) {
+      urlParams.set('customer', customer);
+    }
+
+    const source = this.$<HTMLSelectElement>('#source-input').value;
+    if (source) {
+      urlParams.set('source', source);
+    }
+
+    const latency = this.$<HTMLSelectElement>('#latency-input').value;
+    if (latency) {
+      urlParams.set('latency', latency);
+    }
+
+    const logLevel = this.$<HTMLSelectElement>('#log-select').value;
+    if (logLevel !== LiveryDemo.defaultLogLevel) {
+      urlParams.set('log', logLevel);
+    }
+
+    const params = urlParams.toString();
+    if (params) {
+      window.location.search = params;
+    } else {
+      window.location.href = window.location.pathname;
+    }
+  }
+
+  setSelected(selector: string, value: string) {
+    const select = this.$<HTMLSelectElement>(selector);
+    const options = Array.from(select.querySelectorAll('option'));
+    for (const option of options) {
+      option.selected = option.value === value;
+    }
   }
 }

@@ -3,7 +3,7 @@ frontend:
   phases:
     build:
       commands:
-        - npm install
+        - npm ci
         - npm run build
   artifacts:
     baseDirectory: /dist
@@ -11,4 +11,4 @@ frontend:
       - '**/*'
   cache:
     paths:
-      - node_modules/**/*
+      - '$HOME/.npm'

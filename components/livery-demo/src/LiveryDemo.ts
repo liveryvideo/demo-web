@@ -9,6 +9,17 @@ export class LiveryDemo extends LitElement {
 
   static styles = liveryDemoStyle;
 
+  static getConfig = (customerId: string, envSuffix: string) =>
+    `https://cdn.playtotv.com/video-encoder${envSuffix}/remoteconfigs/${customerId}.json`;
+
+  static getSource = (customerId: string) =>
+    `https://exmachina-ull-demo.akamaized.net/cmaf/live/664379/${customerId}-TESTING/out.mpd`;
+
+  static parseCustomer(customer: string) {
+    const [customerId, envSuffix = ''] = customer.split('-');
+    return { customerId, envSuffix };
+  }
+
   config: string;
 
   customer: string;
@@ -31,12 +42,9 @@ export class LiveryDemo extends LitElement {
     this.customLatency = urlParams.get('latency') || '';
     this.logLevel = urlParams.get('log') || LiveryDemo.defaultLogLevel;
 
-    const [customerId, envSuffix = ''] = this.customer.split('-');
-
-    this.config = `https://cdn.playtotv.com/video-encoder${envSuffix}/remoteconfigs/${customerId}.json`;
-    this.source =
-      this.customSource ||
-      `https://exmachina-ull-demo.akamaized.net/cmaf/live/664379/${customerId}-TESTING/out.mpd`;
+    const { customerId, envSuffix } = LiveryDemo.parseCustomer(this.customer);
+    this.config = LiveryDemo.getConfig(customerId, envSuffix);
+    this.source = this.customSource || LiveryDemo.getSource(customerId);
   }
 
   $<T extends Element>(selector: string) {
@@ -60,7 +68,10 @@ export class LiveryDemo extends LitElement {
         <form id="form" @submit="${(event: Event) => this.onFormSubmit(event)}">
           <div class="input">
             <label for="customer-select">Customer:</label>
-            <select id="customer-select">
+            <select
+              id="customer-select"
+              @change="${(event: Event) => this.onCustomerChange(event)}"
+            >
               <optgroup label="ExMG">
                 <option value="5c8b790e8f08e4ad1d1dc339-staging"
                   >Angry Bytes</option
@@ -78,7 +89,7 @@ export class LiveryDemo extends LitElement {
               id="source-input"
               type="url"
               list="sources"
-              .value="${this.customSource}"
+              .value="${this.customSource || this.source}"
             />
             <datalist id="sources">
               <option
@@ -185,6 +196,13 @@ export class LiveryDemo extends LitElement {
     `;
   }
 
+  onCustomerChange(event: Event) {
+    const customer = (event.target as HTMLSelectElement).value;
+    const { customerId } = LiveryDemo.parseCustomer(customer);
+    const source = LiveryDemo.getSource(customerId);
+    this.$<HTMLInputElement>('#source-input').value = source;
+  }
+
   // TODO: Replace use of form submit by having form input value changes updating livery elements directly
   // Do however change location using history.pushState so page can be reloaded and URL copy pasted
   // eslint-disable-next-line class-methods-use-this
@@ -199,7 +217,9 @@ export class LiveryDemo extends LitElement {
     }
 
     const source = this.$<HTMLSelectElement>('#source-input').value;
-    if (source) {
+    const { customerId } = LiveryDemo.parseCustomer(customer);
+    const customerSource = LiveryDemo.getSource(customerId);
+    if (source && source !== customerSource) {
       urlParams.set('source', source);
     }
 

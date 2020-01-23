@@ -1,7 +1,6 @@
 # Livery Demo
 
 [![Built with open-wc recommendations](https://img.shields.io/badge/built%20with-open--wc-blue.svg)](https://github.com/open-wc)
-[![CircleCI](https://circleci.com/gh/exmg/livery-demo.svg?style=svg)](https://circleci.com/gh/exmg/livery-demo)
 
 Demo use of Ex Machina Group Livery Web SDK ([@exmg/livery](https://www.npmjs.com/package/@exmg/livery)).
 

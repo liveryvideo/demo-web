@@ -1,5 +1,5 @@
 import '@exmg/livery';
-import { html, LitElement } from 'lit-element';
+import { html, LitElement, property } from 'lit-element';
 import { liveryDemoStyle } from './liveryDemoStyle';
 
 export class LiveryDemo extends LitElement {
@@ -20,16 +20,40 @@ export class LiveryDemo extends LitElement {
     return { customerId, envSuffix };
   }
 
+  @property({ type: Number })
+  buffer = NaN;
+
+  @property({ type: Number })
+  latency = NaN;
+
+  @property({ type: Number })
+  playbackRate = 1;
+
+  @property({ type: String })
   config: string;
 
+  @property({ type: String })
   customer: string;
 
+  @property({ type: String })
   customLatency: string;
 
+  @property({ type: String })
   customSource: string;
 
+  @property({ type: String })
+  engineName = '';
+
+  @property({ type: String })
   logLevel: string;
 
+  @property({ type: String })
+  playbackState = '';
+
+  @property({ type: String })
+  quality = '';
+
+  @property({ type: String })
   source: string;
 
   constructor() {
@@ -60,6 +84,62 @@ export class LiveryDemo extends LitElement {
 
     this.setSelected('#customer-select', this.customer);
     this.setSelected('#log-select', this.logLevel);
+
+    this.updateBufferAndLatency();
+    this.updatePlaybackRate();
+    this.updatePlaybackState();
+    this.updateQuality();
+  }
+
+  getPlayer() {
+    // TODO: Figure out why `import { LiveryPlayer } '@exmg/livery'` results in the custom element not being defined
+    // Until then we can get that type through HTMLElementTagNameMap..
+    return this.$<HTMLElementTagNameMap['livery-player']>('livery-player');
+  }
+
+  onCustomerChange(event: Event) {
+    const customer = (event.target as HTMLSelectElement).value;
+    const { customerId } = LiveryDemo.parseCustomer(customer);
+    const source = LiveryDemo.getSource(customerId);
+    this.$<HTMLInputElement>('#source-input').value = source;
+  }
+
+  // TODO: Replace use of form submit by having form input value changes updating livery elements directly
+  // Do however change location using history.pushState so page can be reloaded and URL copy pasted
+  // eslint-disable-next-line class-methods-use-this
+  onFormSubmit(event: Event) {
+    event.preventDefault();
+
+    const urlParams = new URLSearchParams();
+
+    const customer = this.$<HTMLSelectElement>('#customer-select').value;
+    if (customer !== LiveryDemo.defaultCustomer) {
+      urlParams.set('customer', customer);
+    }
+
+    const source = this.$<HTMLSelectElement>('#source-input').value;
+    const { customerId } = LiveryDemo.parseCustomer(customer);
+    const customerSource = LiveryDemo.getSource(customerId);
+    if (source && source !== customerSource) {
+      urlParams.set('source', source);
+    }
+
+    const latency = this.$<HTMLSelectElement>('#latency-input').value;
+    if (latency) {
+      urlParams.set('latency', latency);
+    }
+
+    const logLevel = this.$<HTMLSelectElement>('#log-select').value;
+    if (logLevel !== LiveryDemo.defaultLogLevel) {
+      urlParams.set('log', logLevel);
+    }
+
+    const params = urlParams.toString();
+    if (params) {
+      window.location.search = params;
+    } else {
+      window.location.href = window.location.pathname;
+    }
   }
 
   render() {
@@ -148,10 +228,18 @@ export class LiveryDemo extends LitElement {
           config="${this.config}"
           log-level="${this.logLevel}"
         ></livery-sdk>
+        <!-- TODO: Export event types from @exmg/livery and use them in event listeners -->
+        <!-- TODO: Fix livery-player.engineName and figure out how/when to use that here -->
         <livery-player
           autoplay-muted
           persist-muted
           controls="mute fullscreen quality"
+          @livery-playbackchange="${() => this.updatePlaybackState()}"
+          @livery-ratechange="${() => this.updatePlaybackRate()}"
+          @livery-progress="${() => this.updateBufferAndLatency()}"
+          @livery-timeupdate="${() => this.updateBufferAndLatency()}"
+          @livery-activequalitychange="${() => this.updateQuality()}"
+          @livery-selectedqualitychange="${() => this.updateQuality()}"
         >
           <source src="${this.source}" />
         </livery-player>
@@ -160,28 +248,38 @@ export class LiveryDemo extends LitElement {
       <table class="panel">
         <tr>
           <th>Engine:</th>
-          <td id="engine"></td>
+          <td>${this.engineName}</td>
           <th>Playback:</th>
           <td>
-            <span id="playback-state"></span>
-            <span id="playback-rate"></span>
+            <span
+              class="icon icon-${this.playbackState
+                .toLowerCase()
+                .replace(/_/g, '-')}"
+            ></span>
+            <span
+              >${this.playbackRate === 1 ? '' : `${this.playbackRate}x`}</span
+            >
           </td>
         </tr>
         <tr>
           <th>Buffer:</th>
-          <td id="buffer"></td>
+          <td>
+            ${Number.isNaN(this.buffer) ? '' : `${this.buffer.toFixed(1)}s`}
+          </td>
           <th>Quality:</th>
-          <td id="quality"></td>
+          <td>${this.quality}</td>
         </tr>
         <tr>
           <th>Latency:</th>
-          <td id="latency"></td>
+          <td>
+            ${Number.isNaN(this.latency) ? '' : `${this.latency.toFixed(1)}s`}
+          </td>
         </tr>
       </table>
 
       <div class="panel">
-        <!-- TODO: Add player reference property to LiveryBufferGraph instead of selector attribute -->
-        <!-- We can not use selector based approach when we're using shadow DOM like we do here -->
+        <!-- TODO: Add player reference property to livery-buffer-graph instead of selector attribute -->
+        <!-- We can not use global DOM selector based approach when we're using shadow DOM like we do here -->
         <livery-buffer-graph
           background-color="#444"
           buffer-color="#00bfff"
@@ -191,54 +289,10 @@ export class LiveryDemo extends LitElement {
       </div>
 
       <div class="panel">
+        <!-- TODO: Add livery-log element to @exmg/livery and use that here -->
         <code id="log"></code>
       </div>
     `;
-  }
-
-  onCustomerChange(event: Event) {
-    const customer = (event.target as HTMLSelectElement).value;
-    const { customerId } = LiveryDemo.parseCustomer(customer);
-    const source = LiveryDemo.getSource(customerId);
-    this.$<HTMLInputElement>('#source-input').value = source;
-  }
-
-  // TODO: Replace use of form submit by having form input value changes updating livery elements directly
-  // Do however change location using history.pushState so page can be reloaded and URL copy pasted
-  // eslint-disable-next-line class-methods-use-this
-  onFormSubmit(event: Event) {
-    event.preventDefault();
-
-    const urlParams = new URLSearchParams();
-
-    const customer = this.$<HTMLSelectElement>('#customer-select').value;
-    if (customer !== LiveryDemo.defaultCustomer) {
-      urlParams.set('customer', customer);
-    }
-
-    const source = this.$<HTMLSelectElement>('#source-input').value;
-    const { customerId } = LiveryDemo.parseCustomer(customer);
-    const customerSource = LiveryDemo.getSource(customerId);
-    if (source && source !== customerSource) {
-      urlParams.set('source', source);
-    }
-
-    const latency = this.$<HTMLSelectElement>('#latency-input').value;
-    if (latency) {
-      urlParams.set('latency', latency);
-    }
-
-    const logLevel = this.$<HTMLSelectElement>('#log-select').value;
-    if (logLevel !== LiveryDemo.defaultLogLevel) {
-      urlParams.set('log', logLevel);
-    }
-
-    const params = urlParams.toString();
-    if (params) {
-      window.location.search = params;
-    } else {
-      window.location.href = window.location.pathname;
-    }
   }
 
   setSelected(selector: string, value: string) {
@@ -247,5 +301,48 @@ export class LiveryDemo extends LitElement {
     for (const option of options) {
       option.selected = option.value === value;
     }
+  }
+
+  updateBufferAndLatency() {
+    const player = this.getPlayer();
+    // TODO: Figure out why this.getPlayer().buffer and latency returns undefined; it should not
+    this.buffer = player.buffer || NaN;
+    this.latency = player.latency || NaN;
+  }
+
+  updatePlaybackRate() {
+    // TODO: Figure out why this.getPlayer().playbackRate returns undefined; it should not
+    this.playbackRate = this.getPlayer().playbackRate || 1;
+  }
+
+  updatePlaybackState() {
+    // TODO: Figure out why this.getPlayer().playbackState returns undefined; it should not
+    this.playbackState = this.getPlayer().playbackState || 'PAUSED';
+  }
+
+  updateQuality() {
+    const {
+      activeQuality: activeIndex,
+      selectedQuality: selectedIndex,
+      qualities,
+    } = this.getPlayer();
+
+    const active = Number.isNaN(activeIndex) ? null : qualities[activeIndex];
+    const selected = Number.isNaN(selectedIndex)
+      ? null
+      : qualities[selectedIndex];
+
+    let selectedStr = '';
+    if (qualities.length > 1) {
+      if (selected) {
+        if (!active || selectedIndex !== activeIndex) {
+          selectedStr = `=> ${selected.label}`;
+        }
+      } else {
+        selectedStr = '(auto)';
+      }
+    }
+
+    this.quality = `${active ? active.label : '-'} ${selectedStr}`;
   }
 }

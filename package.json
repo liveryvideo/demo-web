@@ -27,29 +27,29 @@
     "watch": "tsc -w"
   },
   "dependencies": {
-    "@exmg/livery": "^2.1.0",
+    "@exmg/livery": "^2.2.0",
     "lit-element": "^2.0.1",
     "lit-html": "^1.0.0"
   },
   "devDependencies": {
     "@open-wc/building-rollup": "^0.19.1",
     "@open-wc/eslint-config": "^2.0.0",
-    "@open-wc/testing": "^2.0.0",
+    "@open-wc/testing": "^2.5.1",
     "@open-wc/testing-karma": "^3.0.0",
     "@open-wc/testing-karma-bs": "^1.0.0",
-    "@typescript-eslint/eslint-plugin": "^2.16.0",
-    "@typescript-eslint/parser": "^2.16.0",
+    "@typescript-eslint/eslint-plugin": "^2.17.0",
+    "@typescript-eslint/parser": "^2.17.0",
     "deepmerge": "^4.2.2",
     "es-dev-server": "^1.5.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.9.0",
-    "husky": "^4.0.10",
-    "lint-staged": "^9.5.0",
+    "husky": "^4.2.1",
+    "lint-staged": "^10.0.2",
     "markdownlint-cli": "^0.21.0",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
-    "rollup": "^1.15.4",
-    "typescript": "^3.7.4"
+    "rollup": "^1.29.1",
+    "typescript": "^3.7.5"
   },
   "husky": {
     "hooks": {

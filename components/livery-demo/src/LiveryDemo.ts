@@ -1,4 +1,11 @@
+// Import once for side effects, e.g: defining elements
+// eslint-disable-next-line import/no-duplicates
 import '@exmg/livery';
+// And import again for TypeScript types (this will be stripped during compilation)
+// eslint-disable-next-line import/no-duplicates
+import { LiveryPlayer } from '@exmg/livery';
+// Above should be clarifyable in TypeScript v3.8 using `import type { LiveryPlayer } from '@exmg/livery'`
+// Then hopefully eslint and @typescript-eslint rules will not unjustfully complain about it anymore
 import { html, LitElement, property } from 'lit-element';
 import { liveryDemoStyle } from './liveryDemoStyle';
 
@@ -86,15 +93,14 @@ export class LiveryDemo extends LitElement {
     this.setSelected('#log-select', this.logLevel);
 
     this.updateBufferAndLatency();
+    this.updateEngineName();
     this.updatePlaybackRate();
     this.updatePlaybackState();
     this.updateQuality();
   }
 
   getPlayer() {
-    // TODO: Figure out why `import { LiveryPlayer } '@exmg/livery'` results in the custom element not being defined
-    // Until then we can get that type through HTMLElementTagNameMap..
-    return this.$<HTMLElementTagNameMap['livery-player']>('livery-player');
+    return this.$<LiveryPlayer>('livery-player');
   }
 
   onCustomerChange(event: Event) {
@@ -145,13 +151,10 @@ export class LiveryDemo extends LitElement {
   render() {
     return html`
       <div class="panel">
-        <form id="form" @submit="${(event: Event) => this.onFormSubmit(event)}">
+        <form id="form" @submit="${this.onFormSubmit}">
           <div class="input">
             <label for="customer-select">Customer:</label>
-            <select
-              id="customer-select"
-              @change="${(event: Event) => this.onCustomerChange(event)}"
-            >
+            <select id="customer-select" @change="${this.onCustomerChange}">
               <optgroup label="ExMG">
                 <option value="5c8b790e8f08e4ad1d1dc339-staging"
                   >Angry Bytes</option
@@ -228,18 +231,17 @@ export class LiveryDemo extends LitElement {
           config="${this.config}"
           log-level="${this.logLevel}"
         ></livery-sdk>
-        <!-- TODO: Export event types from @exmg/livery and use them in event listeners -->
-        <!-- TODO: Fix livery-player.engineName and figure out how/when to use that here -->
         <livery-player
           autoplay-muted
           persist-muted
           controls="mute fullscreen quality"
-          @livery-playbackchange="${() => this.updatePlaybackState()}"
-          @livery-ratechange="${() => this.updatePlaybackRate()}"
-          @livery-progress="${() => this.updateBufferAndLatency()}"
-          @livery-timeupdate="${() => this.updateBufferAndLatency()}"
           @livery-activequalitychange="${() => this.updateQuality()}"
+          @livery-playbackchange="${() => this.updatePlaybackState()}"
+          @livery-progress="${() => this.updateBufferAndLatency()}"
+          @livery-ratechange="${() => this.updatePlaybackRate()}"
           @livery-selectedqualitychange="${() => this.updateQuality()}"
+          @livery-started="${() => this.updateEngineName()}"
+          @livery-timeupdate="${() => this.updateBufferAndLatency()}"
         >
           <source src="${this.source}" />
         </livery-player>
@@ -248,7 +250,9 @@ export class LiveryDemo extends LitElement {
       <table class="panel">
         <tr>
           <th>Engine:</th>
-          <td>${this.engineName}</td>
+          <td>
+            ${this.engineName.replace(/Engine$/, '')}
+          </td>
           <th>Playback:</th>
           <td>
             <span
@@ -304,20 +308,20 @@ export class LiveryDemo extends LitElement {
   }
 
   updateBufferAndLatency() {
-    const player = this.getPlayer();
-    // TODO: Figure out why this.getPlayer().buffer and latency returns undefined; it should not
-    this.buffer = player.buffer || NaN;
-    this.latency = player.latency || NaN;
+    this.buffer = this.getPlayer().buffer;
+    this.latency = this.getPlayer().latency;
+  }
+
+  updateEngineName() {
+    this.engineName = this.getPlayer().engineName;
   }
 
   updatePlaybackRate() {
-    // TODO: Figure out why this.getPlayer().playbackRate returns undefined; it should not
-    this.playbackRate = this.getPlayer().playbackRate || 1;
+    this.playbackRate = this.getPlayer().playbackRate;
   }
 
   updatePlaybackState() {
-    // TODO: Figure out why this.getPlayer().playbackState returns undefined; it should not
-    this.playbackState = this.getPlayer().playbackState || 'PAUSED';
+    this.playbackState = this.getPlayer().playbackState;
   }
 
   updateQuality() {
@@ -343,6 +347,6 @@ export class LiveryDemo extends LitElement {
       }
     }
 
-    this.quality = `${active ? active.label : '-'} ${selectedStr}`;
+    this.quality = `${active ? active.label : ''} ${selectedStr}`;
   }
 }

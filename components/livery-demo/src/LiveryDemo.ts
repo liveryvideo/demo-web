@@ -9,6 +9,13 @@ import { LiveryPlayer } from '@exmg/livery';
 import { html, LitElement, property } from 'lit-element';
 import { liveryDemoStyle } from './liveryDemoStyle';
 
+function setSelected(select: HTMLSelectElement, value: string) {
+  const options = Array.from(select.querySelectorAll('option'));
+  for (const option of options) {
+    option.selected = option.value === value;
+  }
+}
+
 export class LiveryDemo extends LitElement {
   static defaultCustomer = '5ddb986ee4b0937e6a4507e9';
 
@@ -63,6 +70,14 @@ export class LiveryDemo extends LitElement {
   @property({ type: String })
   source: string;
 
+  $?: {
+    customerSelect: HTMLSelectElement;
+    latencyInput: HTMLInputElement;
+    logSelect: HTMLSelectElement;
+    player: LiveryPlayer;
+    sourceInput: HTMLInputElement;
+  };
+
   constructor() {
     super();
 
@@ -78,19 +93,27 @@ export class LiveryDemo extends LitElement {
     this.source = this.customSource || LiveryDemo.getSource(customerId);
   }
 
-  $<T extends Element>(selector: string) {
-    const element = this.renderRoot.querySelector<T>(selector);
-    if (!element) {
-      throw new Error(`Could not find element with selector: ${selector}`);
-    }
-    return element;
-  }
-
   firstUpdated(changedProperties: Map<PropertyKey, unknown>) {
     super.firstUpdated(changedProperties);
 
-    this.setSelected('#customer-select', this.customer);
-    this.setSelected('#log-select', this.logLevel);
+    const $ = <T extends Element>(selector: string) => {
+      const element = this.renderRoot.querySelector<T>(selector);
+      if (!element) {
+        throw new Error(`Could not find element with selector: ${selector}`);
+      }
+      return element;
+    };
+
+    this.$ = {
+      customerSelect: $('#customer-select'),
+      latencyInput: $('#latency-input'),
+      logSelect: $('#log-select'),
+      player: $('livery-player'),
+      sourceInput: $('#source-input'),
+    };
+
+    setSelected(this.$.customerSelect, this.customer);
+    setSelected(this.$.logSelect, this.logLevel);
 
     this.updateBufferAndLatency();
     this.updateEngineName();
@@ -99,15 +122,11 @@ export class LiveryDemo extends LitElement {
     this.updateQuality();
   }
 
-  getPlayer() {
-    return this.$<LiveryPlayer>('livery-player');
-  }
-
   onCustomerChange(event: Event) {
     const customer = (event.target as HTMLSelectElement).value;
     const { customerId } = LiveryDemo.parseCustomer(customer);
     const source = LiveryDemo.getSource(customerId);
-    this.$<HTMLInputElement>('#source-input').value = source;
+    this.$!.sourceInput.value = source;
   }
 
   // TODO: Replace use of form submit by having form input value changes updating livery elements directly
@@ -118,24 +137,24 @@ export class LiveryDemo extends LitElement {
 
     const urlParams = new URLSearchParams();
 
-    const customer = this.$<HTMLSelectElement>('#customer-select').value;
+    const customer = this.$!.customerSelect.value;
     if (customer !== LiveryDemo.defaultCustomer) {
       urlParams.set('customer', customer);
     }
 
-    const source = this.$<HTMLSelectElement>('#source-input').value;
+    const source = this.$!.sourceInput.value;
     const { customerId } = LiveryDemo.parseCustomer(customer);
     const customerSource = LiveryDemo.getSource(customerId);
     if (source && source !== customerSource) {
       urlParams.set('source', source);
     }
 
-    const latency = this.$<HTMLSelectElement>('#latency-input').value;
+    const latency = this.$!.latencyInput.value;
     if (latency) {
       urlParams.set('latency', latency);
     }
 
-    const logLevel = this.$<HTMLSelectElement>('#log-select').value;
+    const logLevel = this.$!.logSelect.value;
     if (logLevel !== LiveryDemo.defaultLogLevel) {
       urlParams.set('log', logLevel);
     }
@@ -289,39 +308,31 @@ export class LiveryDemo extends LitElement {
           buffer-color="#00bfff"
           latency-color="#ffa500"
           text-color="#eee"
+          .player="${this.$ ? this.$.player : null}"
         ></livery-buffer-graph>
       </div>
 
       <div class="panel">
-        <!-- TODO: Add livery-log element to @exmg/livery and use that here -->
-        <code id="log"></code>
+        <livery-log .player="${this.$ ? this.$.player : null}"></livery-log>
       </div>
     `;
   }
 
-  setSelected(selector: string, value: string) {
-    const select = this.$<HTMLSelectElement>(selector);
-    const options = Array.from(select.querySelectorAll('option'));
-    for (const option of options) {
-      option.selected = option.value === value;
-    }
-  }
-
   updateBufferAndLatency() {
-    this.buffer = this.getPlayer().buffer;
-    this.latency = this.getPlayer().latency;
+    this.buffer = this.$!.player.buffer;
+    this.latency = this.$!.player.latency;
   }
 
   updateEngineName() {
-    this.engineName = this.getPlayer().engineName;
+    this.engineName = this.$!.player.engineName;
   }
 
   updatePlaybackRate() {
-    this.playbackRate = this.getPlayer().playbackRate;
+    this.playbackRate = this.$!.player.playbackRate;
   }
 
   updatePlaybackState() {
-    this.playbackState = this.getPlayer().playbackState;
+    this.playbackState = this.$!.player.playbackState;
   }
 
   updateQuality() {
@@ -329,7 +340,7 @@ export class LiveryDemo extends LitElement {
       activeQuality: activeIndex,
       selectedQuality: selectedIndex,
       qualities,
-    } = this.getPlayer();
+    } = this.$!.player;
 
     const active = Number.isNaN(activeIndex) ? null : qualities[activeIndex];
     const selected = Number.isNaN(selectedIndex)

@@ -49,6 +49,8 @@ module.exports = {
         'no-param-reassign': ['error', { props: false }],
         // This is annoying as LitElement provides desired scope when calling event listeners already
         '@typescript-eslint/unbound-method': 'off',
+        // Given element life cycle it is common to work with optional properties which makes use of ! really convenient
+        '@typescript-eslint/no-non-null-assertion': 'off',
       },
     },
     // TypeScript for Node consumption

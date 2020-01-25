@@ -301,8 +301,6 @@ export class LiveryDemo extends LitElement {
       </table>
 
       <div class="panel">
-        <!-- TODO: Add player reference property to livery-buffer-graph instead of selector attribute -->
-        <!-- We can not use global DOM selector based approach when we're using shadow DOM like we do here -->
         <livery-buffer-graph
           background-color="#444"
           buffer-color="#00bfff"

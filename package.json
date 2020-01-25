@@ -18,7 +18,7 @@
     "lint:prettier": "prettier \"**/*.{ts,js,json,html}\" --check",
     "lint": "npm run lint:eslint && npm run lint:prettier && npm run lint:markdown",
     "start:build": "cd dist && es-dev-server --open",
-    "start": "es-dev-server --app-index index.html --node-resolve --open --watch",
+    "start": "es-dev-server --preserve-symlinks --node-resolve --open --watch",
     "test:bs": "karma start karma.bs.config.js --coverage",
     "test:prune-snapshots": "karma start --prune-snapshots",
     "test:update-snapshots": "karma start --update-snapshots",

@@ -47,6 +47,8 @@ module.exports = {
         '@typescript-eslint/no-useless-constructor': 'error',
         // I don't think it's wrong to assign values to properties of parameters
         'no-param-reassign': ['error', { props: false }],
+        // This is annoying as LitElement provides desired scope when calling event listeners already
+        '@typescript-eslint/unbound-method': 'off',
       },
     },
     // TypeScript for Node consumption

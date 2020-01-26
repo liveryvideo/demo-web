@@ -7,6 +7,7 @@ import { LiveryPlayer } from '@exmg/livery';
 // Above should be clarifyable in TypeScript v3.8 using `import type { LiveryPlayer } from '@exmg/livery'`
 // Then hopefully eslint and @typescript-eslint rules will not unjustfully complain about it anymore
 import { html, LitElement, property } from 'lit-element';
+import { ifDefined } from 'lit-html/directives/if-defined';
 import { liveryDemoStyle } from './liveryDemoStyle';
 
 function setSelected(select: HTMLSelectElement, value: string) {
@@ -50,10 +51,10 @@ export class LiveryDemo extends LitElement {
   customer: string;
 
   @property({ type: String })
-  customLatency: string;
+  customLatency?: string;
 
   @property({ type: String })
-  customSource: string;
+  customSource?: string;
 
   @property({ type: String })
   engineName = '';
@@ -84,8 +85,8 @@ export class LiveryDemo extends LitElement {
     const urlParams = new URLSearchParams(window.location.search);
 
     this.customer = urlParams.get('customer') || LiveryDemo.defaultCustomer;
-    this.customSource = urlParams.get('source') || '';
-    this.customLatency = urlParams.get('latency') || '';
+    this.customSource = urlParams.get('source') || undefined;
+    this.customLatency = urlParams.get('latency') || undefined;
     this.logLevel = urlParams.get('log') || LiveryDemo.defaultLogLevel;
 
     const { customerId, envSuffix } = LiveryDemo.parseCustomer(this.customer);
@@ -245,7 +246,6 @@ export class LiveryDemo extends LitElement {
       </div>
 
       <div class="panel">
-        <!-- TODO: Add support for overriding latency from remote config to this.customLatency -->
         <livery-sdk
           config="${this.config}"
           log-level="${this.logLevel}"
@@ -254,6 +254,7 @@ export class LiveryDemo extends LitElement {
           autoplay-muted
           persist-muted
           controls="mute fullscreen quality"
+          target-latency="${ifDefined(this.customLatency)}"
           @livery-activequalitychange="${() => this.updateQuality()}"
           @livery-playbackchange="${() => this.updatePlaybackState()}"
           @livery-progress="${() => this.updateBufferAndLatency()}"

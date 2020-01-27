@@ -248,20 +248,20 @@ export class LiveryDemo extends LitElement {
       <div class="panel">
         <livery-sdk
           config="${this.config}"
-          log-level="${this.logLevel}"
+          logLevel="${this.logLevel}"
         ></livery-sdk>
         <livery-player
-          autoplay-muted
-          persist-muted
+          autoplayMuted
+          persistMuted
           controls="mute fullscreen quality"
-          target-latency="${ifDefined(this.customLatency)}"
-          @livery-activequalitychange="${() => this.updateQuality()}"
-          @livery-playbackchange="${() => this.updatePlaybackState()}"
+          targetLatency="${ifDefined(this.customLatency)}"
+          @livery-active-quality-change="${() => this.updateQuality()}"
+          @livery-playback-change="${() => this.updatePlaybackState()}"
           @livery-progress="${() => this.updateBufferAndLatency()}"
-          @livery-ratechange="${() => this.updatePlaybackRate()}"
-          @livery-selectedqualitychange="${() => this.updateQuality()}"
+          @livery-rate-change="${() => this.updatePlaybackRate()}"
+          @livery-selected-quality-change="${() => this.updateQuality()}"
           @livery-started="${() => this.updateEngineName()}"
-          @livery-timeupdate="${() => this.updateBufferAndLatency()}"
+          @livery-time-update="${() => this.updateBufferAndLatency()}"
         >
           <source src="${this.source}" />
         </livery-player>
@@ -303,10 +303,10 @@ export class LiveryDemo extends LitElement {
 
       <div class="panel">
         <livery-buffer-graph
-          background-color="#444"
-          buffer-color="#00bfff"
-          latency-color="#ffa500"
-          text-color="#eee"
+          backgroundColor="#444"
+          bufferColor="#00bfff"
+          latencyColor="#ffa500"
+          textColor="#eee"
           .player="${this.$ ? this.$.player : null}"
         ></livery-buffer-graph>
       </div>

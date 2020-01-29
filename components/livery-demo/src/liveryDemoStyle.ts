@@ -63,14 +63,6 @@ export const liveryDemoStyle = css`
     width: 50px;
   }
 
-  .input.submit input {
-    margin-top: 4px;
-    height: 80%;
-    background-color: #08c;
-    border-color: #00bfff;
-    font-weight: bold;
-  }
-
   livery-player {
     max-width: 600px;
     overflow: auto;
@@ -92,6 +84,11 @@ export const liveryDemoStyle = css`
 
   a.icon {
     text-decoration: none;
+  }
+
+  .icon-clear::before {
+    color: #aaa;
+    content: '🅧';
   }
 
   /* Playback states */

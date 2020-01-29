@@ -24,17 +24,6 @@ export class LiveryDemo extends LitElement {
 
   static styles = liveryDemoStyle;
 
-  static getConfig = (customerId: string, envSuffix: string) =>
-    `https://cdn.playtotv.com/video-encoder${envSuffix}/remoteconfigs/${customerId}.json`;
-
-  static getSource = (customerId: string) =>
-    `https://exmachina-ull-demo.akamaized.net/cmaf/live/664379/${customerId}-TESTING/out.mpd`;
-
-  static parseCustomer(customer: string) {
-    const [customerId, envSuffix = ''] = customer.split('-');
-    return { customerId, envSuffix };
-  }
-
   @property({ type: Number })
   buffer = NaN;
 
@@ -51,10 +40,7 @@ export class LiveryDemo extends LitElement {
   customer: string;
 
   @property({ type: String })
-  customLatency?: string;
-
-  @property({ type: String })
-  customSource?: string;
+  customLatency: string;
 
   @property({ type: String })
   engineName = '';
@@ -85,13 +71,11 @@ export class LiveryDemo extends LitElement {
     const urlParams = new URLSearchParams(window.location.search);
 
     this.customer = urlParams.get('customer') || LiveryDemo.defaultCustomer;
-    this.customSource = urlParams.get('source') || undefined;
-    this.customLatency = urlParams.get('latency') || undefined;
+    this.config = this.getCustomerConfig();
+    const source = urlParams.get('source');
+    this.source = source !== null ? source : this.getCustomerSource();
+    this.customLatency = urlParams.get('latency') || '';
     this.logLevel = urlParams.get('log') || LiveryDemo.defaultLogLevel;
-
-    const { customerId, envSuffix } = LiveryDemo.parseCustomer(this.customer);
-    this.config = LiveryDemo.getConfig(customerId, envSuffix);
-    this.source = this.customSource || LiveryDemo.getSource(customerId);
   }
 
   firstUpdated(changedProperties: Map<PropertyKey, unknown>) {
@@ -123,49 +107,32 @@ export class LiveryDemo extends LitElement {
     this.updateQuality();
   }
 
-  onCustomerChange(event: Event) {
-    const customer = (event.target as HTMLSelectElement).value;
-    const { customerId } = LiveryDemo.parseCustomer(customer);
-    const source = LiveryDemo.getSource(customerId);
-    this.$!.sourceInput.value = source;
+  getCustomer() {
+    const [customerId, envSuffix = ''] = this.customer.split('-');
+    return { customerId, envSuffix };
   }
 
-  // TODO: Replace use of form submit by having form input value changes updating livery elements directly
-  // Do however change location using history.pushState so page can be reloaded and URL copy pasted
-  // eslint-disable-next-line class-methods-use-this
+  getCustomerConfig() {
+    const { customerId, envSuffix } = this.getCustomer();
+    return `https://cdn.playtotv.com/video-encoder${envSuffix}/remoteconfigs/${customerId}.json`;
+  }
+
+  getCustomerSource() {
+    const { customerId } = this.getCustomer();
+    return `https://exmachina-ull-demo.akamaized.net/cmaf/live/664379/${customerId}-TESTING/out.mpd`;
+  }
+
+  onClearClick(event: Event) {
+    event.preventDefault();
+    this.$!.sourceInput.value = '';
+  }
+
   onFormSubmit(event: Event) {
     event.preventDefault();
-
-    const urlParams = new URLSearchParams();
-
-    const customer = this.$!.customerSelect.value;
-    if (customer !== LiveryDemo.defaultCustomer) {
-      urlParams.set('customer', customer);
-    }
-
-    const source = this.$!.sourceInput.value;
-    const { customerId } = LiveryDemo.parseCustomer(customer);
-    const customerSource = LiveryDemo.getSource(customerId);
-    if (source && source !== customerSource) {
-      urlParams.set('source', source);
-    }
-
-    const latency = this.$!.latencyInput.value;
-    if (latency) {
-      urlParams.set('latency', latency);
-    }
-
-    const logLevel = this.$!.logSelect.value;
-    if (logLevel !== LiveryDemo.defaultLogLevel) {
-      urlParams.set('log', logLevel);
-    }
-
-    const params = urlParams.toString();
-    if (params) {
-      window.location.search = params;
-    } else {
-      window.location.href = window.location.pathname;
-    }
+    this.updateCustomer();
+    this.updateCustomLatency();
+    this.updateLogLevel();
+    this.updateSource();
   }
 
   render() {
@@ -174,7 +141,7 @@ export class LiveryDemo extends LitElement {
         <form id="form" @submit="${this.onFormSubmit}">
           <div class="input">
             <label for="customer-select">Customer:</label>
-            <select id="customer-select" @change="${this.onCustomerChange}">
+            <select id="customer-select" @change="${this.updateCustomer}">
               <optgroup label="ExMG">
                 <option value="5c8b790e8f08e4ad1d1dc339-staging"
                   >Angry Bytes</option
@@ -188,12 +155,20 @@ export class LiveryDemo extends LitElement {
           </div>
 
           <div class="input source">
-            <label for="source-input">Source:</label>
+            <label for="source-input">
+              Source:
+              <a
+                href="#"
+                class="icon icon-clear"
+                @click="${this.onClearClick}"
+              ></a>
+            </label>
             <input
               id="source-input"
               type="url"
               list="sources"
-              .value="${this.customSource || this.source}"
+              .value="${this.source}"
+              @change="${this.updateSource}"
             />
             <datalist id="sources">
               <option
@@ -226,12 +201,13 @@ export class LiveryDemo extends LitElement {
               min="0"
               step="0.1"
               .value="${this.customLatency}"
+              @change="${this.updateCustomLatency}"
             />s
           </div>
 
           <div class="input">
             <label for="log-select">Log Level:</label>
-            <select id="log-select">
+            <select id="log-select" @change="${this.updateLogLevel}">
               <option>error</option>
               <option>warn</option>
               <option>info</option>
@@ -239,30 +215,28 @@ export class LiveryDemo extends LitElement {
               <option>spam</option>
             </select>
           </div>
-
-          <div class="input submit">
-            <input type="submit" value="Load" />
-          </div>
         </form>
       </div>
 
       <div class="panel">
         <livery-sdk
           config="${this.config}"
-          logLevel="${this.logLevel}"
+          loglevel="${this.logLevel}"
         ></livery-sdk>
         <livery-player
-          autoplayMuted
-          persistMuted
+          autoplaymuted
+          persistmuted
           controls="mute fullscreen quality"
-          targetLatency="${ifDefined(this.customLatency)}"
-          @livery-active-quality-change="${() => this.updateQuality()}"
-          @livery-playback-change="${() => this.updatePlaybackState()}"
-          @livery-progress="${() => this.updateBufferAndLatency()}"
-          @livery-rate-change="${() => this.updatePlaybackRate()}"
-          @livery-selected-quality-change="${() => this.updateQuality()}"
-          @livery-started="${() => this.updateEngineName()}"
-          @livery-time-update="${() => this.updateBufferAndLatency()}"
+          targetlatency="${ifDefined(
+            this.customLatency === '' ? undefined : this.customLatency,
+          )}"
+          @livery-active-quality-change="${this.updateQuality}"
+          @livery-playback-change="${this.updatePlaybackState}"
+          @livery-progress="${this.updateBufferAndLatency}"
+          @livery-rate-change="${this.updatePlaybackRate}"
+          @livery-selected-quality-change="${this.updateQuality}"
+          @livery-started="${this.updateEngineName}"
+          @livery-time-update="${this.updateBufferAndLatency}"
         >
           <source src="${this.source}" />
         </livery-player>
@@ -304,10 +278,10 @@ export class LiveryDemo extends LitElement {
 
       <div class="panel">
         <livery-buffer-graph
-          backgroundColor="#444"
-          bufferColor="#00bfff"
-          latencyColor="#ffa500"
-          textColor="#eee"
+          backgroundcolor="#444"
+          buffercolor="#00bfff"
+          latencycolor="#ffa500"
+          textcolor="#eee"
           .player="${this.$ ? this.$.player : null}"
         ></livery-buffer-graph>
       </div>
@@ -323,8 +297,31 @@ export class LiveryDemo extends LitElement {
     this.latency = this.$!.player.latency;
   }
 
+  updateCustomer() {
+    const { value } = this.$!.customerSelect;
+    if (value === this.customer) {
+      return;
+    }
+
+    this.customer = value;
+    this.config = this.getCustomerConfig();
+    this.source = this.getCustomerSource();
+
+    this.updateUrlParams();
+  }
+
+  updateCustomLatency() {
+    this.customLatency = this.$!.latencyInput.value;
+    this.updateUrlParams();
+  }
+
   updateEngineName() {
     this.engineName = this.$!.player.engineName;
+  }
+
+  updateLogLevel() {
+    this.logLevel = this.$!.logSelect.value;
+    this.updateUrlParams();
   }
 
   updatePlaybackRate() {
@@ -359,5 +356,44 @@ export class LiveryDemo extends LitElement {
     }
 
     this.quality = `${active ? active.label : ''} ${selectedStr}`;
+  }
+
+  updateSource() {
+    this.source = this.$!.sourceInput.value;
+    this.updateUrlParams();
+  }
+
+  updateUrlParams() {
+    const { customer, customLatency, logLevel, source } = this;
+    const url = new URL(window.location.href);
+    const { searchParams } = url;
+
+    if (customer !== LiveryDemo.defaultCustomer) {
+      searchParams.set('customer', customer);
+    } else {
+      searchParams.delete('customer');
+    }
+
+    if (source !== this.getCustomerSource()) {
+      searchParams.set('source', source);
+    } else {
+      searchParams.delete('source');
+    }
+
+    if (customLatency !== '') {
+      searchParams.set('latency', customLatency);
+    } else {
+      searchParams.delete('latency');
+    }
+
+    if (logLevel !== LiveryDemo.defaultLogLevel) {
+      searchParams.set('log', logLevel);
+    } else {
+      searchParams.delete('log');
+    }
+
+    if (url.toString() !== window.location.href) {
+      window.history.pushState({}, '', url.toString());
+    }
   }
 }

@@ -27,7 +27,7 @@
     "watch": "tsc -w"
   },
   "dependencies": {
-    "@exmg/livery": "^4.0.2",
+    "@exmg/livery": "^4.1.1",
     "lit-element": "^2.0.1",
     "lit-html": "^1.0.0"
   },

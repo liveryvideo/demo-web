@@ -7,7 +7,7 @@ import { LiveryPlayer } from '@exmg/livery';
 // Above should be clarifyable in TypeScript v3.8 using `import type { LiveryPlayer } from '@exmg/livery'`
 // Then hopefully eslint and @typescript-eslint rules will not unjustfully complain about it anymore
 import { html, LitElement, property } from 'lit-element';
-import { ifDefined } from 'lit-html/directives/if-defined';
+import { ifDefined } from './ifDefined';
 import { liveryDemoStyle } from './liveryDemoStyle';
 
 function setSelected(select: HTMLSelectElement, value: string) {

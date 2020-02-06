@@ -32,6 +32,9 @@ module.exports = {
         },
       },
       rules: {
+        // Order members (fields-constructors-methods, static-instance-abstract, public-protected-private)
+        // TODO: Sort methods alphabetically: https://github.com/typescript-eslint/typescript-eslint/pull/263
+        '@typescript-eslint/member-ordering': 'error',
         // Not worth the repetitive boilerplate IMHO; implicit inferred return types are fine
         '@typescript-eslint/explicit-function-return-type': 'off',
         // @open-wc's JS based rule (always include extensions) conflicts with @typescript-eslint's TS based rule

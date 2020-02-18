@@ -226,7 +226,7 @@ export class LiveryDemo extends LitElement {
         <livery-player
           autoplaymuted
           persistmuted
-          controls="mute fullscreen quality"
+          controls="error mute fullscreen quality"
           targetlatency="${ifDefined(
             this.customLatency === '' ? undefined : this.customLatency,
           )}"

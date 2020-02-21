@@ -64,8 +64,9 @@ export const liveryDemoStyle = css`
   }
 
   livery-player {
-    max-width: 600px;
-    overflow: auto;
+    width: 100%;
+    height: 50vh;
+    object-fit: contain;
   }
 
   th {

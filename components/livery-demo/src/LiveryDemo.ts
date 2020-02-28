@@ -108,8 +108,11 @@ export class LiveryDemo extends LitElement {
   }
 
   getCustomer() {
-    const [customerId, envSuffix = ''] = this.customer.split('-');
-    return { customerId, envSuffix };
+    const parts = this.customer.split('-');
+    return {
+      customerId: parts[0],
+      envSuffix: parts.length === 2 ? `-${parts[1]}` : '',
+    };
   }
 
   getCustomerConfig() {

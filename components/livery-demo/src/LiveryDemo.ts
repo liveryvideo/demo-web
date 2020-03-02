@@ -229,6 +229,7 @@ export class LiveryDemo extends LitElement {
           autoplaymuted
           persistmuted
           controls="error mute fullscreen quality"
+          poster="poster.png"
           targetlatency="${ifDefined(
             this.customLatency === '' ? undefined : this.customLatency,
           )}"

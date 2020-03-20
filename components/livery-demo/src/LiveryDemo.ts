@@ -233,6 +233,7 @@ export class LiveryDemo extends LitElement {
           targetlatency="${ifDefined(
             this.customLatency === '' ? undefined : this.customLatency,
           )}"
+          vumeter
           @livery-active-quality-change="${this.updateQuality}"
           @livery-playback-change="${this.updatePlaybackState}"
           @livery-progress="${this.updateBufferAndLatency}"

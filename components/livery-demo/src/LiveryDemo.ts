@@ -1,11 +1,5 @@
-// Import once for side effects, e.g: defining elements
-// eslint-disable-next-line import/no-duplicates
 import '@exmg/livery';
-// And import again for TypeScript types (this will be stripped during compilation)
-// eslint-disable-next-line import/no-duplicates
-import { LiveryPlayer } from '@exmg/livery';
-// Above should be clarifyable in TypeScript v3.8 using `import type { LiveryPlayer } from '@exmg/livery'`
-// Then hopefully eslint and @typescript-eslint rules will not unjustfully complain about it anymore
+import type { LiveryPlayer } from '@exmg/livery';
 import { html, LitElement, property } from 'lit-element';
 import { ifDefined } from './ifDefined';
 import { liveryDemoStyle } from './liveryDemoStyle';
@@ -125,6 +119,26 @@ export class LiveryDemo extends LitElement {
     return `https://exmachina-ull-demo.akamaized.net/cmaf/live/664379/${customerId}-TESTING/out.mpd`;
   }
 
+  getLogLevel() {
+    const { logLevel } = this;
+    if (
+      logLevel === 'quiet' ||
+      logLevel === 'error' ||
+      logLevel === 'warn' ||
+      logLevel === 'info' ||
+      logLevel === 'debug' ||
+      logLevel === 'spam'
+    ) {
+      return logLevel;
+    }
+    return 'info';
+  }
+
+  getTargetLatency() {
+    const customLatency = parseFloat(this.customLatency);
+    return Number.isNaN(customLatency) ? undefined : customLatency;
+  }
+
   onClearClick(event: Event) {
     event.preventDefault();
     this.$!.sourceInput.value = '';
@@ -223,16 +237,14 @@ export class LiveryDemo extends LitElement {
       <div class="panel">
         <livery-sdk
           config="${this.config}"
-          loglevel="${this.logLevel}"
+          loglevel="${this.getLogLevel()}"
         ></livery-sdk>
         <livery-player
           autoplaymuted
           persistmuted
           controls="error mute fullscreen quality"
           poster="assets/poster.png"
-          targetlatency="${ifDefined(
-            this.customLatency === '' ? undefined : this.customLatency,
-          )}"
+          targetlatency="${ifDefined(this.getTargetLatency())}"
           vumeter
           @livery-active-quality-change="${this.updateQuality}"
           @livery-playback-change="${this.updatePlaybackState}"

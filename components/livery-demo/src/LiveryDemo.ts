@@ -1,4 +1,4 @@
-import '@exmg/livery';
+import { endpointId, version } from '@exmg/livery';
 import type { LiveryPlayer } from '@exmg/livery';
 import { html, LitElement, property } from 'lit-element';
 import { ifDefined } from './ifDefined';
@@ -116,7 +116,10 @@ export class LiveryDemo extends LitElement {
 
   getCustomerSource() {
     const { customerId } = this.getCustomer();
-    return `https://exmachina-ull-demo.akamaized.net/cmaf/live/664379/${customerId}-TESTING/out.mpd`;
+    const manifest = /iPhone/i.test(navigator.userAgent)
+      ? 'master.m3u8'
+      : 'out.mpd';
+    return `https://exmachina-ull-demo.akamaized.net/cmaf/live/664379/${customerId}-TESTING/${manifest}`;
   }
 
   getLogLevel() {
@@ -260,6 +263,8 @@ export class LiveryDemo extends LitElement {
 
       <table class="panel">
         <tr>
+          <th>Version:</th>
+          <td>${version}</td>
           <th>Engine:</th>
           <td>
             ${this.engineName.replace(/Engine$/, '')}
@@ -281,15 +286,17 @@ export class LiveryDemo extends LitElement {
           <td>
             ${Number.isNaN(this.buffer) ? '' : `${this.buffer.toFixed(1)}s`}
           </td>
-          <th>Quality:</th>
-          <td>${this.quality}</td>
-        </tr>
-        <tr>
           <th>Latency:</th>
           <td>
             ${Number.isNaN(this.latency) ? '' : `${this.latency.toFixed(1)}s`}
           </td>
+          <th>Quality:</th>
+          <td>${this.quality}</td>
         </tr>
+          <th>Endpoint:</th>
+          <td colspan="5">${endpointId}</td>
+        </tr>
+        <tr>
       </table>
 
       <div class="panel">

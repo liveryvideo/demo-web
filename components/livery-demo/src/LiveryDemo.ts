@@ -247,6 +247,7 @@ export class LiveryDemo extends LitElement {
           persistmuted
           controls="error mute fullscreen quality"
           poster="assets/poster.png"
+          preroll="assets/preroll.mp4"
           targetlatency="${ifDefined(this.getTargetLatency())}"
           vumeter
           @livery-active-quality-change="${this.updateQuality}"

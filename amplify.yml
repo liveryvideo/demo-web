@@ -12,3 +12,8 @@ frontend:
   cache:
     paths:
       - '$HOME/.npm'
+  customHeaders:
+    - pattern: '/assets/*'
+      headers:
+        - key: 'Access-Control-Allow-Origin'
+          value: '*'

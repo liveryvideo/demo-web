@@ -25,14 +25,32 @@
         background: none transparent;
       }
 
-      .logo {
-        width: 176px;
+      a.logo {
+        display: inline-block;
+        padding: 4px;
+        background: #222;
+        box-shadow: 0 0 2px 2px #222;
+        opacity: 0.25;
+      }
+
+      a.logo:active,
+      a.logo:hover {
+        opacity: 1;
+      }
+
+      .logo img {
+        width: 117px;
       }
     </style>
   </head>
   <body>
-    <a href="https://www.liveryvideo.com" rel="external" target="_blank">
-      <img src="assets/logo.png" class="logo" />
+    <a
+      class="logo"
+      href="https://www.liveryvideo.com"
+      rel="external"
+      target="_blank"
+    >
+      <img src="assets/logo.png" />
     </a>
   </body>
 </html>

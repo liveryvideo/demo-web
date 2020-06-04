@@ -3,8 +3,7 @@ import merge from 'deepmerge';
 import cpy from 'rollup-plugin-cpy';
 
 const config = createSpaConfig({
-  // This was resulting in issues when loading /assets/interactive.html with it returning index.html instead
-  // injectServiceWorker: true,
+  injectServiceWorker: true,
 });
 
 export default merge(config, {

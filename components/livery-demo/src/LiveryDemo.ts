@@ -168,7 +168,7 @@ export class LiveryDemo extends LitElement {
                 >
                 <option value="5c52edb53e930320967a5d55-dev">Ex Machina</option>
                 <option value="5ddb98f5e4b0937e6a4507f2">Livery Demo</option>
-                <option value="5ddb986ee4b0937e6a4507e9">Robolingo</option>
+                <option value="5ddb986ee4b0937e6a4507e9-dev">Robolingo</option>
               </optgroup>
             </select>
           </div>

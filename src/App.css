@@ -1,0 +1,49 @@
+.App {
+  text-align: center;
+
+  height:100%;
+}
+
+.demopage-wrap{
+  /* border:1px solid red; */
+  height:100%;
+}
+
+livery-player {
+ 
+  height: 100%;
+  width:70%;
+  object-fit: contain;
+}
+
+.player-segment {
+  background-color: lightblue;
+  width:100%;
+  height:60%;
+
+  display: flex;
+  justify-content: flex-start;
+}
+
+.info-segment{
+  height:100%;
+  width:30%;
+
+
+
+
+  background-image: -webkit-linear-gradient(
+    -45deg,
+    #22112c 0%,
+    #22112c 40%,
+    #30183e 40%,
+    #30183e 50%,
+    #291738 50%,
+    #291738 60%,
+    #221730 60%,
+    #221730 70%,
+    #181627 70%,
+    #181627 80%,
+    #22112c 80%
+  );
+}

@@ -1,0 +1,28 @@
+.Log {
+  height: 50%;
+  width: 100%;
+  background-color: transparent;
+  
+
+  /* border:1px solid blue; */
+
+
+
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+
+.log-box{
+  height:85%;
+  width:90%;
+  color:white;
+
+  overflow-y: scroll;
+
+  text-align: left;
+  border:1px solid lime;
+  /* background-color:blue; */
+}

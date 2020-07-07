@@ -1,38 +1,37 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import "./Settings.css";
 
 function Segment(props) {
-    return (
-        <div className="segment">
-        <span className="segment-title">
-            {props.title}
-        </span>
-        <span className="segment-data">
-            {props.data}
-        </span>
+  return (
+    <div className="segment">
+      <span className="segment-title">{props.title}</span>
+      <span className="segment-data">{props.data}</span>
     </div>
-    );
-  }
-  
+  );
+}
 
 class Settings extends Component {
+  constructor(props) {
+    super(props);
+    console.error(props);
+  }
 
-    
-    render() {
-        return (
-            <div className="Settings">
-             
-             <Segment title="Version" data="5.12.6"></Segment>
-                <Segment title="Qualtiy" data="Bitrate 0.8mbps, 1080p, 24fps"></Segment>
-                <Segment title="Internet Speed" data="Excellent"></Segment>
-                <Segment title="Latency Target" data="3 sec"></Segment>
-                          
-                
-                
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div className="Settings">
+        <Segment title="Version:" data={this.props.version}></Segment>
+        <Segment title="Engine:" data={this.props.engineName}></Segment>
 
+        <Segment
+          title="Playback State:"
+          data={this.props.playbackState}
+        ></Segment>
+
+        <Segment title="Latency:" data={this.props.latency}></Segment>
+        <Segment title="Buffer:" data={this.props.buffer}></Segment>
+      </div>
+    );
+  }
 }
 
 export default Settings;

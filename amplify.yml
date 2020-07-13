@@ -1,0 +1,19 @@
+version: 0.1
+frontend:
+  phases:
+    build:
+      commands:
+        - npm ci
+        - npm run build
+  artifacts:
+    baseDirectory: /build
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - '$HOME/.npm'
+  customHeaders:
+    - pattern: '/assets/*'
+      headers:
+        - key: 'Access-Control-Allow-Origin'
+          value: '*'

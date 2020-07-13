@@ -5,13 +5,9 @@
   
 
   /* border:1px solid blue; */
-
-
-
   display:flex;
   align-items: center;
   justify-content: center;
-  
 }
 
 
@@ -20,9 +16,10 @@
   width:90%;
   color:white;
 
-  overflow-y: scroll;
-
+  overflow: scroll;
+  
   text-align: left;
-  border:1px solid lime;
-  /* background-color:blue; */
+  border-top:1px solid grey;
+  padding:10px;
+  background-color:rgba(75, 75, 75, 0.349);
 }

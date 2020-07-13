@@ -4,17 +4,14 @@ import "./Settings.css";
 function Segment(props) {
   return (
     <div className="segment">
-      <span className="segment-title">{props.title}</span>
+        <span className="segment-title">{props.title}</span>
       <span className="segment-data">{props.data}</span>
     </div>
   );
 }
 
 class Settings extends Component {
-  constructor(props) {
-    super(props);
-    console.error(props);
-  }
+
 
   render() {
     return (
@@ -26,6 +23,8 @@ class Settings extends Component {
           title="Playback State:"
           data={this.props.playbackState}
         ></Segment>
+
+        <Segment title="Quality:" data={this.props.activeQuality}></Segment>
 
         <Segment title="Latency:" data={this.props.latency}></Segment>
         <Segment title="Buffer:" data={this.props.buffer}></Segment>

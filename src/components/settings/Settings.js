@@ -27,7 +27,7 @@ class Settings extends Component {
         <Segment title="Quality:" data={this.props.activeQuality}></Segment>
 
         <Segment title="Latency:" data={this.props.latency}></Segment>
-        <Segment title="Buffer:" data={this.props.buffer}></Segment>
+        <Segment title="Buffer:" data={this.props.buffer || ""}></Segment>
       </div>
     );
   }

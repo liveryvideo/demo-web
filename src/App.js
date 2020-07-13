@@ -13,10 +13,11 @@ import Log from "./components/log/Log";
 import { render } from "@testing-library/react";
 
 class App extends Component {
-  player;
+  
 
   constructor() {
     super();
+    this.playerRef = React.createRef();
     this.graphRef = React.createRef();
     this.state = {
       buffer: 0,
@@ -28,8 +29,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // TODO: change to ref
-    this.player = document.querySelector("livery-player");
+    this.player = this.playerRef.current;
     this.player.addEventListener("livery-time-update", (e) => {
       this.updateBufferLatency();
     });
@@ -51,6 +51,7 @@ class App extends Component {
     graph.textColor = "white";
     graph.bufferColor = "deeppink";
     graph.latencyColor = "yellow";
+    graph.height = "100%"
   }
 
   updateBufferLatency() {
@@ -86,7 +87,7 @@ class App extends Component {
         <div className="demopage-wrap">
           <div className="player-segment">
             <livery-sdk config="https://cdn.playtotv.com/video-encoder/remoteconfigs/5ddb98f5e4b0937e6a4507f2.json"></livery-sdk>
-            <livery-player autoplaymuted persistmuted id="player">
+            <livery-player autoplaymuted persistmuted id="player" ref={this.playerRef}>
               <source src="https://exmachina-ull-demo.akamaized.net/cmaf/live/664379/5ddb98f5e4b0937e6a4507f2-TESTING/out.mpd" />
             </livery-player>
 

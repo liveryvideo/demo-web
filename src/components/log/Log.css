@@ -23,3 +23,13 @@
   padding:10px;
   background-color:rgba(75, 75, 75, 0.349);
 }
+
+@media only screen and (max-width: 600px) {
+
+  .Log{
+    margin-top:20px;
+    height:250px;
+  }
+
+
+}

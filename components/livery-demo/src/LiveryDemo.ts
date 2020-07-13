@@ -116,9 +116,8 @@ export class LiveryDemo extends LitElement {
 
   getCustomerSource() {
     const { customerId } = this.getCustomer();
-    const manifest = /iPhone/i.test(navigator.userAgent)
-      ? 'master.m3u8'
-      : 'out.mpd';
+    const manifest =
+      typeof MediaSource !== 'function' ? 'master.m3u8' : 'out.mpd';
     return `https://exmachina-ull-demo.akamaized.net/cmaf/live/664379/${customerId}-TESTING/${manifest}`;
   }
 

@@ -1,0 +1,19 @@
+.options-bar{
+    /* border:1px solid red; */
+    height:5%;
+    background-color:white;
+    border-bottom:2px solid red;
+  
+    display: flex;
+    align-items: center ;
+    justify-content: center;
+  
+  }
+  
+  .options-bar input {
+    border:0px solid black;
+    border-radius: 0;
+    background-color:#EEEEF8;
+    height:25px;
+  }
+  

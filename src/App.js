@@ -9,6 +9,8 @@ import { LiveryPlayer } from "@exmg/livery";
 
 import Settings from "./components/settings/Settings";
 import Log from "./components/log/Log";
+import StreamSelect from "./components/streamSelect/StreamSelect";
+
 
 import { render } from "@testing-library/react";
 
@@ -19,6 +21,8 @@ class App extends Component {
     super();
     this.playerRef = React.createRef();
     this.graphRef = React.createRef();
+    this.sdkRef = React.createRef();
+    
     this.state = {
       buffer: 0,
       latency: 0,
@@ -80,13 +84,24 @@ class App extends Component {
     state.activeQuality = this.player.activeQuality;
     this.setState(state);
   }
+  
+  changeLogLevel(event, that) {
+    //TODO: add check if player isn't loaded.
+    // console.log(event.target.value);
+    // console.log(this.player);
+    
+
+    // that.sdkRef.current.logLevel = event.target.value;
+  }
+
 
   render() {
     return (
       <div className="App">
         <div className="demopage-wrap">
+          <StreamSelect></StreamSelect>
           <div className="player-segment">
-            <livery-sdk config="https://cdn.playtotv.com/video-encoder/remoteconfigs/5ddb98f5e4b0937e6a4507f2.json"></livery-sdk>
+            <livery-sdk config="https://cdn.playtotv.com/video-encoder/remoteconfigs/5ddb98f5e4b0937e6a4507f2.json" ref={this.sdkRef}></livery-sdk>
             <livery-player autoplaymuted persistmuted id="player" ref={this.playerRef}>
               <source src="https://exmachina-ull-demo.akamaized.net/cmaf/live/664379/5ddb98f5e4b0937e6a4507f2-TESTING/out.mpd" />
             </livery-player>
@@ -100,7 +115,7 @@ class App extends Component {
                 playbackState={this.state.playbackState}
               ></Settings>
 
-              <Log></Log>
+              <Log callback={(e)=>{this.changeLogLevel(e,this)}}></Log>
             </div>
           </div>
 

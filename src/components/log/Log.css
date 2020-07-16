@@ -5,9 +5,12 @@
   
 
   /* border:1px solid blue; */
+
+  z-index: 9999;
   display:flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 
@@ -20,8 +23,8 @@
   
   text-align: left;
   border-top:1px solid grey;
-  padding:10px;
-  background-color:rgba(75, 75, 75, 0.349);
+  /* padding:10px; */
+  background-color:rgba(75, 75, 75, 0.349); 
 }
 
 @media only screen and (max-width: 600px) {
@@ -33,3 +36,22 @@
 
 
 }
+
+.level-button{
+
+  position: relative;
+/* 
+  border:1px solid lightgrey;
+  background-color:white;
+  color:rebeccapurple;
+  margin-left: 100px !important;
+  height:25px;
+  width:50%;
+  align-self: flex-end;
+
+  display: flex;
+  align-items: center;
+  justify-content: center; */
+
+}
+

@@ -1,8 +1,8 @@
 .options-bar{
     /* border:1px solid red; */
-    height:5%;
+    height:35px;
     background-color:white;
-    border-bottom:2px solid red;
+    border-bottom:2px solid whitesmoke;
   
     display: flex;
     align-items: center ;
@@ -16,4 +16,4 @@
     background-color:#EEEEF8;
     height:25px;
   }
-  
+    

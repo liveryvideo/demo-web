@@ -25,11 +25,12 @@ class Log extends Component {
   render() {
     return (
       <div className="Log">
-        <div className="level-button">
-          <select onChange={this.props.callback}>
+        <div className="log-level-wrap">
+          <span>Log level: </span>
+          <select onChange={this.props.callback} id="log-level">
             <option value="error">error</option>
             <option value="warn">warn</option>
-            <option value="info">info</option>
+            <option value="info" selected="selected">info</option>
             <option value="debug">debug</option>
             <option value="spam">spam</option>
           </select>

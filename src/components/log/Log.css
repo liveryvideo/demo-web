@@ -2,56 +2,44 @@
   height: 50%;
   width: 100%;
   background-color: transparent;
-  
 
-  /* border:1px solid blue; */
-
-  z-index: 9999;
-  display:flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
 }
 
-
-.log-box{
-  height:85%;
-  width:90%;
-  color:white;
-
-  overflow: scroll;
-  
+.log-box {
+  height: 85%;
+  width: 90%;
+  color: white;
+  overflow-y: scroll;
   text-align: left;
-  border-top:1px solid grey;
-  /* padding:10px; */
-  background-color:rgba(75, 75, 75, 0.349); 
+  border-top: 1px solid grey;
+  background-color: rgba(75, 75, 75, 0.349);
 }
 
 @media only screen and (max-width: 600px) {
-
-  .Log{
-    margin-top:20px;
-    height:250px;
+  .Log {
+    margin-top: 20px;
+    height: 250px;
   }
-
-
 }
 
-.level-button{
-
+.log-level-wrap {
   position: relative;
-/* 
-  border:1px solid lightgrey;
-  background-color:white;
-  color:rebeccapurple;
-  margin-left: 100px !important;
-  height:25px;
-  width:50%;
-  align-self: flex-end;
+  width: 90%;
+  margin-bottom: 5px;
 
   display: flex;
   align-items: center;
-  justify-content: center; */
-
+  justify-content: space-evenly;
 }
 
+.log-level-wrap select {
+  width: 50%;
+  text-align: center;
+}
+.log-level-wrap span {
+  color: white;
+}

@@ -4,8 +4,8 @@ import "./App.css";
 
 // import "@exmg/livery";
 
-import { endpointId, version } from "@exmg/livery";
-import { LiveryPlayer } from "@exmg/livery";
+// import { endpointId, version } from "@exmg/livery";
+// import { LiveryPlayer } from "@exmg/livery";
 
 import Settings from "./components/settings/Settings";
 import Log from "./components/log/Log";
@@ -29,7 +29,9 @@ class App extends Component {
       engineName: "",
       playbackState: "",
       activeQuality: "",
+      version:window.exmg.livery.version
     };
+    console.log("VERSION: ", window.exmg.livery.version)
   }
 
   componentDidMount() {
@@ -87,11 +89,11 @@ class App extends Component {
   
   changeLogLevel(event, that) {
     //TODO: add check if player isn't loaded.
-    // console.log(event.target.value);
-    // console.log(this.player);
+    console.log(event.target.value);
+    console.log(this.player);
     
 
-    // that.sdkRef.current.logLevel = event.target.value;
+    that.sdkRef.current.logLevel = event.target.value;
   }
 
 
@@ -110,7 +112,7 @@ class App extends Component {
               <Settings
                 latency={this.state.latency}
                 buffer={this.state.buffer}
-                version={version}
+                version={this.state.version}
                 engineName={this.state.engineName}
                 playbackState={this.state.playbackState}
               ></Settings>

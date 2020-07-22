@@ -7,7 +7,6 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-/* border:1px solid blue; */
   background-image: -webkit-linear-gradient(
     -45deg,
     #22112c 0%,
@@ -35,6 +34,7 @@ livery-player {
   background-color: transparent;
   width: 100%;
   height: 55%;
+  min-height: 300px;
 
   display: flex;
   align-items: auto;
@@ -43,7 +43,7 @@ livery-player {
 
 .info {
   height: 100%;
-  width: 10%;
+  width: 20%;
   min-width: 300px;
   background: transparent;
   display: flex;
@@ -59,12 +59,13 @@ livery-buffer-graph {
 
 .graph-segment {
   height: 40%;
+  min-height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 650px) {
   .demopage-wrap {
     height: auto;
 

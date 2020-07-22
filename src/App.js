@@ -1,37 +1,27 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 import "./App.css";
-
-// import "@exmg/livery";
-
-// import { endpointId, version } from "@exmg/livery";
-// import { LiveryPlayer } from "@exmg/livery";
 
 import Settings from "./components/settings/Settings";
 import Log from "./components/log/Log";
 import StreamSelect from "./components/streamSelect/StreamSelect";
 
-
-import { render } from "@testing-library/react";
+import preroll from './assets/preroll.mp4'
 
 class App extends Component {
-  
-
   constructor() {
     super();
     this.playerRef = React.createRef();
     this.graphRef = React.createRef();
     this.sdkRef = React.createRef();
-    
+
     this.state = {
       buffer: 0,
       latency: 0,
       engineName: "",
       playbackState: "",
       activeQuality: "",
-      version:window.exmg.livery.version
+      version: window.exmg.livery.version,
     };
-    console.log("VERSION: ", window.exmg.livery.version)
   }
 
   componentDidMount() {
@@ -51,13 +41,12 @@ class App extends Component {
     });
 
     const graph = this.graphRef.current;
-    console.log("REF: " + graph);
     graph.player = this.player;
     graph.backgroundColor = "transparent";
     graph.textColor = "white";
     graph.bufferColor = "deeppink";
     graph.latencyColor = "yellow";
-    graph.height = "100%"
+    graph.height = "100%";
   }
 
   updateBufferLatency() {
@@ -86,27 +75,59 @@ class App extends Component {
     state.activeQuality = this.player.activeQuality;
     this.setState(state);
   }
-  
-  changeLogLevel(event, that) {
-    //TODO: add check if player isn't loaded.
-    console.log(event.target.value);
-    console.log(this.player);
-    
 
-    that.sdkRef.current.logLevel = event.target.value;
+  changeLogLevel(event) {
+    this.sdkRef.current.logLevel = event.target.value;
   }
 
+  setStream(streamID) {
+    let customer = streamID;
+    let config = this.getCustomerConfig(customer);
+    let source = this.getCustomerSource(customer);
+    this.sdkRef.current.config = config;
+    this.sdkRef.current.source = source;
+  }
+  getCustomer(customer) {
+    const parts = customer.split("-");
+    return {
+      customerId: parts[0],
+      envSuffix: parts.length === 2 ? `-${parts[1]}` : "",
+    };
+  }
+  getCustomerConfig(customer) {
+    const { customerId, envSuffix } = this.getCustomer(customer);
+    return `https://cdn.playtotv.com/video-encoder${envSuffix}/remoteconfigs/${customerId}.json`;
+  }
+  getCustomerSource(customer) {
+    const { customerId } = this.getCustomer(customer);
+    const manifest = /iPhone/i.test(navigator.userAgent)
+      ? "master.m3u8"
+      : "out.mpd";
+    return `https://exmachina-ull-demo.akamaized.net/cmaf/live/664379/${customerId}-TESTING/${manifest}`;
+  }
 
   render() {
     return (
       <div className="App">
         <div className="demopage-wrap">
-          <StreamSelect></StreamSelect>
+          <StreamSelect
+            setStream={(e) => {
+              this.setStream(e);
+            }}
+          ></StreamSelect>
           <div className="player-segment">
-            <livery-sdk config="https://cdn.playtotv.com/video-encoder/remoteconfigs/5ddb98f5e4b0937e6a4507f2.json" ref={this.sdkRef}></livery-sdk>
-            <livery-player autoplaymuted persistmuted id="player" ref={this.playerRef}>
-              <source src="https://exmachina-ull-demo.akamaized.net/cmaf/live/664379/5ddb98f5e4b0937e6a4507f2-TESTING/out.mpd" />
-            </livery-player>
+            <livery-sdk
+              config="https://cdn.playtotv.com/video-encoder/remoteconfigs/5ddb98f5e4b0937e6a4507f2.json"
+              ref={this.sdkRef}
+            ></livery-sdk>
+            <livery-player
+              autoplaymuted
+              persistmuted
+              preroll={preroll}
+              id="player"
+              controls="error mute fullscreen"
+              ref={this.playerRef}
+            ></livery-player>
 
             <div className="info">
               <Settings
@@ -117,7 +138,11 @@ class App extends Component {
                 playbackState={this.state.playbackState}
               ></Settings>
 
-              <Log callback={(e)=>{this.changeLogLevel(e,this)}}></Log>
+              <Log
+                callback={(e) => {
+                  this.changeLogLevel(e);
+                }}
+              ></Log>
             </div>
           </div>
 

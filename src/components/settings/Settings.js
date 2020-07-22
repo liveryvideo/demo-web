@@ -12,21 +12,20 @@ function Segment(props) {
 
 class Settings extends Component {
 
-
   render() {
     return (
       <div className="Settings">
-        <Segment title="Version:" data={this.props.version}></Segment>
-        <Segment title="Engine:" data={this.props.engineName}></Segment>
+        <Segment title="Version:" data={this.props.version || ""}></Segment>
+        <Segment title="Engine:" data={this.props.engineName || ""}></Segment>
 
         <Segment
           title="Playback State:"
-          data={this.props.playbackState}
+          data={this.props.playbackState || ""}
         ></Segment>
 
-        <Segment title="Quality:" data={this.props.activeQuality}></Segment>
+        <Segment title="Quality:" data={this.props.activeQuality || ""}></Segment>
 
-        <Segment title="Latency:" data={this.props.latency}></Segment>
+        <Segment title="Latency:" data={this.props.latency || ""}></Segment>
         <Segment title="Buffer:" data={this.props.buffer || ""}></Segment>
       </div>
     );

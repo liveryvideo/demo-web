@@ -33,7 +33,7 @@ class StreamSelect extends Component {
               }}
               value={this.state.currentStream}
             >
-              <optgroup span="ExMG">
+              <optgroup label="ExMG">
                 <option value="5c8b790e8f08e4ad1d1dc339-staging">
                   Angry Bytes
                 </option>
@@ -42,7 +42,7 @@ class StreamSelect extends Component {
                 <option value="5ddb986ee4b0937e6a4507e9-dev">Robolingo</option>
                 <option
                   value="custom"
-                  hidden={!this.state.streamIsCustom}
+                  // hidden={!this.state.streamIsCustom}
                   disabled="disabled"
                 >
                   Custom

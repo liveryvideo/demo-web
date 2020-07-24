@@ -1,3 +1,15 @@
+# Livery Demo
+
+[![Built with @exmg/livery SDK](https://img.shields.io/badge/built%20with-%40exmg%2Flivery-blue)](https://www.npmjs.com/package/@exmg/livery)
+[![Built with open-wc recommendations](https://img.shields.io/badge/built%20with-open--wc-blue.svg)](https://open-wc.org)
+
+Demo use of Ex Machina Group Livery Web SDK ([@exmg/livery](https://www.npmjs.com/package/@exmg/livery)).
+
+Check it out at: [demo.liveryvideo.com](https://demo.liveryvideo.com)
+
+More information can be found at: [liveryvideo.com](https://liveryvideo.com)
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

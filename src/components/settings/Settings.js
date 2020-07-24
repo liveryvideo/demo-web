@@ -23,7 +23,7 @@ class Settings extends Component {
           data={this.props.playbackState || ""}
         ></Segment>
 
-        <Segment title="Quality:" data={this.props.activeQuality || ""}></Segment>
+        <Segment title="Quality:" data={this.props.quality || ""}></Segment>
 
         <Segment title="Latency:" data={this.props.latency || ""}></Segment>
         <Segment title="Buffer:" data={this.props.buffer || ""}></Segment>

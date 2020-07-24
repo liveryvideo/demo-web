@@ -5,8 +5,6 @@ import Settings from "./components/settings/Settings";
 import Log from "./components/log/Log";
 import StreamSelect from "./components/streamSelect/StreamSelect";
 
-import preroll from './assets/preroll.mp4'
-
 class App extends Component {
   constructor() {
     super();
@@ -19,7 +17,7 @@ class App extends Component {
       latency: 0,
       engineName: "",
       playbackState: "",
-      activeQuality: "",
+      quality: "",
       version: window.exmg.livery.version,
     };
   }
@@ -47,6 +45,12 @@ class App extends Component {
     graph.bufferColor = "deeppink";
     graph.latencyColor = "yellow";
     graph.height = "100%";
+
+    let path = window.location.pathname;
+    if (path !== "/") {
+      let customStreamID = path.replace("/", "");
+      this.setStream(customStreamID);
+    }
   }
 
   updateBufferLatency() {
@@ -71,8 +75,30 @@ class App extends Component {
   }
 
   updateQuality() {
+    const {
+      activeQuality: activeIndex,
+      selectedQuality: selectedIndex,
+      qualities,
+    } = this.player;
+
+    const active = Number.isNaN(activeIndex) ? null : qualities[activeIndex];
+    const selected = Number.isNaN(selectedIndex)
+      ? null
+      : qualities[selectedIndex];
+
+    let selectedStr = "";
+    if (qualities.length > 1) {
+      if (selected) {
+        if (!active || selectedIndex !== activeIndex) {
+          selectedStr = `=> ${selected.label}`;
+        }
+      } else {
+        selectedStr = "(auto)";
+      }
+    }
+    let quality = `${active ? active.label : ""} ${selectedStr}`;
     let state = this.state;
-    state.activeQuality = this.player.activeQuality;
+    state.quality = quality;
     this.setState(state);
   }
 
@@ -123,7 +149,7 @@ class App extends Component {
             <livery-player
               autoplaymuted
               persistmuted
-              preroll={preroll}
+              preroll="assets/preroll.mp4"
               id="player"
               controls="error mute fullscreen"
               ref={this.playerRef}
@@ -134,6 +160,7 @@ class App extends Component {
                 latency={this.state.latency}
                 buffer={this.state.buffer}
                 version={this.state.version}
+                quality={this.state.quality}
                 engineName={this.state.engineName}
                 playbackState={this.state.playbackState}
               ></Settings>

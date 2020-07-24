@@ -1,7 +1,12 @@
 {
-  "name": "web-redesign",
+  "name": "@exmg/livery-demo",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
+  "description": "Demo use of Ex Machina Group Livery Web SDK (@exmg/livery).",
+  "author": "Ex Machina Group",
+  "homepage": "https://demo.liveryvideo.com/",
+  "license": "MIT",
+  "repository": "github:exmg/livery-demo",
   "dependencies": {
     "@exmg/livery": "^5.13.3",
     "@testing-library/jest-dom": "^4.2.4",

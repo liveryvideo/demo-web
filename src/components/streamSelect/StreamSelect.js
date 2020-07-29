@@ -17,7 +17,7 @@ class StreamSelect extends Component {
     if (path === "/") {
       id = "5ddb98f5e4b0937e6a4507f2";
     } else {
-      if (this.indexOfStreams(urlStreamID) > 0) {
+      if (this.defaultStreams.find(stream => stream.id === urlStreamID)) {
         id = urlStreamID;
       } else {
         id = "custom";
@@ -27,14 +27,6 @@ class StreamSelect extends Component {
       currentStream: id,
       streamIsCustom: false,
     };
-  }
-  indexOfStreams(id) {
-    for (let i = 0; i < this.defaultStreams.length; i++) {
-      if (this.defaultStreams[i].id === id) {
-        return i;
-      }
-    }
-    return -1;
   }
   updateField(event) {
     this.customStreamID = event.target.value;
@@ -79,7 +71,6 @@ class StreamSelect extends Component {
                 this.updateField(e);
               }}
               placeholder="Stream ID"
-              maxlength="1000"
             ></input>
             <button
               onClick={() => {

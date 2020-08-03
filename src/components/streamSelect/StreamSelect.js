@@ -35,6 +35,7 @@ class StreamSelect extends Component {
     this.props.setStream(this.customStreamID);
     this.setState({ currentStream: "custom", streamIsCustom: true });
     window.history.pushState("LiveryDemo", "Livery Demo", this.customStreamID);
+    // return false; 
   }
   selectStream(event) {
     this.props.setStream(event.target.value);
@@ -64,7 +65,9 @@ class StreamSelect extends Component {
             </select>
           </div>
 
-          <div className="stream-select-custom">
+            <form className="stream-select-custom" onSubmit={(e) => {
+                this.setCustomStream(e);
+              }}>
             <span>ID: </span>
             <input
               onChange={(e) => {
@@ -72,14 +75,10 @@ class StreamSelect extends Component {
               }}
               placeholder="Stream ID"
             ></input>
-            <button
-              onClick={() => {
-                this.setCustomStream();
-              }}
-            >
+            <button>
               Play
             </button>
-          </div>
+            </form>
         </div>
       </div>
     );

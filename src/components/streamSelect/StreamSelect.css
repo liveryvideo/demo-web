@@ -54,3 +54,40 @@
   align-items: center;
   justify-content: center;
 }
+
+@media only screen and (max-width: 500px) {
+  .stream-select-wrap {
+    flex-direction: column;
+    align-items: flex-start;
+    width: auto;
+  }
+  .options-bar {
+    height: 80px;
+    min-height: 80px;
+    overflow: hidden;
+  }
+
+  .stream-select-wrap span {
+    width: 60px;
+    text-align: right;
+  }
+
+  .stream-select-dropdown {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .stream-select-dropdown select {
+    width: 70%;
+    border: 1px solid;
+  }
+  .stream-select-custom {
+    height: 100%;
+    margin-left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  .stream-select-custom input {
+    width: 50%;
+  }
+}

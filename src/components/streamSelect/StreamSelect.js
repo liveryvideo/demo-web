@@ -11,36 +11,55 @@ class StreamSelect extends Component {
       { id: "5ddb98f5e4b0937e6a4507f2", name: "Livery Demo" },
       { id: "5ddb986ee4b0937e6a4507e9-dev", name: "Robolingo" },
     ];
-    let path = window.location.pathname;
-    let urlStreamID = path.replace("/", "");
-    let id;
-    if (path === "/") {
-      id = "5ddb98f5e4b0937e6a4507f2";
-    } else {
-      if (this.defaultStreams.find(stream => stream.id === urlStreamID)) {
-        id = urlStreamID;
-      } else {
-        id = "custom";
-      }
-    }
     this.state = {
-      currentStream: id,
-      streamIsCustom: false,
+      currentStream: "5ddb98f5e4b0937e6a4507f2",
+    };
+    this.updateDropdown();
+    window.onpopstate = (e) => {
+      this.props.setStream();
+      this.updateDropdown();
     };
   }
   updateField(event) {
     this.customStreamID = event.target.value;
   }
-  setCustomStream() {
-    this.props.setStream(this.customStreamID);
-    this.setState({ currentStream: "custom", streamIsCustom: true });
-    window.history.pushState("LiveryDemo", "Livery Demo", this.customStreamID);
-    // return false; 
+  setCustomStream(event) {
+    event.preventDefault();
+    this.setState({ currentStream: this.customStreamID });
+    window.history.pushState(
+      {},
+      this.customStreamID,
+      "?stream=" + this.customStreamID
+    );
+    var popStateEvent = new PopStateEvent("popstate");
+    dispatchEvent(popStateEvent);
   }
   selectStream(event) {
-    this.props.setStream(event.target.value);
-    this.setState({ currentStream: event.target.value, streamIsCustom: false });
-    window.history.pushState("LiveryDemo", "Livery Demo", event.target.value);
+    this.setState({ currentStream: event.target.value });
+    window.history.pushState(
+      {},
+      event.target.value,
+      "?stream=" + event.target.value
+    );
+    var popStateEvent = new PopStateEvent("popstate");
+    dispatchEvent(popStateEvent);
+  }
+
+  updateDropdown() {
+    let params = new URLSearchParams(window.location.search);
+    let streamParam = params.get("stream");
+    let id;
+    if (!streamParam) {
+      id = "5ddb98f5e4b0937e6a4507f2";
+    } else {
+      if (this.defaultStreams.find((stream) => stream.id === streamParam)) {
+        id = streamParam;
+      } else {
+        id = "custom";
+      }
+    }
+    console.log("LOG: ", id);
+    this.setState({ currentStream: id });
   }
   render() {
     return (
@@ -56,7 +75,10 @@ class StreamSelect extends Component {
             >
               <optgroup label="ExMG">
                 {this.defaultStreams.map((el) => (
-                  <option key={el.id} value={el.id}> {el.name} </option>
+                  <option key={el.id} value={el.id}>
+                    {" "}
+                    {el.name}{" "}
+                  </option>
                 ))}
                 <option value="custom" disabled="disabled">
                   Custom
@@ -65,9 +87,12 @@ class StreamSelect extends Component {
             </select>
           </div>
 
-            <form className="stream-select-custom" onSubmit={(e) => {
-                this.setCustomStream(e);
-              }}>
+          <form
+            className="stream-select-custom"
+            onSubmit={(e) => {
+              this.setCustomStream(e);
+            }}
+          >
             <span>ID: </span>
             <input
               onChange={(e) => {
@@ -75,10 +100,8 @@ class StreamSelect extends Component {
               }}
               placeholder="Stream ID"
             ></input>
-            <button>
-              Play
-            </button>
-            </form>
+            <button>Play</button>
+          </form>
         </div>
       </div>
     );

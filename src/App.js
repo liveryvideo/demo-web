@@ -19,6 +19,8 @@ class App extends Component {
       playbackState: "",
       quality: "",
       version: window.exmg.livery.version,
+      config:
+        "https://cdn.playtotv.com/video-encoder/remoteconfigs/5ddb98f5e4b0937e6a4507f2.json",
     };
   }
 
@@ -45,12 +47,7 @@ class App extends Component {
     graph.bufferColor = "deeppink";
     graph.latencyColor = "yellow";
     graph.height = "100%";
-
-    let path = window.location.pathname;
-    if (path !== "/") {
-      let customStreamID = path.replace("/", "");
-      this.setStream(customStreamID);
-    }
+    this.setStream();
   }
 
   updateBufferLatency() {
@@ -106,12 +103,19 @@ class App extends Component {
     this.sdkRef.current.logLevel = event.target.value;
   }
 
-  setStream(streamID) {
-    let customer = streamID;
-    let config = this.getCustomerConfig(customer);
-    let source = this.getCustomerSource(customer);
-    this.sdkRef.current.config = config;
-    this.sdkRef.current.source = source;
+  setStream() {
+    let params = new URLSearchParams(window.location.search);
+    let streamID = params.get("stream");
+
+    if (!streamID) {
+      streamID = "5ddb98f5e4b0937e6a4507f2";
+    }
+    let config = this.getCustomerConfig(streamID);
+    let source = this.getCustomerSource(streamID);
+    let state = this.state;
+    state.source = source;
+    state.config = config;
+    this.setState(state);
   }
   getCustomer(customer) {
     const parts = customer.split("-");
@@ -137,13 +141,13 @@ class App extends Component {
       <div className="App">
         <div className="demopage-wrap">
           <StreamSelect
-            setStream={(e) => {
-              this.setStream(e);
+            setStream={() => {
+              this.setStream();
             }}
           ></StreamSelect>
           <div className="player-segment">
             <livery-sdk
-              config="https://cdn.playtotv.com/video-encoder/remoteconfigs/5ddb98f5e4b0937e6a4507f2.json"
+              config={this.state.config}
               ref={this.sdkRef}
             ></livery-sdk>
             <livery-player
@@ -153,7 +157,9 @@ class App extends Component {
               id="player"
               controls="error mute fullscreen"
               ref={this.playerRef}
-            ></livery-player>
+            >
+              <source src={this.state.source}></source>
+            </livery-player>
 
             <div className="info">
               <Settings

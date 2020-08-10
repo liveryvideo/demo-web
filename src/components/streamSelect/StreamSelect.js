@@ -14,6 +14,8 @@ class StreamSelect extends Component {
     this.state = {
       currentStream: "5ddb98f5e4b0937e6a4507f2",
     };
+  }
+  componentDidMount() {
     this.updateDropdown();
     window.onpopstate = (e) => {
       this.props.setStream();

@@ -113,7 +113,6 @@ class App extends Component {
     let config = this.getCustomerConfig(streamID);
     let source = this.getCustomerSource(streamID);
     let state = this.state;
-    state.source = source;
     state.config = config;
     this.setState(state);
   }
@@ -158,7 +157,6 @@ class App extends Component {
               controls="error mute fullscreen"
               ref={this.playerRef}
             >
-              <source src={this.state.source}></source>
             </livery-player>
 
             <div className="info">

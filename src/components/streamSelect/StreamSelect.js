@@ -4,7 +4,6 @@ import "./StreamSelect.css";
 class StreamSelect extends Component {
   constructor(props) {
     super(props);
-    this.customStreamID = "";
     this.defaultStreams = [
       { id: "5c8b790e8f08e4ad1d1dc339-staging", name: "Angry Bytes" },
       { id: "5c52edb53e930320967a5d55-dev", name: "Ex Machina" },
@@ -13,6 +12,7 @@ class StreamSelect extends Component {
     ];
     this.state = {
       currentStream: "5ddb98f5e4b0937e6a4507f2",
+      customStreamID: ""
     };
   }
   componentDidMount() {
@@ -23,21 +23,26 @@ class StreamSelect extends Component {
     };
   }
   updateField(event) {
-    this.customStreamID = event.target.value;
+    let state = this.state;
+    state.customStreamID = event.target.value;
   }
   setCustomStream(event) {
     event.preventDefault();
-    this.setState({ currentStream: this.customStreamID });
+    let state = this.state;
+    state.currentStream = state.customStreamID;
+    this.setState(state);
     window.history.pushState(
       {},
-      this.customStreamID,
-      "?stream=" + this.customStreamID
+      this.state.customStreamID,
+      "?stream=" + this.state.customStreamID
     );
     var popStateEvent = new PopStateEvent("popstate");
     dispatchEvent(popStateEvent);
   }
   selectStream(event) {
-    this.setState({ currentStream: event.target.value });
+    let state = this.state;
+    state.currentStream = event.target.value;
+    this.setState(state);
     window.history.pushState(
       {},
       event.target.value,
@@ -51,6 +56,7 @@ class StreamSelect extends Component {
     let params = new URLSearchParams(window.location.search);
     let streamParam = params.get("stream");
     let id;
+    let customId;
     if (!streamParam) {
       id = "5ddb98f5e4b0937e6a4507f2";
     } else {
@@ -58,10 +64,11 @@ class StreamSelect extends Component {
         id = streamParam;
       } else {
         id = "custom";
+        customId = streamParam;
       }
     }
     console.log("LOG: ", id);
-    this.setState({ currentStream: id });
+    this.setState({ currentStream: id, customStreamID:customId });
   }
   render() {
     return (
@@ -100,6 +107,7 @@ class StreamSelect extends Component {
               onChange={(e) => {
                 this.updateField(e);
               }}
+              value={this.state.customStreamID}
               placeholder="Stream ID"
             ></input>
             <button>Play</button>

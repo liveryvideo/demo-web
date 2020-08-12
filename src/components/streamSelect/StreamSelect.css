@@ -12,7 +12,6 @@
 .stream-select-wrap input {
   border: 0;
   border-bottom: 1px solid black;
-  border-radius: 5px 5px 0px 0px;
   background-color: whitesmoke;
   height: 25px;
   margin-left: 5px;

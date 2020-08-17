@@ -19,8 +19,7 @@ class App extends Component {
       playbackState: "",
       quality: "",
       version: window.exmg.livery.version,
-      config:
-        "https://cdn.playtotv.com/video-encoder/remoteconfigs/5ddb98f5e4b0937e6a4507f2.json",
+      config:""
     };
   }
 
@@ -111,7 +110,6 @@ class App extends Component {
       streamID = "5ddb98f5e4b0937e6a4507f2";
     }
     let config = this.getCustomerConfig(streamID);
-    let source = this.getCustomerSource(streamID);
     let state = this.state;
     state.config = config;
     this.setState(state);
@@ -126,13 +124,6 @@ class App extends Component {
   getCustomerConfig(customer) {
     const { customerId, envSuffix } = this.getCustomer(customer);
     return `https://cdn.playtotv.com/video-encoder${envSuffix}/remoteconfigs/${customerId}.json`;
-  }
-  getCustomerSource(customer) {
-    const { customerId } = this.getCustomer(customer);
-    const manifest = /iPhone/i.test(navigator.userAgent)
-      ? "master.m3u8"
-      : "out.mpd";
-    return `https://exmachina-ull-demo.akamaized.net/cmaf/live/664379/${customerId}-TESTING/${manifest}`;
   }
 
   render() {

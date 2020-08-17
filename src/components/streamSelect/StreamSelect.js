@@ -25,6 +25,7 @@ class StreamSelect extends Component {
   updateField(event) {
     let state = this.state;
     state.customStreamID = event.target.value;
+    this.setState(state);
   }
   setCustomStream(event) {
     event.preventDefault();
@@ -55,8 +56,8 @@ class StreamSelect extends Component {
   updateDropdown() {
     let params = new URLSearchParams(window.location.search);
     let streamParam = params.get("stream");
-    let id;
-    let customId;
+    let id = "";
+    let customId = "";
     if (!streamParam) {
       id = "5ddb98f5e4b0937e6a4507f2";
     } else {
@@ -107,7 +108,7 @@ class StreamSelect extends Component {
               onChange={(e) => {
                 this.updateField(e);
               }}
-              value={this.state.customStreamID}
+              value={this.state.customStreamID || ""}
               placeholder="Stream ID"
             ></input>
             <button>Play</button>

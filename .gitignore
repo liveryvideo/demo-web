@@ -1,22 +1,23 @@
-# Copy any changes made here to .eslintignore
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-## editors
-/.idea
-/.vscode
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
 
-## system files
+# testing
+/coverage
+
+# production
+/build
+
+# misc
 .DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-## npm
-/node_modules/
-/npm-debug.log
-
-## testing
-/coverage/
-
-## temp folders
-/.tmp/
-
-## build
-/build/
-/dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

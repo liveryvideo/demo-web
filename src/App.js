@@ -152,7 +152,6 @@ class App extends Component {
               preroll="assets/preroll.mp4"
               id="player"
               controls="error mute fullscreen"
-              // targetLatency={this.props.targetLatency}
               ref={this.playerRef}
             >
             </livery-player>

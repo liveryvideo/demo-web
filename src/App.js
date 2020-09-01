@@ -126,6 +126,9 @@ class App extends Component {
     return `https://cdn.playtotv.com/video-encoder${envSuffix}/remoteconfigs/${customerId}.json`;
   }
 
+  setTargetLatency(target) { 
+    this.player.targetLatency = target;
+  }
   render() {
     return (
       <div className="App">
@@ -133,6 +136,9 @@ class App extends Component {
           <StreamSelect
             setStream={() => {
               this.setStream();
+            }}
+            setTargetLatency={(latency) => {
+              this.setTargetLatency(latency);
             }}
           ></StreamSelect>
           <div className="player-segment">
@@ -146,6 +152,7 @@ class App extends Component {
               preroll="assets/preroll.mp4"
               id="player"
               controls="error mute fullscreen"
+              // targetLatency={this.props.targetLatency}
               ref={this.playerRef}
             >
             </livery-player>

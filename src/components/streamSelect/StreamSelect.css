@@ -4,14 +4,16 @@
   margin-bottom: 10px;
   color: white;
   background-color: rgba(255, 255, 255, 0.137);
+  padding: 0;
+  margin: 0;
   display: flex;
-  align-items: center;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
 }
 
 .stream-select-wrap input {
   border: 0;
-  border-bottom: 1px solid black;
   background-color: whitesmoke;
   height: 25px;
   margin-left: 5px;
@@ -25,19 +27,26 @@
   border-color: #30183e;
 }
 
-.stream-select-wrap button {
-  margin-left: 5px;
-  height: 25px;
-}
 
 .stream-select-wrap {
-  width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.options-bar::before{
+  content:"";
+  margin-right:auto;
+  visibility: hidden;
+  width:225px;
+}
+.latency-select-wrap {
+  height: 100%;
+  margin-left: auto;
+  width:225px;
+  display:flex;
+}
 .stream-select-dropdown {
   height: 100%;
   margin-right: 10px;
@@ -54,16 +63,68 @@
   justify-content: center;
 }
 
-@media only screen and (max-width: 500px) {
+.latency-select {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height:100%;
+}
+
+.latency-select input {
+  width: 70px;
+  margin-left: 5px;
+  height: 25px;
+  font-size: 0.9em;
+  background-color: white;
+  color: black;
+  border:1px solid black;
+}
+
+button {
+  background-color: #0000ff;
+  border: 1px solid blue;
+  font-family: "Helvetica", Sans-serif;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 0px 15px 0px 15px;
+  color: white;
+  display: block;
+  margin-left: 10px;
+  margin-right:10px;
+  height: 28px;
+  transition: transform 0.3s;
+}
+
+button:hover {
+  background-color: rgb(0, 0, 220);
+  text-decoration: underline;
+  cursor: pointer;
+  transform: skewX(-10deg);
+}
+
+@media only screen and (max-width: 600px) {
   .stream-select-wrap {
     flex-direction: column;
     align-items: flex-start;
+    justify-content: center;
     width: auto;
   }
+
+  .latency-select-wrap{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top:5px;
+    width:auto;
+    width:100%;
+    border-top:1px solid #53455f;
+  }
   .options-bar {
-    height: 80px;
-    min-height: 80px;
+    height: 110px;
+    min-height: 110px;
     overflow: hidden;
+    flex-direction: column;
   }
 
   .stream-select-wrap span {
@@ -76,7 +137,7 @@
     justify-content: flex-start;
   }
   .stream-select-dropdown select {
-    width: 70%;
+    width: 75%;
     border: 1px solid;
   }
   .stream-select-custom {
@@ -88,5 +149,9 @@
   }
   .stream-select-custom input {
     width: 50%;
+  }
+  button{
+    margin:5px;
+    padding: 0px 10px 0px 10px;
   }
 }

@@ -12,7 +12,8 @@ class StreamSelect extends Component {
     ];
     this.state = {
       currentStream: "5ddb98f5e4b0937e6a4507f2",
-      customStreamID: ""
+      customStreamID: "",
+      customLatencyField: "",
     };
   }
   componentDidMount() {
@@ -71,6 +72,18 @@ class StreamSelect extends Component {
     console.log("LOG: ", id);
     this.setState({ currentStream: id, customStreamID:customId });
   }
+
+  setCustomTargetLatency(event) {
+    event.preventDefault();
+    this.props.setTargetLatency(this.state.customLatencyField);
+  }
+
+  updateLatencyField(event) {
+    let state = this.state;
+    state.customLatencyField = event.target.value;
+    this.setState(state);
+  }
+
   render() {
     return (
       <div className="options-bar">
@@ -112,6 +125,27 @@ class StreamSelect extends Component {
               placeholder="Stream ID"
             ></input>
             <button>Play</button>
+          </form>
+        </div>
+
+        <div className="latency-select-wrap">
+          <form
+            className="latency-select"
+            onSubmit={(e) => {
+              this.setCustomTargetLatency(e);
+            }}
+          >
+            <span>Latency: </span>
+            <input
+              onChange={(e) => {
+                this.updateLatencyField(e);
+              }}
+              value={this.state.customLatencyField || ""}
+              placeholder="Latency"
+              type="number"
+              min="0"
+            ></input>
+            <button>Set</button>
           </form>
         </div>
       </div>

@@ -129,6 +129,7 @@ class App extends Component {
   setTargetLatency(target) { 
     this.player.targetLatency = target;
   }
+  
   render() {
     return (
       <div className="App">

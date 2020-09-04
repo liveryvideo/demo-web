@@ -12,8 +12,8 @@ class StreamSelect extends Component {
     ];
     this.state = {
       currentStream: "5ddb98f5e4b0937e6a4507f2",
-      customStreamID: "",
-      customLatencyField: "",
+      streamIdInput: "",
+      targetLatencyInput: "",
     };
   }
   componentDidMount() {
@@ -25,18 +25,18 @@ class StreamSelect extends Component {
   }
   updateField(event) {
     let state = this.state;
-    state.customStreamID = event.target.value;
+    state.streamIdInput = event.target.value;
     this.setState(state);
   }
   setCustomStream(event) {
     event.preventDefault();
     let state = this.state;
-    state.currentStream = state.customStreamID;
+    state.currentStream = state.streamIdInput;
     this.setState(state);
     window.history.pushState(
       {},
-      this.state.customStreamID,
-      "?stream=" + this.state.customStreamID
+      this.state.streamIdInput,
+      "?stream=" + this.state.streamIdInput
     );
     var popStateEvent = new PopStateEvent("popstate");
     dispatchEvent(popStateEvent);
@@ -70,17 +70,17 @@ class StreamSelect extends Component {
       }
     }
     console.log("LOG: ", id);
-    this.setState({ currentStream: id, customStreamID:customId });
+    this.setState({ currentStream: id, streamIdInput:customId });
   }
 
   setCustomTargetLatency(event) {
     event.preventDefault();
-    this.props.setTargetLatency(this.state.customLatencyField);
+    this.props.setTargetLatency(this.state.targetLatencyInput);
   }
 
   updateLatencyField(event) {
     let state = this.state;
-    state.customLatencyField = event.target.value;
+    state.targetLatencyInput = event.target.value;
     this.setState(state);
   }
 
@@ -121,16 +121,16 @@ class StreamSelect extends Component {
               onChange={(e) => {
                 this.updateField(e);
               }}
-              value={this.state.customStreamID || ""}
+              value={this.state.streamIdInput || ""}
               placeholder="Stream ID"
             ></input>
             <button>Play</button>
           </form>
         </div>
 
-        <div className="latency-select-wrap">
+        <div className="latency-input-wrap">
           <form
-            className="latency-select"
+            className="latency-input"
             onSubmit={(e) => {
               this.setCustomTargetLatency(e);
             }}
@@ -140,8 +140,8 @@ class StreamSelect extends Component {
               onChange={(e) => {
                 this.updateLatencyField(e);
               }}
-              value={this.state.customLatencyField || ""}
-              placeholder="Latency"
+              value={this.state.targetLatencyInput || ""}
+              placeholder="Target"
               type="number"
               min="0"
             ></input>

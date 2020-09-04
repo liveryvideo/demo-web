@@ -41,7 +41,7 @@
   visibility: hidden;
   width:225px;
 }
-.latency-select-wrap {
+.latency-input-wrap {
   height: 100%;
   margin-left: auto;
   width:225px;
@@ -63,14 +63,14 @@
   justify-content: center;
 }
 
-.latency-select {
+.latency-input {
   display: flex;
   align-items: center;
   justify-content: center;
   height:100%;
 }
 
-.latency-select input {
+.latency-input input {
   width: 70px;
   margin-left: 5px;
   height: 25px;
@@ -111,7 +111,7 @@ button:hover {
     width: auto;
   }
 
-  .latency-select-wrap{
+  .latency-input-wrap{
     display: flex;
     align-items: flex-start;
     justify-content: center;

@@ -13,7 +13,6 @@ class StreamSelect extends Component {
     this.state = {
       currentStream: "5ddb98f5e4b0937e6a4507f2",
       streamIdInput: "",
-      targetLatencyInput: "",
     };
   }
   componentDidMount() {
@@ -23,11 +22,13 @@ class StreamSelect extends Component {
       this.updateDropdown();
     };
   }
-  updateField(event) {
+
+  handleStreamInputChange(event) {
     let state = this.state;
     state.streamIdInput = event.target.value;
     this.setState(state);
   }
+
   setCustomStream(event) {
     event.preventDefault();
     let state = this.state;
@@ -41,6 +42,7 @@ class StreamSelect extends Component {
     var popStateEvent = new PopStateEvent("popstate");
     dispatchEvent(popStateEvent);
   }
+
   selectStream(event) {
     let state = this.state;
     state.currentStream = event.target.value;
@@ -70,18 +72,12 @@ class StreamSelect extends Component {
       }
     }
     console.log("LOG: ", id);
-    this.setState({ currentStream: id, streamIdInput:customId });
+    this.setState({ currentStream: id, streamIdInput: customId });
   }
 
-  setCustomTargetLatency(event) {
+  handleLatencySubmit(event) {
     event.preventDefault();
-    this.props.setTargetLatency(this.state.targetLatencyInput);
-  }
-
-  updateLatencyField(event) {
-    let state = this.state;
-    state.targetLatencyInput = event.target.value;
-    this.setState(state);
+    this.props.setTargetLatency(event.target.elements.latencyInput.value);
   }
 
   render() {
@@ -91,9 +87,7 @@ class StreamSelect extends Component {
           <div className="stream-select-dropdown">
             <span>Stream: </span>
             <select
-              onChange={(e) => {
-                this.selectStream(e);
-              }}
+              onChange={(e) => this.selectStream(e)}
               value={this.state.currentStream}
             >
               <optgroup label="ExMG">
@@ -112,15 +106,11 @@ class StreamSelect extends Component {
 
           <form
             className="stream-select-custom"
-            onSubmit={(e) => {
-              this.setCustomStream(e);
-            }}
+            onSubmit={(e) => this.setCustomStream(e)}
           >
             <span>ID: </span>
             <input
-              onChange={(e) => {
-                this.updateField(e);
-              }}
+              onChange={(e) => this.handleStreamInputChange(e)}
               value={this.state.streamIdInput || ""}
               placeholder="Stream ID"
             ></input>
@@ -131,16 +121,11 @@ class StreamSelect extends Component {
         <div className="latency-input-wrap">
           <form
             className="latency-input"
-            onSubmit={(e) => {
-              this.setCustomTargetLatency(e);
-            }}
+            onSubmit={(e) => this.handleLatencySubmit(e)}
           >
             <span>Latency: </span>
             <input
-              onChange={(e) => {
-                this.updateLatencyField(e);
-              }}
-              value={this.state.targetLatencyInput || ""}
+              name="latencyInput"
               placeholder="Target"
               type="number"
               min="0"

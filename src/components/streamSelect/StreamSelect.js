@@ -84,54 +84,59 @@ class StreamSelect extends Component {
     return (
       <div className="options-bar">
         <div className="stream-select-wrap">
-          <div className="stream-select-dropdown">
-            <span>Stream: </span>
-            <select
-              onChange={(e) => this.selectStream(e)}
-              value={this.state.currentStream}
-            >
-              <optgroup label="ExMG">
-                {this.defaultStreams.map((el) => (
-                  <option key={el.id} value={el.id}>
-                    {" "}
-                    {el.name}{" "}
+          <fieldset>
+            <legend>Select Stream</legend>
+            <div className="stream-select-dropdown">
+              <select
+                onChange={(e) => this.selectStream(e)}
+                value={this.state.currentStream}
+              >
+                <optgroup label="ExMG">
+                  {this.defaultStreams.map((el) => (
+                    <option key={el.id} value={el.id}>
+                      {" "}
+                      {el.name}{" "}
+                    </option>
+                  ))}
+                  <option value="custom" disabled="disabled">
+                    Custom
                   </option>
-                ))}
-                <option value="custom" disabled="disabled">
-                  Custom
-                </option>
-              </optgroup>
-            </select>
-          </div>
-
-          <form
-            className="stream-select-custom"
-            onSubmit={(e) => this.setCustomStream(e)}
-          >
-            <span>ID: </span>
-            <input
-              onChange={(e) => this.handleStreamInputChange(e)}
-              value={this.state.streamIdInput || ""}
-              placeholder="Stream ID"
-            ></input>
-            <button>Play</button>
-          </form>
+                </optgroup>
+              </select>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend>Custom Stream</legend>
+            <form
+              className="stream-select-custom"
+              onSubmit={(e) => this.setCustomStream(e)}
+            >
+              <input
+                onChange={(e) => this.handleStreamInputChange(e)}
+                value={this.state.streamIdInput || ""}
+                placeholder="Stream ID"
+              ></input>
+              <button>Play</button>
+            </form>
+          </fieldset>
         </div>
 
         <div className="latency-input-wrap">
-          <form
-            className="latency-input"
-            onSubmit={(e) => this.handleLatencySubmit(e)}
-          >
-            <span>Latency: </span>
-            <input
-              name="latencyInput"
-              placeholder="Target"
-              type="number"
-              min="0"
-            ></input>
-            <button>Set</button>
-          </form>
+          <fieldset>
+            <legend>Target Latency</legend>
+            <form
+              className="latency-input"
+              onSubmit={(e) => this.handleLatencySubmit(e)}
+            >
+              <input
+                name="latencyInput"
+                placeholder="123"
+                type="number"
+                min="0"
+              ></input>
+              <button>Set</button>
+            </form>
+          </fieldset>
         </div>
       </div>
     );

@@ -15,6 +15,7 @@ class StreamSelect extends Component {
       streamIdInput: "",
     };
   }
+
   componentDidMount() {
     this.updateDropdown();
     window.onpopstate = (e) => {

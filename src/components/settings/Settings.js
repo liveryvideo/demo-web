@@ -4,14 +4,13 @@ import "./Settings.css";
 function Segment(props) {
   return (
     <div className="segment">
-        <span className="segment-title">{props.title}</span>
+      <span className="segment-title">{props.title}</span>
       <span className="segment-data">{props.data}</span>
     </div>
   );
 }
 
 class Settings extends Component {
-
   render() {
     return (
       <div className="Settings">

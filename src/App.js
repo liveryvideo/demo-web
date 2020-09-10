@@ -19,7 +19,7 @@ class App extends Component {
       playbackState: "",
       quality: "",
       version: window.exmg.livery.version,
-      config:""
+      config: "",
     };
   }
 
@@ -126,10 +126,10 @@ class App extends Component {
     return `https://cdn.playtotv.com/video-encoder${envSuffix}/remoteconfigs/${customerId}.json`;
   }
 
-  setTargetLatency(target) { 
+  setTargetLatency(target) {
     this.player.targetLatency = target;
   }
-  
+
   render() {
     return (
       <div className="App">
@@ -154,8 +154,7 @@ class App extends Component {
               id="player"
               controls="error mute fullscreen"
               ref={this.playerRef}
-            >
-            </livery-player>
+            ></livery-player>
 
             <div className="info">
               <Settings

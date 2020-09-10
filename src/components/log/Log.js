@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./Log.css";
 
 class Log extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
   }
   render() {
@@ -10,7 +10,11 @@ class Log extends Component {
       <div className="Log">
         <div className="log-level-wrap">
           <span>Log level: </span>
-          <select onChange={this.props.callback} id="log-level" defaultValue="info">
+          <select
+            onChange={this.props.callback}
+            id="log-level"
+            defaultValue="info"
+          >
             <option value="error">error</option>
             <option value="warn">warn</option>
             <option value="info">info</option>

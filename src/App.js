@@ -23,6 +23,10 @@ class App extends Component {
     };
   }
 
+  componentWillMount(){
+    this.setStream();
+  }
+
   componentDidMount() {
     this.player = this.playerRef.current;
     this.player.addEventListener("livery-time-update", (e) => {

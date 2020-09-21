@@ -48,7 +48,6 @@ class Log extends Component {
             }}
             value={this.state.currentLoglevel}
             id="log-level"
-            defaultValue="info"
           >
             {this.logLevels.map((el) => (
               <option key={el.id} value={el.id}>

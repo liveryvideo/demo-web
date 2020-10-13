@@ -4,6 +4,7 @@ import "./App.css";
 import Settings from "./components/settings/Settings";
 import Log from "./components/log/Log";
 import StreamSelect from "./components/streamSelect/StreamSelect";
+import * as livery from '@exmg/livery';
 
 class App extends Component {
   constructor() {
@@ -18,7 +19,7 @@ class App extends Component {
       engineName: "",
       playbackState: "",
       quality: "",
-      version: window.exmg.livery.version,
+      version: livery.version,
       config:""
     };
   }

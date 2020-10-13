@@ -103,8 +103,8 @@ class App extends Component {
     this.setState(state);
   }
 
-  changeLogLevel(event) {
-    this.sdkRef.current.logLevel = event.target.value;
+  changeLogLevel(level) {
+    this.sdkRef.current.logLevel = level;
   }
 
   setStream() {

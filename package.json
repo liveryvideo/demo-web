@@ -9,6 +9,7 @@
   "repository": "github:exmg/livery-demo",
   "dependencies": {
     "@exmg/livery": "^5.18.0",
+    "@sentry/react": "^5.24.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",

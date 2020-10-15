@@ -4,45 +4,42 @@ import "./App.css";
 import Settings from "./components/settings/Settings";
 import Log from "./components/log/Log";
 import StreamSelect from "./components/streamSelect/StreamSelect";
-import * as livery from '@exmg/livery';
+import * as livery from "@exmg/livery";
 
 class App extends Component {
   constructor() {
     super();
     this.playerRef = React.createRef();
     this.graphRef = React.createRef();
-    this.sdkRef = React.createRef();
 
     this.state = {
       buffer: 0,
-      latency: 0,
       engineName: "",
+      latency: 0,
       playbackState: "",
       quality: "",
-      version: livery.version,
-      config:""
+      streamId: this.getStreamId(),
+      version: livery.version
     };
-  }
-
-  componentWillMount(){
-    this.setStream();
   }
 
   componentDidMount() {
     this.player = this.playerRef.current;
-    this.player.addEventListener("livery-time-update", (e) => {
-      this.updateBufferLatency();
-    });
-    this.player.addEventListener("livery-started", (e) => {
-      this.updateEngineName();
-      this.updateQuality();
-    });
-    this.player.addEventListener("livery-playback-change", (e) => {
-      this.updatePlaybackState();
-    });
-    this.player.addEventListener("livery-active-quality-change", (e) => {
-      this.updateQuality();
-    });
+
+    // TODO: Hook these up to this.player.engine somehow..
+    // this.player.addEventListener("livery-time-update", (e) => {
+    //   this.updateBufferLatency();
+    // });
+    // this.player.addEventListener("livery-started", (e) => {
+    //   this.updateEngineName();
+    //   this.updateQuality();
+    // });
+    // this.player.addEventListener("livery-playback-change", (e) => {
+    //   this.updatePlaybackState();
+    // });
+    // this.player.addEventListener("livery-active-quality-change", (e) => {
+    //   this.updateQuality();
+    // });
 
     const graph = this.graphRef.current;
     graph.player = this.player;
@@ -51,28 +48,27 @@ class App extends Component {
     graph.bufferColor = "deeppink";
     graph.latencyColor = "yellow";
     graph.height = "100%";
+
     this.setStream();
   }
 
   updateBufferLatency() {
-    let state = this.state;
-    state.buffer =
-      Math.round((this.player.buffer + Number.EPSILON) * 100) / 100;
-    state.latency =
-      Math.round((this.player.latency + Number.EPSILON) * 100) / 100;
-    this.setState(state);
+    this.setState({
+      buffer: Math.round((this.player.buffer + Number.EPSILON) * 100) / 100,
+      latency: Math.round((this.player.latency + Number.EPSILON) * 100) / 100,
+    });
   }
 
   updateEngineName() {
-    let state = this.state;
-    state.engineName = this.player.engineName.replace("Engine", "");
-    this.setState(state);
+    this.setState({
+      engineName: this.player.engineName.replace("Engine", ""),
+    });
   }
 
   updatePlaybackState() {
-    let state = this.state;
-    state.playbackState = this.player.playbackState;
-    this.setState(state);
+    this.setState({
+      playbackState: this.player.playbackState,
+    });
   }
 
   updateQuality() {
@@ -97,38 +93,27 @@ class App extends Component {
         selectedStr = "(auto)";
       }
     }
-    let quality = `${active ? active.label : ""} ${selectedStr}`;
-    let state = this.state;
-    state.quality = quality;
-    this.setState(state);
+
+    this.setState({
+      quality: `${active ? active.label : ""} ${selectedStr}`,
+    });
   }
 
   changeLogLevel(level) {
-    this.sdkRef.current.logLevel = level;
+    this.playerRef.current.logLevel = level;
+  }
+
+  getStreamId() {
+    const params = new URLSearchParams(window.location.search);
+    const streamId = params.get("stream");
+
+    return streamId || "5ddb98f5e4b0937e6a4507f2";
   }
 
   setStream() {
-    let params = new URLSearchParams(window.location.search);
-    let streamID = params.get("stream");
-
-    if (!streamID) {
-      streamID = "5ddb98f5e4b0937e6a4507f2";
-    }
-    let config = this.getCustomerConfig(streamID);
-    let state = this.state;
-    state.config = config;
-    this.setState(state);
-  }
-  getCustomer(customer) {
-    const parts = customer.split("-");
-    return {
-      customerId: parts[0],
-      envSuffix: parts.length === 2 ? `-${parts[1]}` : "",
-    };
-  }
-  getCustomerConfig(customer) {
-    const { customerId, envSuffix } = this.getCustomer(customer);
-    return `https://cdn.playtotv.com/video-encoder${envSuffix}/remoteconfigs/${customerId}.json`;
+    this.setState({
+      streamId: this.getStreamId(),
+    });
   }
 
   render() {
@@ -140,17 +125,10 @@ class App extends Component {
               this.setStream();
             }}
           ></StreamSelect>
+
           <div className="player-segment">
-            <livery-sdk
-              config={this.state.config}
-              ref={this.sdkRef}
-            ></livery-sdk>
             <livery-player
-              autoplaymuted
-              persistmuted
-              preroll="assets/preroll.mp4"
-              id="player"
-              controls="error mute fullscreen"
+              streamId={this.state.streamId}
               ref={this.playerRef}
             >
             </livery-player>

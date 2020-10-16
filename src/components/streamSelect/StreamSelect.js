@@ -4,25 +4,27 @@ import "./StreamSelect.css";
 class StreamSelect extends Component {
   constructor(props) {
     super(props);
+
     this.defaultStreams = [
-      { id: "5c8b790e8f08e4ad1d1dc339-staging", name: "Angry Bytes" },
-      { id: "5c52edb53e930320967a5d55-dev", name: "Ex Machina" },
       { id: "5ddb98f5e4b0937e6a4507f2", name: "Livery Demo" },
-      { id: "5ddb986ee4b0937e6a4507e9-dev", name: "Robolingo" },
     ];
+
     this.state = {
       currentStream: "5ddb98f5e4b0937e6a4507f2",
       customStreamID: ""
     };
   }
+
   componentDidMount() {
     this.updateDropdown();
   }
+
   updateField(event) {
     let state = this.state;
     state.customStreamID = event.target.value;
     this.setState(state);
   }
+
   setCustomStream(event) {
     event.preventDefault();
     let state = this.state;
@@ -30,6 +32,7 @@ class StreamSelect extends Component {
     this.setState(state);
     this.setUrlParams(this.state.customStreamID);
   }
+
   selectStream(event) {
     let state = this.state;
     state.currentStream = event.target.value;
@@ -64,6 +67,7 @@ class StreamSelect extends Component {
     console.log("LOG: ", id);
     this.setState({ currentStream: id, customStreamID:customId });
   }
+
   render() {
     return (
       <div className="options-bar">

@@ -6,7 +6,6 @@ class StreamSelect extends Component {
     super(props);
 
     this.defaultStreams = [
-      { id: "5d356b00e4b0e89dca2ed0d3", name: "Angry Bytes" },
       { id: "5ddb98f5e4b0937e6a4507f2", name: "Livery Demo" },
     ];
 

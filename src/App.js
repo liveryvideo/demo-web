@@ -13,9 +13,9 @@ class App extends Component {
     this.graphRef = React.createRef();
 
     this.state = {
-      buffer: 0,
+      buffer: "",
       engineName: "",
-      latency: 0,
+      latency: "",
       playbackState: "",
       quality: "",
       streamId: this.getStreamId(),
@@ -26,57 +26,68 @@ class App extends Component {
   componentDidMount() {
     this.player = this.playerRef.current;
 
-    // TODO: Hook these up to this.player.engine somehow..
-    // this.player.addEventListener("livery-time-update", (e) => {
-    //   this.updateBufferLatency();
-    // });
-    // this.player.addEventListener("livery-started", (e) => {
-    //   this.updateEngineName();
-    //   this.updateQuality();
-    // });
-    // this.player.addEventListener("livery-playback-change", (e) => {
-    //   this.updatePlaybackState();
-    // });
-    // this.player.addEventListener("livery-active-quality-change", (e) => {
-    //   this.updateQuality();
-    // });
+    this.player.addEventListener("livery-engine-change", ({engine}) => {
+      if (!engine) {
+        this.updateBuffer(NaN);
+        this.updateEngineName("");
+        this.updateLatency(NaN);
+        this.updatePlaybackState("");
+        this.updateQuality();
+        return;
+      }
+
+      this.updateEngineName(engine.engineName);
+
+      engine.onProperty("buffer", (buffer) => this.updateBuffer(buffer));
+      engine.onProperty("latency", (latency) => this.updateLatency(latency));
+      engine.onProperty("playbackState", (playbackState) => this.updatePlaybackState(playbackState));
+
+      engine.onProperty("activeQuality", () => this.updateQuality(engine));
+      engine.onProperty("qualities", () => this.updateQuality(engine));
+      engine.onProperty("selectedQuality", () => this.updateQuality(engine));
+    });
 
     const graph = this.graphRef.current;
     graph.player = this.player;
-    graph.backgroundColor = "transparent";
-    graph.textColor = "white";
-    graph.bufferColor = "deeppink";
-    graph.latencyColor = "yellow";
-    graph.height = "100%";
 
     this.setStream();
   }
 
-  updateBufferLatency() {
+  updateBuffer(buffer) {
     this.setState({
-      buffer: Math.round((this.player.buffer + Number.EPSILON) * 100) / 100,
-      latency: Math.round((this.player.latency + Number.EPSILON) * 100) / 100,
+      buffer: Number.isNaN(buffer) ? "" : buffer.toFixed(2),
     });
   }
 
-  updateEngineName() {
+  updateEngineName(name) {
     this.setState({
-      engineName: this.player.engineName.replace("Engine", ""),
+      engineName: name.replace("Engine", ""),
     });
   }
 
-  updatePlaybackState() {
+  updateLatency(latency) {
     this.setState({
-      playbackState: this.player.playbackState,
+      latency: Number.isNaN(latency) ? "" : latency.toFixed(2),
     });
   }
 
-  updateQuality() {
+  updatePlaybackState(playbackState) {
+    this.setState({
+      playbackState,
+    });
+  }
+
+  updateQuality(engine) {
+    if (!engine) {
+      this.setState({ quality: "" });
+      return;
+    }
+
     const {
       activeQuality: activeIndex,
       selectedQuality: selectedIndex,
       qualities,
-    } = this.player;
+    } = engine;
 
     const active = Number.isNaN(activeIndex) ? null : qualities[activeIndex];
     const selected = Number.isNaN(selectedIndex)
@@ -106,7 +117,6 @@ class App extends Component {
   getStreamId() {
     const params = new URLSearchParams(window.location.search);
     const streamId = params.get("stream");
-
     return streamId || "5ddb98f5e4b0937e6a4507f2";
   }
 
@@ -152,7 +162,14 @@ class App extends Component {
           </div>
 
           <div className="graph-segment">
-            <livery-buffer-graph ref={this.graphRef}></livery-buffer-graph>
+            <livery-buffer-graph
+              backgroundColor="transparent"
+              textColor="white"
+              bufferColor="deeppink"
+              latencyColor="yellow"
+              height="100%"
+              ref={this.graphRef}
+            ></livery-buffer-graph>
           </div>
         </div>
       </div>

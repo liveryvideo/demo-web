@@ -1,11 +1,11 @@
 # Browsers that we support
 
-Chrome >= 64
-Safari >= 12
-Edge >= 74
-Firefox >= 60
+last 2 Chrome major versions
+last 2 Safari major versions
+last 2 Edge major versions
+last 2 Firefox major versions
 
-ChromeAndroid >= 51
-Samsung >= 6.4
+last 2 ChromeAndroid major versions
+last 2 Samsung major versions
 
 iOS >= 12

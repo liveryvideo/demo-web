@@ -4,8 +4,7 @@
   margin-bottom: 10px;
   color: white;
   background-color: rgba(255, 255, 255, 0.137);
-  padding: 0;
-  margin: 0;
+  padding-bottom: 5px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -47,7 +46,12 @@ fieldset {
   width: 20vw;
   min-width: 150px;
   max-width: 350px;
-  /* border:1px solid red; */
+  margin: 1px 5px 1px 5px;
+  border-color: rgba(255, 255, 255, 0.082);
+}
+
+legend {
+  font-size: 15px;
 }
 
 .stream-select-dropdown {
@@ -55,6 +59,8 @@ fieldset {
   align-items: center;
   justify-content: center;
   height: 30px;
+  min-width: 150px;
+  width: 60%;
 }
 
 .stream-select-custom {
@@ -84,15 +90,15 @@ fieldset {
 button {
   background-color: #0000ff;
   border: 1px solid blue;
-  font-family: "Helvetica", Sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   text-transform: uppercase;
   font-weight: 600;
   font-size: 14px;
-  padding: 0px 15px 0px 15px;
   color: white;
   display: block;
+  width: 30%;
   margin-left: 10px;
-  height: 28px;
+  height: 29px;
   transition: transform 0.3s;
 }
 

@@ -86,7 +86,7 @@ class StreamSelect extends Component {
       <div className="options-bar">
         <div className="stream-select-wrap">
           <fieldset>
-            <legend>Select Stream</legend>
+            <legend align="center">Select Stream</legend>
             <div className="stream-select-dropdown">
               <select
                 onChange={(e) => this.selectStream(e)}
@@ -107,7 +107,7 @@ class StreamSelect extends Component {
             </div>
           </fieldset>
           <fieldset>
-            <legend>Custom Stream</legend>
+            <legend align="center">Custom Stream</legend>
             <form
               className="stream-select-custom"
               onSubmit={(e) => this.setCustomStream(e)}
@@ -124,7 +124,7 @@ class StreamSelect extends Component {
 
         <div className="latency-input-wrap">
           <fieldset>
-            <legend>Target Latency</legend>
+            <legend align="center">Target Latency</legend>
             <form
               className="latency-input"
               onSubmit={(e) => this.handleLatencySubmit(e)}

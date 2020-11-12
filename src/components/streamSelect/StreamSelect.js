@@ -11,7 +11,7 @@ class StreamSelect extends Component {
 
     this.state = {
       currentStream: "5ddb98f5e4b0937e6a4507f2",
-      customStreamID: ""
+      streamIdInput: "",
     };
   }
 
@@ -19,18 +19,18 @@ class StreamSelect extends Component {
     this.updateDropdown();
   }
 
-  updateField(event) {
+  handleStreamInputChange(event) {
     let state = this.state;
-    state.customStreamID = event.target.value;
+    state.streamIdInput = event.target.value;
     this.setState(state);
   }
 
   setCustomStream(event) {
     event.preventDefault();
     let state = this.state;
-    state.currentStream = state.customStreamID;
+    state.currentStream = state.streamIdInput;
     this.setState(state);
-    this.setUrlParams(this.state.customStreamID);
+    this.setUrlParams(this.state.streamIdInput);
   }
 
   selectStream(event) {
@@ -39,7 +39,7 @@ class StreamSelect extends Component {
     this.setState(state);
     this.setUrlParams(event.target.value);
   }
-  
+
   setUrlParams(streamID) {
     let params = new URLSearchParams(window.location.search);
     params.set("stream", streamID);
@@ -65,51 +65,48 @@ class StreamSelect extends Component {
       }
     }
     console.log("LOG: ", id);
-    this.setState({ currentStream: id, customStreamID:customId });
+    this.setState({ currentStream: id, streamIdInput: customId });
   }
 
   render() {
     return (
       <div className="options-bar">
         <div className="stream-select-wrap">
-          <div className="stream-select-dropdown">
-            <span>Stream: </span>
-            <select
-              onChange={(e) => {
-                this.selectStream(e);
-              }}
-              value={this.state.currentStream}
-            >
-              <optgroup label="ExMG">
-                {this.defaultStreams.map((el) => (
-                  <option key={el.id} value={el.id}>
-                    {" "}
-                    {el.name}{" "}
+          <fieldset>
+            <legend align="center">Select Stream</legend>
+            <div className="stream-select-dropdown">
+              <select
+                onChange={(e) => this.selectStream(e)}
+                value={this.state.currentStream}
+              >
+                <optgroup label="ExMG">
+                  {this.defaultStreams.map((el) => (
+                    <option key={el.id} value={el.id}>
+                      {" "}
+                      {el.name}{" "}
+                    </option>
+                  ))}
+                  <option value="custom" disabled="disabled">
+                    Custom
                   </option>
-                ))}
-                <option value="custom" disabled="disabled">
-                  Custom
-                </option>
-              </optgroup>
-            </select>
-          </div>
-
-          <form
-            className="stream-select-custom"
-            onSubmit={(e) => {
-              this.setCustomStream(e);
-            }}
-          >
-            <span>ID: </span>
-            <input
-              onChange={(e) => {
-                this.updateField(e);
-              }}
-              value={this.state.customStreamID || ""}
-              placeholder="Stream ID"
-            ></input>
-            <button>Play</button>
-          </form>
+                </optgroup>
+              </select>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend align="center">Custom Stream</legend>
+            <form
+              className="stream-select-custom"
+              onSubmit={(e) => this.setCustomStream(e)}
+            >
+              <input
+                onChange={(e) => this.handleStreamInputChange(e)}
+                value={this.state.streamIdInput || ""}
+                placeholder="Stream ID"
+              ></input>
+              <button>Play</button>
+            </form>
+          </fieldset>
         </div>
       </div>
     );

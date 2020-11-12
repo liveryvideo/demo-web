@@ -19,14 +19,14 @@ class App extends Component {
       playbackState: "",
       quality: "",
       streamId: this.getStreamId(),
-      version: livery.version
+      version: livery.version,
     };
   }
 
   componentDidMount() {
     this.player = this.playerRef.current;
 
-    this.player.addEventListener("livery-engine-change", ({engine}) => {
+    this.player.addEventListener("livery-engine-change", ({ engine }) => {
       if (!engine) {
         this.updateBuffer(NaN);
         this.updateEngineName("");
@@ -40,7 +40,9 @@ class App extends Component {
 
       engine.onProperty("buffer", (buffer) => this.updateBuffer(buffer));
       engine.onProperty("latency", (latency) => this.updateLatency(latency));
-      engine.onProperty("playbackState", (playbackState) => this.updatePlaybackState(playbackState));
+      engine.onProperty("playbackState", (playbackState) =>
+        this.updatePlaybackState(playbackState)
+      );
 
       engine.onProperty("activeQuality", () => this.updateQuality(engine));
       engine.onProperty("qualities", () => this.updateQuality(engine));
@@ -140,8 +142,7 @@ class App extends Component {
             <livery-player
               streamId={this.state.streamId}
               ref={this.playerRef}
-            >
-            </livery-player>
+            ></livery-player>
 
             <div className="info">
               <Settings

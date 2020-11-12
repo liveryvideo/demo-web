@@ -4,78 +4,92 @@ import "./App.css";
 import Settings from "./components/settings/Settings";
 import Log from "./components/log/Log";
 import StreamSelect from "./components/streamSelect/StreamSelect";
+import * as livery from "@exmg/livery";
 
 class App extends Component {
   constructor() {
     super();
     this.playerRef = React.createRef();
     this.graphRef = React.createRef();
-    this.sdkRef = React.createRef();
 
     this.state = {
-      buffer: 0,
-      latency: 0,
+      buffer: "",
       engineName: "",
+      latency: "",
       playbackState: "",
       quality: "",
-      version: window.exmg.livery.version,
-      config: "",
+      streamId: this.getStreamId(),
+      version: livery.version,
     };
   }
 
   componentDidMount() {
     this.player = this.playerRef.current;
-    this.player.addEventListener("livery-time-update", (e) => {
-      this.updateBufferLatency();
-    });
-    this.player.addEventListener("livery-started", (e) => {
-      this.updateEngineName();
-      this.updateQuality();
-    });
-    this.player.addEventListener("livery-playback-change", (e) => {
-      this.updatePlaybackState();
-    });
-    this.player.addEventListener("livery-active-quality-change", (e) => {
-      this.updateQuality();
+
+    this.player.addEventListener("livery-engine-change", ({ engine }) => {
+      if (!engine) {
+        this.updateBuffer(NaN);
+        this.updateEngineName("");
+        this.updateLatency(NaN);
+        this.updatePlaybackState("");
+        this.updateQuality();
+        return;
+      }
+
+      this.updateEngineName(engine.engineName);
+
+      engine.onProperty("buffer", (buffer) => this.updateBuffer(buffer));
+      engine.onProperty("latency", (latency) => this.updateLatency(latency));
+      engine.onProperty("playbackState", (playbackState) =>
+        this.updatePlaybackState(playbackState)
+      );
+
+      engine.onProperty("activeQuality", () => this.updateQuality(engine));
+      engine.onProperty("qualities", () => this.updateQuality(engine));
+      engine.onProperty("selectedQuality", () => this.updateQuality(engine));
     });
 
     const graph = this.graphRef.current;
     graph.player = this.player;
-    graph.backgroundColor = "transparent";
-    graph.textColor = "white";
-    graph.bufferColor = "deeppink";
-    graph.latencyColor = "yellow";
-    graph.height = "100%";
+
     this.setStream();
   }
 
-  updateBufferLatency() {
-    let state = this.state;
-    state.buffer =
-      Math.round((this.player.buffer + Number.EPSILON) * 100) / 100;
-    state.latency =
-      Math.round((this.player.latency + Number.EPSILON) * 100) / 100;
-    this.setState(state);
+  updateBuffer(buffer) {
+    this.setState({
+      buffer: Number.isNaN(buffer) ? "" : buffer.toFixed(2),
+    });
   }
 
-  updateEngineName() {
-    let state = this.state;
-    state.engineName = this.player.engineName.replace("Engine", "");
-    this.setState(state);
+  updateEngineName(name) {
+    this.setState({
+      engineName: name.replace("Engine", ""),
+    });
   }
 
-  updatePlaybackState() {
-    let state = this.state;
-    state.playbackState = this.player.playbackState;
-    this.setState(state);
+  updateLatency(latency) {
+    this.setState({
+      latency: Number.isNaN(latency) ? "" : latency.toFixed(2),
+    });
   }
 
-  updateQuality() {
+  updatePlaybackState(playbackState) {
+    this.setState({
+      playbackState,
+    });
+  }
+
+  updateQuality(engine) {
+    if (!engine) {
+      this.setState({ quality: "" });
+      return;
+    }
+
     const {
       activeQuality: activeIndex,
       selectedQuality: selectedIndex,
       qualities,
-    } = this.player;
+    } = engine;
 
     const active = Number.isNaN(activeIndex) ? null : qualities[activeIndex];
     const selected = Number.isNaN(selectedIndex)
@@ -92,38 +106,26 @@ class App extends Component {
         selectedStr = "(auto)";
       }
     }
-    let quality = `${active ? active.label : ""} ${selectedStr}`;
-    let state = this.state;
-    state.quality = quality;
-    this.setState(state);
+
+    this.setState({
+      quality: `${active ? active.label : ""} ${selectedStr}`,
+    });
   }
 
-  changeLogLevel(event) {
-    this.sdkRef.current.logLevel = event.target.value;
+  changeLogLevel(level) {
+    this.playerRef.current.logLevel = level;
+  }
+
+  getStreamId() {
+    const params = new URLSearchParams(window.location.search);
+    const streamId = params.get("stream");
+    return streamId || "5ddb98f5e4b0937e6a4507f2";
   }
 
   setStream() {
-    let params = new URLSearchParams(window.location.search);
-    let streamID = params.get("stream");
-
-    if (!streamID) {
-      streamID = "5ddb98f5e4b0937e6a4507f2";
-    }
-    let config = this.getCustomerConfig(streamID);
-    let state = this.state;
-    state.config = config;
-    this.setState(state);
-  }
-  getCustomer(customer) {
-    const parts = customer.split("-");
-    return {
-      customerId: parts[0],
-      envSuffix: parts.length === 2 ? `-${parts[1]}` : "",
-    };
-  }
-  getCustomerConfig(customer) {
-    const { customerId, envSuffix } = this.getCustomer(customer);
-    return `https://cdn.playtotv.com/video-encoder${envSuffix}/remoteconfigs/${customerId}.json`;
+    this.setState({
+      streamId: this.getStreamId(),
+    });
   }
 
   setTargetLatency(target) {
@@ -142,17 +144,10 @@ class App extends Component {
               this.setTargetLatency(latency);
             }}
           ></StreamSelect>
+
           <div className="player-segment">
-            <livery-sdk
-              config={this.state.config}
-              ref={this.sdkRef}
-            ></livery-sdk>
             <livery-player
-              autoplaymuted
-              persistmuted
-              preroll="assets/preroll.mp4"
-              id="player"
-              controls="error mute fullscreen"
+              streamId={this.state.streamId}
               ref={this.playerRef}
             ></livery-player>
 
@@ -175,7 +170,14 @@ class App extends Component {
           </div>
 
           <div className="graph-segment">
-            <livery-buffer-graph ref={this.graphRef}></livery-buffer-graph>
+            <livery-buffer-graph
+              backgroundColor="transparent"
+              textColor="white"
+              bufferColor="deeppink"
+              latencyColor="yellow"
+              height="100%"
+              ref={this.graphRef}
+            ></livery-buffer-graph>
           </div>
         </div>
       </div>

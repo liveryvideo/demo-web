@@ -4,12 +4,11 @@ import "./StreamSelect.css";
 class StreamSelect extends Component {
   constructor(props) {
     super(props);
+
     this.defaultStreams = [
-      { id: "5c8b790e8f08e4ad1d1dc339-staging", name: "Angry Bytes" },
-      { id: "5c52edb53e930320967a5d55-dev", name: "Ex Machina" },
       { id: "5ddb98f5e4b0937e6a4507f2", name: "Livery Demo" },
-      { id: "5ddb986ee4b0937e6a4507e9-dev", name: "Robolingo" },
     ];
+
     this.state = {
       currentStream: "5ddb98f5e4b0937e6a4507f2",
       streamIdInput: "",
@@ -18,10 +17,6 @@ class StreamSelect extends Component {
 
   componentDidMount() {
     this.updateDropdown();
-    window.onpopstate = (e) => {
-      this.props.setStream();
-      this.updateDropdown();
-    };
   }
 
   handleStreamInputChange(event) {
@@ -35,26 +30,23 @@ class StreamSelect extends Component {
     let state = this.state;
     state.currentStream = state.streamIdInput;
     this.setState(state);
-    window.history.pushState(
-      {},
-      this.state.streamIdInput,
-      "?stream=" + this.state.streamIdInput
-    );
-    var popStateEvent = new PopStateEvent("popstate");
-    dispatchEvent(popStateEvent);
+    this.setUrlParams(this.state.customStreamID);
   }
 
   selectStream(event) {
     let state = this.state;
     state.currentStream = event.target.value;
     this.setState(state);
-    window.history.pushState(
-      {},
-      event.target.value,
-      "?stream=" + event.target.value
-    );
-    var popStateEvent = new PopStateEvent("popstate");
-    dispatchEvent(popStateEvent);
+    this.setUrlParams(event.target.value);
+  }
+
+  setUrlParams(streamID) {
+    let params = new URLSearchParams(window.location.search);
+    params.set("stream", streamID);
+    window.history.pushState(streamID, streamID, "?" + params);
+
+    this.props.setStream();
+    this.updateDropdown();
   }
 
   updateDropdown() {

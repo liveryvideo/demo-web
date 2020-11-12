@@ -68,11 +68,6 @@ class StreamSelect extends Component {
     this.setState({ currentStream: id, streamIdInput: customId });
   }
 
-  handleLatencySubmit(event) {
-    event.preventDefault();
-    this.props.setTargetLatency(event.target.elements.latencyInput.value);
-  }
-
   render() {
     return (
       <div className="options-bar">
@@ -110,24 +105,6 @@ class StreamSelect extends Component {
                 placeholder="Stream ID"
               ></input>
               <button>Play</button>
-            </form>
-          </fieldset>
-        </div>
-
-        <div className="latency-input-wrap">
-          <fieldset>
-            <legend align="center">Target Latency</legend>
-            <form
-              className="latency-input"
-              onSubmit={(e) => this.handleLatencySubmit(e)}
-            >
-              <input
-                name="latencyInput"
-                placeholder="123"
-                type="number"
-                min="0"
-              ></input>
-              <button>Set</button>
             </form>
           </fieldset>
         </div>

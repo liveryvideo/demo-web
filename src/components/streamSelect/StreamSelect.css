@@ -18,6 +18,7 @@
   margin-left: 5px;
   width: 50%;
 }
+
 .stream-select-wrap select {
   margin-left: 5px;
   height: 25px;
@@ -33,11 +34,6 @@
   align-items: center;
 }
 
-.latency-input-wrap {
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
 fieldset {
   display: flex;
   align-items: flex-start;
@@ -68,23 +64,6 @@ legend {
   align-items: center;
   justify-content: center;
   height: 30px;
-}
-
-.latency-input {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 30px;
-}
-
-.latency-input input {
-  width: 50%;
-  margin-left: 5px;
-  height: 25px;
-  font-size: 0.9em;
-  background-color: white;
-  color: black;
-  border: 1px solid black;
 }
 
 button {

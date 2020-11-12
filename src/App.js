@@ -128,10 +128,6 @@ class App extends Component {
     });
   }
 
-  setTargetLatency(target) {
-    this.player.targetLatency = target;
-  }
-
   render() {
     return (
       <div className="App">
@@ -139,9 +135,6 @@ class App extends Component {
           <StreamSelect
             setStream={() => {
               this.setStream();
-            }}
-            setTargetLatency={(latency) => {
-              this.setTargetLatency(latency);
             }}
           ></StreamSelect>
 

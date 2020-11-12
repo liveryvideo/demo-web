@@ -30,7 +30,7 @@ class StreamSelect extends Component {
     let state = this.state;
     state.currentStream = state.streamIdInput;
     this.setState(state);
-    this.setUrlParams(this.state.customStreamID);
+    this.setUrlParams(this.state.streamIdInput);
   }
 
   selectStream(event) {

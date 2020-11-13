@@ -5,7 +5,10 @@ import * as Sentry from "@sentry/react";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
-Sentry.init({ dsn: "https://1f420ec150ec4548b3d6e8410a60f421@o86124.ingest.sentry.io/5389408" });
+Sentry.init({
+  dsn:
+    "https://1f420ec150ec4548b3d6e8410a60f421@o86124.ingest.sentry.io/5389408",
+});
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,16 +20,4 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.register({
-  onUpdate: registration => {
-    const waitingServiceWorker = registration.waiting;  
-    if (waitingServiceWorker) {
-      waitingServiceWorker.addEventListener("statechange", event => {
-        if (event.target.state === "activated") {
-          window.location.reload()
-        }
-      });
-      waitingServiceWorker.postMessage({ type: "SKIP_WAITING" });
-    }
-  }
-});
+serviceWorker.unregister();

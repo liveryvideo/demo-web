@@ -8,7 +8,7 @@
   "license": "MIT",
   "repository": "github:exmg/livery-demo",
   "dependencies": {
-    "@exmg/livery": "^6.1.0",
+    "@exmg/livery": "^6.2.0",
     "@sentry/react": "^5.24.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",

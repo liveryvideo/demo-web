@@ -41,7 +41,7 @@ class App extends Component {
       engine.onProperty("buffer", (buffer) => this.updateBuffer(buffer));
       engine.onProperty("latency", (latency) => this.updateLatency(latency));
       engine.onProperty("playbackState", (playbackState) =>
-        this.updatePlaybackState(playbackState)
+        this.updatePlaybackState(playbackState),
       );
 
       engine.onProperty("activeQuality", () => this.updateQuality(engine));

@@ -20,23 +20,17 @@ class StreamSelect extends Component {
   }
 
   handleStreamInputChange(event) {
-    let state = this.state;
-    state.streamIdInput = event.target.value;
-    this.setState(state);
+    this.setState({ streamIdInput: event.target.value });
   }
 
   setCustomStream(event) {
     event.preventDefault();
-    let state = this.state;
-    state.currentStream = state.streamIdInput;
-    this.setState(state);
+    this.setState({ currentStream: this.state.streamIdInput });
     this.setUrlParams(this.state.streamIdInput);
   }
 
   selectStream(event) {
-    let state = this.state;
-    state.currentStream = event.target.value;
-    this.setState(state);
+    this.setState({ currentStream: event.target.value });
     this.setUrlParams(event.target.value);
   }
 

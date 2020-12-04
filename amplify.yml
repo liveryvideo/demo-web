@@ -8,12 +8,12 @@ frontend:
   artifacts:
     baseDirectory: /build
     files:
-      - '**/*'
+      - "**/*"
   cache:
     paths:
-      - '$HOME/.npm'
+      - "$HOME/.npm"
   customHeaders:
-    - pattern: '/assets/*'
+    - pattern: "/assets/*"
       headers:
-        - key: 'Access-Control-Allow-Origin'
-          value: '*'
+        - key: "Access-Control-Allow-Origin"
+          value: "*"

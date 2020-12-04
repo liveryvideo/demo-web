@@ -8,7 +8,6 @@ Check it out at: [demo.liveryvideo.com](https://demo.liveryvideo.com)
 
 More information can be found at: [liveryvideo.com](https://liveryvideo.com)
 
-
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

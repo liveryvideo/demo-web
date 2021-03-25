@@ -92,6 +92,7 @@ livery-buffer-graph {
   }
 
   livery-player {
+    height: 50vh;
     width: 100%;
   }
 

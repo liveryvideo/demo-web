@@ -1,12 +1,12 @@
 {
-  "name": "@exmg/livery-demo",
+  "name": "@liveryvideo/demo",
   "version": "0.1.0",
   "private": false,
-  "description": "Demo use of Ex Machina Group Livery Web SDK (@exmg/livery).",
-  "author": "Ex Machina Group",
+  "description": "Demo use of Livery Video Player (@liveryvideo/player).",
+  "author": "Livery Video",
   "homepage": "https://demo.liveryvideo.com/",
   "license": "MIT",
-  "repository": "github:exmg/livery-demo",
+  "repository": "github:liveryvideo/demo-web",
   "dependencies": {
     "@exmg/livery": "^6.4.0",
     "@sentry/react": "^6.3.5",

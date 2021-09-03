@@ -73,7 +73,7 @@ class StreamSelect extends Component {
                 onChange={(e) => this.selectStream(e)}
                 value={this.state.currentStream}
               >
-                <optgroup label="ExMG">
+                <optgroup label="Stream">
                   {this.defaultStreams.map((el) => (
                     <option key={el.id} value={el.id}>
                       {" "}

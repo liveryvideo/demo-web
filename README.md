@@ -1,8 +1,8 @@
 # Livery Demo
 
-[![Built with @exmg/livery SDK](https://img.shields.io/badge/built%20with-%40exmg%2Flivery-blue)](https://www.npmjs.com/package/@exmg/livery)
+[![Built with @liveryvideo/player](https://img.shields.io/badge/built%20with-%40liveryvideo%2Fplayer-blue)](https://www.npmjs.com/package/@liveryvideo/player)
 
-Demo use of Ex Machina Group Livery Web SDK ([@exmg/livery](https://www.npmjs.com/package/@exmg/livery)).
+Demo use of Livery Video Player ([@liveryvideo/player](https://www.npmjs.com/package/@liveryvideo/player)).
 
 Check it out at: [demo.liveryvideo.com](https://demo.liveryvideo.com)
 

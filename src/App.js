@@ -4,7 +4,7 @@ import "./App.css";
 import Settings from "./components/settings/Settings";
 import Log from "./components/log/Log";
 import StreamSelect from "./components/streamSelect/StreamSelect";
-import * as livery from "@exmg/livery";
+import * as player from "@liveryvideo/player";
 
 class App extends Component {
   constructor() {
@@ -19,7 +19,7 @@ class App extends Component {
       playbackState: "",
       quality: "",
       streamId: this.getStreamId(),
-      version: livery.version,
+      version: player.version,
     };
   }
 

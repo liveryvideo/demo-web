@@ -36,7 +36,7 @@ class App extends Component {
         return;
       }
 
-      this.updateEngineName(engine.engineName);
+      this.updateEngineName(engine.constructor.className);
 
       engine.onProperty("buffer", (buffer) => this.updateBuffer(buffer));
       engine.onProperty("latency", (latency) => this.updateLatency(latency));

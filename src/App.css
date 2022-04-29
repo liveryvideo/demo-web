@@ -25,6 +25,7 @@
 
 livery-player {
   width: 70%;
+  min-width: 0;
   object-fit: contain;
   z-index: 999;
   justify-self: flex-start;

@@ -22,7 +22,7 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject",
-    "prettier": "prettier src -check"
+    "prettier": "prettier src  --check"
   },
   "eslintConfig": {
     "extends": "react-app"

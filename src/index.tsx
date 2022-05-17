@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import '@css/global.css'
 import * as Sentry from '@sentry/react'
 import App from './App'
+import './services/i18n'
 import * as serviceWorker from './serviceWorker'
 
 Sentry.init({

@@ -1,0 +1,11 @@
+{
+  "stream_select": {
+    "select_stream": "Select Stream",
+    "custom_stream" : "Custom Stream",
+    "stream_id": "Stream ID",
+    "play": "Play"
+  },
+  "log": {
+    "log_level": "Log level:"
+  }
+}

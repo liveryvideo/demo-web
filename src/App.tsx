@@ -102,7 +102,7 @@ const App = () => {
 
   return (
     <div className={styles.app}>
-      <div className={styles.demopageWrap}>
+      <div className={styles.demoPageWrap}>
         <StreamSelect
           setStream={() => {
             setStreamId(getStreamId())

@@ -4,7 +4,8 @@ export const app = style({
   height: '100%',
   textAlign: 'center',
 })
-export const demopageWrap = style({
+
+export const demoPageWrap = style({
   backgroundImage:
     '-webkit-linear-gradient(-45deg,22112c0%,22112c60%,30183e60%,30183e65%,29173865%,29173870%,22173070%,22173075%,18162775%,18162780%,22112c80%)',
   display: 'flex',

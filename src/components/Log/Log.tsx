@@ -1,10 +1,11 @@
 import React from 'react'
-
+import {useTranslation} from 'react-i18next'
 import { LOG_LEVELS } from '@constants/log'
 
 import * as styles from './Log.css'
 
 const Log = ({ callback }) => {
+  const { t } = useTranslation()
   const [currentLoglevel, setCurrentLoglevel] = React.useState(LOG_LEVELS.error.id)
 
   const handleLevelChange = React.useCallback(
@@ -25,7 +26,7 @@ const Log = ({ callback }) => {
   return (
     <div className={styles.log}>
       <div className={styles.logLevelWrap}>
-        <span className={styles.logLevelTitle}>Log level: </span>
+        <span className={styles.logLevelTitle}>{t('log_level')}</span>
         <select className={styles.logLevelSelect} onChange={handleLevelChange} value={currentLoglevel} id="log-level">
           {Object.values(LOG_LEVELS).map(({ id, name }) => (
             <option key={id} value={id}>

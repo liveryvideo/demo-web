@@ -8,7 +8,7 @@
   "license": "MIT",
   "repository": "github:liveryvideo/demo-web",
   "dependencies": {
-    "@liveryvideo/player": "^7.0.1",
+    "@liveryvideo/player": "^7.1.0",
     "@sentry/react": "^6.12.0",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.6",

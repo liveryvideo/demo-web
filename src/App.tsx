@@ -2,6 +2,8 @@ import React from 'react'
 
 import { PlayerProvider } from '@contexts/PlayerContext'
 
+import useWindowSize from '@hooks/useWindowSize'
+
 import StreamSelect from "@components/StreamSelect";
 import Log from "@components/Log";
 import PlayerInfo from "@components/PlayerInfo";
@@ -13,23 +15,36 @@ import Logo from "@assets/logo.svg";
 import * as styles from "./App.css";
 
 const App = () => {
+  const appRef = React.useRef()
+  const windowSize = useWindowSize()
+
+  React.useEffect(() => {
+    if (appRef?.current) {
+      if (windowSize.width >= 992 ) {
+        const firstRow = windowSize.height * 75 / 100
+        const secondRow = (windowSize.height * 25 / 100) - 120
+        // @ts-ignore
+        appRef.current.style.gridTemplateRows = `${firstRow}px ${secondRow}px`
+      } else {
+        // @ts-ignore
+        appRef.current.style.gridTemplateRows = null
+      }
+    }
+
+  }, [windowSize])
+
   return (
-    <div className={styles.app}>
+    <div className={styles.app} ref={appRef}>
       <PlayerProvider>
         <div className={styles.infoSegment}>
           <div className={styles.content}>
             <img src={Logo} className={styles.logo} alt="" />
-            <div>
-              <p>
-                Do you want to get started with the player. Please review our{' '}
-                <a href="https://docs.liveryvideo.com/">documentation</a>.
-              </p>
-              <p>Select one of the test streams to test functions and performance using the Livery player.</p>
-            </div>
           </div>
           <StreamSelect />
         </div>
-        <Log className={styles.logSegment} />
+        <div className={styles.logSegment}>
+          <Log />
+        </div>
         <div className={styles.playerSegment}>
           <PlayerInfo title={'Livery demo stream'} />
           <div className={styles.playerContainer}>

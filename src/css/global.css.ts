@@ -25,7 +25,7 @@ globalStyle('#root', {
 })
 
 globalStyle('code', {
-  fontFamily: 'source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace',
+  fontFamily: '"Raleway", sans-serif',
 })
 
 globalStyle('livery-buffer-graph', {

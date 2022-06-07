@@ -58,6 +58,15 @@ const StreamSelect = () => {
 
   return (
     <div className={styles.container}>
+      <div>
+        <div>
+          <p>
+            Do you want to get started with the player. Please review our{' '}
+            <a href="https://docs.liveryvideo.com/">documentation</a>.
+          </p>
+          <p>Select one of the test streams to test functions and performance using the Livery player.</p>
+        </div>
+      </div>
       <fieldset className={styles.formContainer}>
         <legend className={styles.formLegend}>{t('stream_select.select_stream')}</legend>
         <Select options={[DEFAULT_STREAM, CUSTOM_STREAM]} selectedOption={currentStream} onChange={setCurrentStream} />

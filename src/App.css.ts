@@ -8,7 +8,6 @@ export const app = style({
     '(min-width: 992px)': {
       gridGap: '40px',
       gridTemplateColumns: '40% 1fr',
-      gridTemplateRows: '1fr 300px',
       gridTemplateAreas: '"info player" "log graph"',
     },
     '(min-width: 1200px)': {
@@ -26,7 +25,6 @@ export const infoSegment = style({
   backgroundColor: '#e8eefc',
   borderRadius: '10px',
   flexDirection: 'column',
-  // height: '100%',
   justifyContent: 'space-between',
   minWidth: '300px',
   overflow: 'hidden',
@@ -49,6 +47,8 @@ export const playerSegment = style({
 export const playerContainer = style({
   display: 'flex',
   flex: 1,
+  minHeight: '300px',
+  overflow: 'hidden'
 })
 
 export const graphSegment = style({
@@ -57,6 +57,7 @@ export const graphSegment = style({
 
 export const logSegment = style({
   gridArea: 'log',
+  overflow: 'hidden',
 })
 
 export const content = style({

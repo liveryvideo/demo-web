@@ -15,24 +15,26 @@ const Graph = ({ className }) => {
     if (graphRef?.current) {
       setGraph(graphRef?.current)
     }
-  }, [])
+  }, [setGraph])
 
   return (
     <div className={cx(styles.container, className)}>
       <div className={styles.chipsContainer}>
-        <Chip label="Buffer" value={buffer} />
-        <Chip label="Latency" value={latency} mode="dark" />
+        <Chip label="Latency" value={latency} />
+        <Chip label="Buffer" value={buffer} mode="dark" />
       </div>
       <div className={styles.graphContainer}>
-        <livery-buffer-graph
-          backgroundColor="white"
-          textColor="#18162d"
-          audioColor="#db93ff"
-          bufferColor="#929aff"
-          latencyColor="#18162d"
-          width="100%"
-          ref={graphRef}
-        />
+        <div className={styles.graph}>
+          <livery-buffer-graph
+            backgroundColor="white"
+            textColor="#18162d"
+            audioColor="#db93ff"
+            bufferColor="#18162d"
+            latencyColor="#929aff"
+            width="100%"
+            ref={graphRef}
+          />
+        </div>
       </div>
     </div>
   )

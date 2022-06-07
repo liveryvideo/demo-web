@@ -20,7 +20,7 @@ const App = () => {
 
   React.useEffect(() => {
     if (appRef?.current) {
-      if (windowSize.width >= 992 ) {
+      if (windowSize.width >= 992 && windowSize.height >= 992  ) {
         const firstRow = windowSize.height * 75 / 100
         const secondRow = (windowSize.height * 25 / 100) - 120
         // @ts-ignore

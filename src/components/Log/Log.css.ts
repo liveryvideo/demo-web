@@ -1,49 +1,104 @@
-import { style } from '@vanilla-extract/css'
+import { style, styleVariants } from '@vanilla-extract/css'
+import { theme } from '@css/theme.css'
 
 export const log = style({
-  alignItems: 'center',
-  backgroundColor: 'transparent',
   display: 'flex',
+  backgroundColor: 'transparent',
   flexDirection: 'column',
-  height: '50%',
   justifyContent: 'center',
   width: '100%',
+})
+
+export const logBox = style({
+  overflowY: 'scroll',
+  textAlign: 'left',
   '@media': {
-    'only screen and (max-width: 650px)': {
-      height: '250px',
-      marginTop: '20px',
+    '(max-width: 991px)': {
+      height: '200px',
+    },
+    '(min-width: 992px)': {
+      flex: 1,
     },
   },
 })
 
-export const logBox = style({
-  backgroundColor: 'rgba(75,75,75,0.349)',
-  borderTop: '1px solid grey',
-  color: 'white',
-  height: '85%',
-  overflowY: 'scroll',
-  textAlign: 'left',
-  width: '90%',
+export const logPanel = style({
+  display: 'flex',
+  flexDirection: 'column',
+  '@media': {
+    '(min-width: 500px)': {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    '(min-width: 992px)': {
+      flexDirection: 'column',
+    },
+    '(min-width: 1200px)': {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+  },
 })
 
-export const logLevelWrap = style({
-  alignItems: 'center',
+export const line = style({
+  height: '7px',
+  margin: '0 0 7px',
+  borderRadius: '10px',
+  backgroundColor: theme.colors.selagoLight,
+})
+
+export const logNavigation = style({
   display: 'flex',
-  justifyContent: 'space-evenly',
-  marginBottom: '5px',
   position: 'relative',
-  width: '90%',
+  listStyle: 'none',
+  padding: 0,
+  margin: 0,
+  '@media': {
+    '(min-width: 768px)': {
+      marginRight: '30px',
+    },
+  },
+})
+
+const logNavigationItemBase = style({
+  display: 'flex',
+  height: '35px',
+  padding: '0 10px',
+  cursor: 'pointer',
+  justifyContent: 'center',
+  alignItems: 'center',
+  '@media': {
+    '(min-width: 768px)': {
+      width: '60px',
+    },
+    '(min-width: 1500px)': {
+      width: '75px',
+    },
+    '(min-width: 1700px)': {
+      width: '90px',
+    },
+  },
+})
+
+export const logNavigationItem = styleVariants({
+  base: [
+    logNavigationItemBase,
+    {
+      color: theme.colors.melrose,
+      textDecoration: 'underline',
+    },
+  ],
+  active: [
+    logNavigationItemBase,
+    {
+      color: theme.colors.mirage,
+      fontWeight: 700,
+      backgroundColor: theme.colors.selagoLight,
+      borderRadius: '10px 10px 0 0',
+    },
+  ],
 })
 
 export const logLevelTitle = style({
-  color: 'white',
-})
-
-export const logLevelSelect = style({
-  backgroundColor: 'white',
-  borderColor: '#30183e',
-  color: 'black',
-  fontSize: '1em',
-  textAlign: 'center',
-  width: '50%',
+  lineHeight: '35px',
 })

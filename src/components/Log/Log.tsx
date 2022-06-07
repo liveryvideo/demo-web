@@ -1,43 +1,46 @@
 import React from 'react'
-import {useTranslation} from 'react-i18next'
+import { useTranslation } from 'react-i18next'
+
 import { LOG_LEVELS } from '@constants/log'
+
+import { PlayerContext } from '@contexts/PlayerContext'
+
+import cx from '@utils/cx'
 
 import * as styles from './Log.css'
 
-const Log = ({ callback }) => {
+interface LogProps {
+  className?: string
+}
+
+const Log = ({ className }: LogProps) => {
+  const { changeLogLevel, logLevel } = React.useContext(PlayerContext)
   const { t } = useTranslation()
-  const [currentLoglevel, setCurrentLoglevel] = React.useState(LOG_LEVELS.error.id)
 
-  const handleLevelChange = React.useCallback(
-    event => {
-      setCurrentLoglevel(event.target.value)
-      setUrlParams(event.target.value)
-      callback(event.target.value)
-    },
-    [callback]
-  )
-
-  const setUrlParams = level => {
-    let params = new URLSearchParams(window.location.search)
-    params.set('log', level)
-    window.history.pushState(level, level, '?' + params)
-  }
+  const renderNavigation = React.useMemo(() => {
+    return (
+      <ul className={styles.logNavigation}>
+        {Object.values(LOG_LEVELS).map(({ id, name }) => (
+          <li
+            key={id}
+            className={styles.logNavigationItem[id === logLevel ? 'active' : 'base']}
+            onClick={() => changeLogLevel(id)}
+          >
+            <span>{name}</span>
+          </li>
+        ))}
+      </ul>
+    )
+  }, [logLevel, changeLogLevel])
 
   return (
-    <div className={styles.log}>
-      <div className={styles.logLevelWrap}>
-        <span className={styles.logLevelTitle}>{t('log_level')}</span>
-        <select className={styles.logLevelSelect} onChange={handleLevelChange} value={currentLoglevel} id="log-level">
-          {Object.values(LOG_LEVELS).map(({ id, name }) => (
-            <option key={id} value={id}>
-              {name}
-            </option>
-          ))}
-        </select>
+    <div className={cx(styles.log, className)}>
+      <div className={styles.logPanel}>
+        <span className={styles.logLevelTitle}>{t('log.log_level')}</span>
+        {renderNavigation}
       </div>
+      <div className={styles.line} />
       <div className={styles.logBox}>
-        {/*
-           // @ts-ignore */}
         <livery-log />
       </div>
     </div>

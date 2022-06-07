@@ -1,5 +1,6 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
+import * as ReactDOMClient from 'react-dom/client'
+import 'modern-normalize'
 import '@css/global.css'
 import * as Sentry from '@sentry/react'
 import App from './App'
@@ -10,11 +11,12 @@ Sentry.init({
   dsn: 'https://1f420ec150ec4548b3d6e8410a60f421@o86124.ingest.sentry.io/5389408',
 })
 
-ReactDOM.render(
+const root = ReactDOMClient.createRoot(document.getElementById('root') as HTMLElement)
+
+root.render(
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 )
 
 // If you want your app to work offline and load faster, you can change

@@ -1,64 +1,89 @@
 import { style } from '@vanilla-extract/css'
 
 export const app = style({
-  height: '100%',
-  textAlign: 'center',
-})
-
-export const demoPageWrap = style({
-  backgroundImage:
-    '-webkit-linear-gradient(-45deg,22112c0%,22112c60%,30183e60%,30183e65%,29173865%,29173870%,22173070%,22173075%,18162775%,18162780%,22112c80%)',
-  display: 'flex',
-  flexDirection: 'column',
-  height: '100%',
+  display: 'grid',
+  gridGap: '20px',
+  gridTemplateAreas: '"info" "player" "graph" "log"',
   '@media': {
-    'only screen and (max-width: 650px)': {
-      backgroundImage:
-        '-webkit-linear-gradient(-25deg,22112c0%,22112c60%,30183e60%,30183e65%,29173865%,29173870%,22173070%,22173075%,18162775%,18162780%,22112c80%)',
-      height: 'auto',
+    '(min-width: 992px)': {
+      gridGap: '40px',
+      gridTemplateColumns: '40% 1fr',
+      gridTemplateRows: '1fr 300px',
+      gridTemplateAreas: '"info player" "log graph"',
+    },
+    '(min-width: 1200px)': {
+      gridTemplateColumns: '35% 1fr',
+    },
+    '(min-width: 1800px)': {
+      gridTemplateColumns: '600px 1fr',
     },
   },
 })
 
-export const graphSegment = style({
-  alignItems: 'center',
+export const infoSegment = style({
   display: 'flex',
-  height: '40%',
-  justifyContent: 'center',
-  minHeight: '300px',
-})
-
-export const info = style({
-  background: 'transparent',
-  display: 'flex',
+  padding: '20px',
+  backgroundColor: '#e8eefc',
+  borderRadius: '10px',
   flexDirection: 'column',
-  height: '100%',
-  justifyContent: 'space-evenly',
+  // height: '100%',
+  justifyContent: 'space-between',
   minWidth: '300px',
   overflow: 'hidden',
-  width: '20%',
   '@media': {
-    'only screen and (max-width: 650px)': {
-      paddingBottom: '20px',
-      paddingTop: '20px',
-      width: '90%',
+    '(min-width: 1200px)': {
+      paddingLeft: '30px',
+      paddingRight: '30px',
+      paddingBottom: '40px',
+      paddingTop: '70px',
     },
   },
 })
 
 export const playerSegment = style({
-  alignItems: 'auto',
-  backgroundColor: 'transparent',
   display: 'flex',
-  height: '55%',
-  justifyContent: 'space-around',
-  minHeight: '300px',
-  width: '100%',
+  flexDirection: 'column',
+  gridArea: 'player'
+})
+
+export const playerContainer = style({
+  display: 'flex',
+  flex: 1,
+})
+
+export const graphSegment = style({
+  gridArea: 'graph',
+})
+
+export const logSegment = style({
+  gridArea: 'log',
+})
+
+export const content = style({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+})
+
+export const logo = style({
+  width: '150px',
+  marginBottom: '20px',
   '@media': {
-    'only screen and (max-width: 650px)': {
-      alignItems: 'center',
-      flexDirection: 'column',
-      height: 'auto',
+    '(min-width: 1200px)': {
+      marginBottom: '45px',
     },
   },
+})
+
+export const chipBuffer = style({
+  gridArea: 'buffer'
+})
+
+export const chipLatency = style({
+  gridArea: 'latency'
+})
+
+export const graph = style({
+  gridArea: 'graph'
 })

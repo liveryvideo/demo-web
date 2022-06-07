@@ -3,6 +3,10 @@ import { initReactI18next } from 'react-i18next'
 import commonEn from '../lang/en/common_en.json'
 
 i18n.use(initReactI18next).init({
+  react: {
+    transSupportBasicHtmlNodes: true,
+    transKeepBasicHtmlNodesFor: ['br', 'strong', 'i', 'span', 'p', 'a'],
+  },
   interpolation: { escapeValue: false },
   resources: {
     en: {

@@ -1,70 +1,52 @@
 import { style } from '@vanilla-extract/css'
 
-export const optionsBar = style({
-  alignItems: 'center',
-  backgroundColor: 'rgba(255,255,255,0.137)',
-  color: 'white',
+export const container = style({
   display: 'flex',
-  flexDirection: 'row',
-  height: '65px',
-  justifyContent: 'center',
-  marginBottom: '10px',
-  minHeight: '65px',
-  paddingBottom: '5px',
-  '@media': {
-    'only screen and (max-width: 600px)': {
-      flexDirection: 'column',
-      height: '65px',
-      minHeight: '65px',
-      overflow: 'hidden',
-    },
-  },
+  flexDirection: 'column',
+  gridGap: '30px',
 })
 
 export const streamSelectCustom = style({
-  alignItems: 'center',
   display: 'flex',
-  height: '30px',
-  justifyContent: 'center',
-})
-
-export const streamSelectDropdown = style({
-  alignItems: 'center',
-  display: 'flex',
-  height: '30px',
-  justifyContent: 'center',
-  minWidth: '150px',
-  width: '60%',
-})
-
-export const streamSelectWrap = style({
-  alignItems: 'center',
-  display: 'flex',
-  selectors: {
-  },
+  flexDirection: 'column',
+  gridGap: '20px',
   '@media': {
-    'only screen and (max-width: 600px)': {
-      alignItems: 'flex-start',
+    '(min-width: 768px)': {
       flexDirection: 'row',
-      justifyContent: 'center',
-      width: 'auto',
     },
   },
 })
 
-export const streamSelectInput = style({
-  backgroundColor: 'whitesmoke',
-  border: '0',
-  height: '25px',
-  marginLeft: '5px',
-  width: '50%',
-})
+
 export const streamSelectSelect = style({
-  backgroundColor: 'white',
-  borderColor: '30183e',
-  color: 'black',
-  fontSize: '0.9em',
-  height: '25px',
-  marginLeft: '5px',
-  width: '80%',
+  // backgroundColor: 'white',
+  // borderColor: '30183e',
+  // color: 'black',
+  // fontSize: '0.9em',
+  // height: '25px',
+  // marginLeft: '5px',
+  // width: '80%',
+})
+
+export const formContainer = style({
+  border: 'none',
+  padding: 0,
+  margin: 0,
+})
+
+export const formLegend = style({
+  margin: '0 0 20px',
+})
+
+export const streamSelectCustomInput = style({
+  flex: 1
+})
+
+export const streamSelectCustomButton = style({
+  width: '100%',
+  '@media': {
+    '(min-width: 768px)': {
+      width: '155px',
+    },
+  },
 })

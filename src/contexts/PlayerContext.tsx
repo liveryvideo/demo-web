@@ -1,27 +1,22 @@
 import React from 'react'
 import * as liveryPlayer from '@liveryvideo/player'
 
-import { DEFAULT_STREAM } from '@constants/stream'
-
-import setUrlParam from '@utils/setUrlParam'
-import getUrlParam from '@utils/getUrlParam'
+import { PlayerConfigurationContext } from './PlayerConfigurationContext'
 
 export const PlayerContext = React.createContext({
   buffer: null,
-  changeLogLevel: (level: string) => {},
   engineName: '',
   latency: null,
-  logLevel: null,
   playbackState: null,
   quality: null,
   setGraph: null,
   setPlayer: null,
-  setStream: (streamId: string) => {},
-  streamId: '',
   version: '',
 })
 
 export const PlayerProvider = ({ children }) => {
+  const { logLevel } = React.useContext(PlayerConfigurationContext)
+
   const [player, setPlayer] = React.useState<any>(null)
   const [graph, setGraph] = React.useState<any>(null)
 
@@ -30,15 +25,6 @@ export const PlayerProvider = ({ children }) => {
   const [latency, setLatency] = React.useState<string | number>(0)
   const [playbackState, setPlaybackState] = React.useState('')
   const [quality, setQuality] = React.useState('')
-  const [streamId, setStreamId] = React.useState('')
-  const [logLevel, setLogLevel] = React.useState('')
-
-  React.useEffect(() => {
-    const streamId = getUrlParam('stream')
-    const logLevel = getUrlParam('log')
-    setStream(streamId ? streamId : DEFAULT_STREAM.id)
-    changeLogLevel(logLevel ? logLevel : 'warn')
-  }, [])
 
   React.useEffect(() => {
     if (!player) {
@@ -70,6 +56,12 @@ export const PlayerProvider = ({ children }) => {
       graph.player = player
     }
   }, [graph, player])
+
+  React.useEffect(() => {
+    if (player) {
+      player.logLevel = logLevel
+    }
+  }, [logLevel])
 
   const updateQuality = engine => {
     if (!engine) {
@@ -115,33 +107,16 @@ export const PlayerProvider = ({ children }) => {
     setLatency(0)
   }
 
-  const changeLogLevel = (level = 'warn') => {
-    setLogLevel(level)
-    setUrlParam('log', level)
-    if (player) {
-      player.logLevel = level
-    }
-  }
-
-  const setStream = (streamId: string) => {
-    setUrlParam('stream', streamId)
-    setStreamId(streamId)
-  }
-
   return (
     <PlayerContext.Provider
       value={{
         buffer,
-        changeLogLevel,
         engineName,
         latency,
-        logLevel,
         playbackState,
         quality,
         setGraph,
         setPlayer,
-        setStream,
-        streamId,
         version: liveryPlayer.version,
       }}
     >

@@ -1,9 +1,13 @@
 import React from 'react'
+import { PlayerConfigurationContext } from '@contexts/PlayerConfigurationContext'
 import { PlayerContext } from '@contexts/PlayerContext'
 
+
 const Player = () => {
+
   const playerRef = React.useRef(null)
-  const { setPlayer, streamId } = React.useContext(PlayerContext)
+  const { streamId } = React.useContext(PlayerConfigurationContext)
+  const { setPlayer } = React.useContext(PlayerContext)
 
   React.useEffect(() => {
     if (playerRef?.current) {

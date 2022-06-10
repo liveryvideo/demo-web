@@ -5,7 +5,8 @@ export const log = style({
   display: 'flex',
   backgroundColor: 'transparent',
   flexDirection: 'column',
-  justifyContent: 'center',
+  // justifyContent: 'center',
+  height: '100%',
   width: '100%',
 })
 
@@ -17,7 +18,6 @@ export const logBox = style({
       height: '200px',
     },
     '(min-width: 992px)': {
-      flex: 1,
     },
   },
 })

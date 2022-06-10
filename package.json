@@ -9,7 +9,7 @@
   "repository": "github:liveryvideo/demo-web",
   "dependencies": {
     "@headlessui/react": "^1.6.4",
-    "@liveryvideo/player": "^7.1.0",
+    "@liveryvideo/player": "7.1.0-beta.36",
     "@sentry/react": "^6.12.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
@@ -20,6 +20,7 @@
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-i18next": "^11.16.9",
+    "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1"
   },
   "scripts": {

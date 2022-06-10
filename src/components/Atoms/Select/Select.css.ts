@@ -26,6 +26,15 @@ export const button = style({
   letterSpacing: '2px',
   cursor: 'pointer',
   zIndex: 2,
+  opacity: 0.8,
+  selectors: {
+    '&:hover': {
+      opacity: 1
+    },
+    '&[aria-expanded=true]': {
+      opacity: 1,
+    }
+  },
 })
 
 export const chevron = style({

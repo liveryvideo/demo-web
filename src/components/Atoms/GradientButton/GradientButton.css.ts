@@ -7,7 +7,7 @@ export const button = style({
   lineHeight: '15px',
   textAlign: 'center',
   textTransform: 'uppercase',
-  transition: '0.5s',
+  transition: '0.8s',
   backgroundSize: '200% auto',
   color: theme.colors.white,
   boxShadow: '0 0 20px #eee',

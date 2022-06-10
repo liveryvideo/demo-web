@@ -14,11 +14,13 @@ export const theme = createGlobalTheme(':root', {
   },
   fontFamily: "'Raleway', sans-serif",
   fontSize: {
+    tiny: '14px',
     small: '14px',
     medium: '17px',
     large: '20px',
   },
   lineHeight: {
+    tiny: '15px',
     small: '17px',
     medium: '20px',
     large: '23px',

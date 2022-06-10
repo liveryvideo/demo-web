@@ -8,6 +8,12 @@ globalStyle('body', {
   lineHeight: theme.lineHeight.medium,
   WebkitFontSmoothing: 'antialiased',
   MozOsxFontSmoothing: 'grayscale',
+  '@media': {
+    '(max-width: 991px)': {
+      fontSize: theme.fontSize.tiny,
+      lineHeight: theme.lineHeight.tiny,
+    },
+  },
 })
 
 globalStyle('html, body, #app, #root, #app', {
@@ -55,4 +61,8 @@ globalStyle('a:active', {
 
 globalStyle('p', {
   margin: '0 0 25px',
+})
+
+globalStyle('livery-log::part(clipboard-button)', {
+  display: 'none',
 })

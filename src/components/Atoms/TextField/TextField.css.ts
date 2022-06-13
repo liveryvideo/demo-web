@@ -13,7 +13,7 @@ export const input = style({
       outline: 'none',
     },
     '&::placeholder': {
-      color: theme.colors.emperor,
+      color: 'rgba(84, 84, 84, 0.5)',
     },
   },
 })

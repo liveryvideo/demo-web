@@ -17,6 +17,7 @@ export const button = style({
   fontWeight: 700,
   letterSpacing: '2px',
   cursor: 'pointer',
+  outline: 'none',
   selectors: {
     '&:hover': {
       backgroundPosition: 'right center',
@@ -24,5 +25,8 @@ export const button = style({
     '&:active': {
       backgroundImage: `linear-gradient(to right, ${theme.colors.melrose} 0%, ${theme.colors.melrose} 51%, ${theme.colors.melrose} 100%)`,
     },
+    '&:focus': {
+      outline: 'none',
+    }
   },
 })

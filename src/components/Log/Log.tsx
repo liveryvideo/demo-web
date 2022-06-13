@@ -35,11 +35,13 @@ const Log = ({ className }: LogProps) => {
 
   return (
     <div className={cx(styles.log, className)}>
-      <div className={styles.logPanel}>
-        <span className={styles.logLevelTitle}>{t('log.log_level')}</span>
-        {renderNavigation}
+      <div>
+        <div className={styles.logPanel}>
+          <span className={styles.logLevelTitle}>{t('log.log_level')}</span>
+          {renderNavigation}
+        </div>
+        <div className={styles.line} />
       </div>
-      <div className={styles.line} />
       <div className={styles.logBox}>
         <livery-log />
       </div>

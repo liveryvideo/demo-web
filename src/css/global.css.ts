@@ -22,12 +22,7 @@ globalStyle('html, body, #app, #root, #app', {
 })
 
 globalStyle('#root', {
-  padding: '30px',
-  '@media': {
-    '(min-width: 992px)': {
-      padding: '40px',
-    },
-  },
+  padding: '10px',
 })
 
 globalStyle('code', {

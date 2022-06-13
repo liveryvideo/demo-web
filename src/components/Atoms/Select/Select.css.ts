@@ -27,6 +27,7 @@ export const button = style({
   cursor: 'pointer',
   zIndex: 2,
   opacity: 0.8,
+  outline: 'none',
   selectors: {
     '&:hover': {
       opacity: 1
@@ -63,6 +64,7 @@ export const options = style({
   top: '45px',
   borderRadius: '0 0 10px 10px',
   zIndex: 1,
+  outline: 'none',
   selectors: {
     '&:hover': {},
   },

@@ -2,11 +2,10 @@ import { style } from '@vanilla-extract/css'
 
 export const app = style({
   display: 'grid',
-  gridGap: '20px',
+  gridGap: '15px',
   gridTemplateAreas: '"info" "player" "graph" "log"',
   '@media': {
     '(min-width: 992px)': {
-      gridGap: '40px',
       gridTemplateColumns: '40% 1fr',
       gridTemplateAreas: '"info player" "log graph"',
     },

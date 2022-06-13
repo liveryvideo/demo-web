@@ -23,7 +23,7 @@ const App = () => {
     if (appRef?.current) {
       if (windowSize.width >= 992 && windowSize.height >= 992) {
         const firstRow = (windowSize.height * 65) / 100
-        const secondRow = (windowSize.height * 35) / 100 - 120
+        const secondRow = (windowSize.height * 35) / 100 - 35
         // @ts-ignore
         appRef.current.style.gridTemplateRows = `${firstRow}px ${secondRow}px`
       } else {

@@ -7,7 +7,7 @@ import GradientButton from '@components/Atoms/GradientButton'
 import TextField from '@components/Atoms/TextField'
 import Select from '@components/Atoms/Select'
 
-import { DEFAULT_STREAM, CUSTOM_STREAM } from '@constants/stream'
+import { DEFAULT_STREAM, AKAMAI_STREAM, CUSTOM_STREAM } from '@constants/stream'
 
 import * as styles from './StreamSelect.css'
 
@@ -41,10 +41,10 @@ const StreamSelect = () => {
   }
 
   const updateDropdown = () => {
-    if ([DEFAULT_STREAM].find(stream => stream.id === streamId)) {
-      setCurrentStream(DEFAULT_STREAM)
-    } else {
-      setCurrentStream(CUSTOM_STREAM)
+    const currentStream = [DEFAULT_STREAM, AKAMAI_STREAM].find(stream => stream.id === streamId)
+    setCurrentStream(currentStream ?? CUSTOM_STREAM)
+    if (currentStream.id === DEFAULT_STREAM.id) {
+      setStreamIdInput('')
     }
   }
 
@@ -66,7 +66,7 @@ const StreamSelect = () => {
         </div>
         <fieldset className={styles.formContainer}>
           <legend className={styles.formLegend}>{t('stream_select.select_stream')}</legend>
-          <Select options={[DEFAULT_STREAM, CUSTOM_STREAM]} selectedOption={currentStream} onChange={onSelectChange} />
+          <Select options={[DEFAULT_STREAM, AKAMAI_STREAM, CUSTOM_STREAM]} selectedOption={currentStream} onChange={onSelectChange} />
         </fieldset>
       </div>
       <fieldset className={styles.formContainer}>

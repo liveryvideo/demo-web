@@ -3,6 +3,11 @@ export const DEFAULT_STREAM = {
   name: 'Livery Demo',
 }
 
+export const AKAMAI_STREAM = {
+  id: 'akamai',
+  name: 'Akamai',
+}
+
 export const CUSTOM_STREAM = {
   id: 'custom',
   name: 'Custom',

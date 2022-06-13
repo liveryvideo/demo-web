@@ -5,8 +5,8 @@ export const log = style({
   display: 'flex',
   backgroundColor: 'transparent',
   flexDirection: 'column',
-  // justifyContent: 'center',
   height: '100%',
+  maxHeight: '500px',
   width: '100%',
 })
 

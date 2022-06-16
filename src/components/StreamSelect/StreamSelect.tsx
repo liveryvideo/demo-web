@@ -43,7 +43,7 @@ const StreamSelect = () => {
   const updateDropdown = () => {
     const currentStream = [DEFAULT_STREAM, AKAMAI_STREAM].find(stream => stream.id === streamId)
     setCurrentStream(currentStream ?? CUSTOM_STREAM)
-    if (currentStream.id === DEFAULT_STREAM.id) {
+    if (streamId === DEFAULT_STREAM.id || streamId === AKAMAI_STREAM.id) {
       setStreamIdInput('')
     }
   }

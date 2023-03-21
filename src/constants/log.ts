@@ -4,4 +4,4 @@ export const LOG_LEVELS = {
   info: { id: 'info', name: 'info' },
   debug: { id: 'debug', name: 'debug' },
   spam: { id: 'spam', name: 'spam' },
-}
+} as const

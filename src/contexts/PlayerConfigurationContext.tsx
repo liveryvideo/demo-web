@@ -1,21 +1,25 @@
-import React from 'react'
+import { createContext, useEffect, ReactNode } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { DEFAULT_STREAM } from '@constants/stream'
+import { DEFAULT_STREAM } from '@/constants/stream'
 
-export const PlayerConfigurationContext = React.createContext({
+export const PlayerConfigurationContext = createContext({
   setLogLevel: (level: string) => {},
   logLevel: null,
   setStream: (streamId: string) => {},
   streamId: null,
 })
 
-export const PlayerConfigurationProvider = ({ children }) => {
+interface PlayerConfigurationProviderProps {
+  children: ReactNode
+}
+
+export const PlayerConfigurationProvider = ({ children }: PlayerConfigurationProviderProps) => {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const logLevel = searchParams.get('log')
   const streamId = searchParams.get('stream')
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!logLevel && !streamId) {
       setSearchParams({ stream: DEFAULT_STREAM.id, log: 'warn' })
     }

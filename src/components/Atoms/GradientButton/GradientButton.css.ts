@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css'
-import { theme } from '@css/theme.css'
+import { theme } from '@/styles/theme.css'
 
 export const button = style({
   padding: '20px',
@@ -27,6 +27,6 @@ export const button = style({
     },
     '&:focus': {
       outline: 'none',
-    }
+    },
   },
 })

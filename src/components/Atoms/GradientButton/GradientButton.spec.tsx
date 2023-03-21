@@ -1,19 +1,31 @@
-import React from 'react';
-import {render, screen} from '@testing-library/react';
-import GradientButton from "./GradientButton";
-
-const defaultProps = {
-  onClick: jest.fn()
-};
+import { render, fireEvent } from '@testing-library/react'
+import GradientButton, { GradientButtonProps } from './GradientButton'
 
 describe('GradientButton', () => {
-  it('should render the correct default button', () => {
-    render(<GradientButton {...defaultProps}>Test button</GradientButton>);
-    const element = screen.getByTestId('GradientButton');
-    expect(element).toBeInTheDocument();
-    expect(element.tagName).toEqual('BUTTON');
-    expect(element.innerHTML).toEqual('Test button');
-  });
-})
+  const defaultProps: GradientButtonProps = {
+    onClick: jest.fn(),
+    children: 'Click me',
+    className: 'my-button',
+  }
 
-export default {}
+  it('renders the button with the provided class name', () => {
+    const { getByTestId } = render(<GradientButton {...defaultProps} />)
+    const button = getByTestId('GradientButton')
+    // @ts-ignore
+    expect(button).toHaveClass(defaultProps.className)
+  })
+
+  it('calls the onClick callback when clicked', () => {
+    const { getByTestId } = render(<GradientButton {...defaultProps} />)
+    const button = getByTestId('GradientButton')
+    fireEvent.click(button)
+    expect(defaultProps.onClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('renders the provided children', () => {
+    const { getByTestId } = render(<GradientButton {...defaultProps} />)
+    const button = getByTestId('GradientButton')
+    // @ts-ignore
+    expect(button).toHaveTextContent(defaultProps.children)
+  })
+})

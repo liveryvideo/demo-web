@@ -16,10 +16,6 @@ This template is build with the following configurations installed:
 ### [Storybook](https://storybook.js.org)
 An open source tool for developing UI components and pages in isolation that simplifies building, documenting, and testing UIs.
 
-### Craco
-A package created by the ShareGate team to allow configuring CRA without ejecting.<br />
-It's noteworthy that craco (or maybe CRA itself) does not support ts import aliases, so we had installed and configured a third library for it called [craco-alias](https://github.com/risenforces/craco-alias).
-
 ### Code styling tools
 This template is made with (almost) most strict code style configurations. `tsconfig`, `prettier` and `eslint` rules are configured one by one and are ready to use.
 
@@ -27,7 +23,7 @@ This template is made with (almost) most strict code style configurations. `tsco
 
 In the project directory, you can run:
 
-### `yarn start`
+### `yarn dev`
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -50,25 +46,6 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn analyze`
-
-Analyzes the built JavaScript bundles using the sourcemaps. This helps you understand where code bloat is coming from.
-
-```
-yarn build
-yarn analyze
-```
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
 ### `yarn storybook`
 
 Starts the storybook in development mode. Open [http://localhost:6006](http://localhost:6006) to view it in the browser.
@@ -78,8 +55,6 @@ Starts the storybook in development mode. Open [http://localhost:6006](http://lo
 Builds the static storybook production.
 
 ## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 

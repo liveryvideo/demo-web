@@ -1,5 +1,4 @@
 import { style } from '@vanilla-extract/css'
-import { theme } from '@css/theme.css'
 
 export const input = style({
   boxSizing: 'border-box',

@@ -1,5 +1,5 @@
 import { style } from '@vanilla-extract/css'
-import { theme } from '@css/theme.css';
+import { theme } from '@/styles/theme.css'
 
 export const select = style({
   position: 'relative',
@@ -30,11 +30,11 @@ export const button = style({
   outline: 'none',
   selectors: {
     '&:hover': {
-      opacity: 1
+      opacity: 1,
     },
     '&[aria-expanded=true]': {
       opacity: 1,
-    }
+    },
   },
 })
 

@@ -1,4 +1,3 @@
-import React from 'react'
 import GradientButton from './GradientButton'
 
 export default {

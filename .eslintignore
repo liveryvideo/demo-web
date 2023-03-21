@@ -1,0 +1,7 @@
+node_modules
+.storybook
+
+# Ignore artifacts:
+dist
+postcss.config.js
+vite.config.js

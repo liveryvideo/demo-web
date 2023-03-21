@@ -1,5 +1,5 @@
 import { style, styleVariants } from '@vanilla-extract/css'
-import { theme } from '@css/theme.css'
+import { theme } from '@/styles/theme.css'
 
 const chipContainerBase = style({
   display: 'flex',

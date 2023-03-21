@@ -28,7 +28,7 @@ export interface LiveryLog {
 export declare global {
   namespace JSX {
     interface IntrinsicElements {
-      ['livery-player']: CustomElement<LiveryPlayer>,
+      ['livery-player']: CustomElement<LiveryPlayer>
       ['livery-buffer-graph']: CustomElement<LiveryBufferGraph>
       ['livery-log']: CustomElement<LiveryLog>
     }

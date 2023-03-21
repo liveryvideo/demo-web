@@ -1,26 +1,20 @@
 import React from 'react'
 
 import { Listbox } from '@headlessui/react'
-
-import Triangle from '@assets/triangle.svg'
+import { StreamObject } from '@/types'
+import Triangle from '@/assets/triangle.svg'
 
 import * as styles from './Select.css'
 
-type option = {
-  id: string | number
-  name: string
-  unavailable?: boolean
-}
-
 export interface SelectProps {
-  options: option[]
-  selectedOption?: option
-  onChange?: (option: option) => void
+  options: StreamObject[]
+  selectedOption?: StreamObject
+  onChange?: (option: StreamObject) => void
   placeholder?: string
 }
 
 const Select = ({ options, selectedOption, onChange, placeholder = 'Select option' }: SelectProps) => {
-  const handleChange = option => {
+  const handleChange = (option: any) => {
     onChange && onChange(option)
   }
 

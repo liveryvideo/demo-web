@@ -1,24 +1,28 @@
-import React from 'react';
-import {render, screen} from '@testing-library/react';
-import Chip from "./Chip";
-
-const defaultProps = {
-  label: 'Test label',
-  value: '100'
-};
+import { render } from '@testing-library/react'
+import Chip, { ChipProps } from './Chip'
 
 describe('Chip', () => {
-  it('should render', () => {
-    render(<Chip {...defaultProps} />);
-    const chipElement = screen.getByTestId('Chip');
-    expect(chipElement).toBeInTheDocument();
+  const defaultProps: ChipProps = {
+    label: 'My Label',
+    value: 'My Value',
+    className: 'my-chip',
+  }
 
-    const chipLabelElement = screen.getByTestId('ChipLabel');
-    expect(chipLabelElement.innerHTML).toEqual('Test label');
+  it('renders the chip with the provided label and value', () => {
+    const { getByTestId } = render(<Chip {...defaultProps} />)
+    const chip = getByTestId('Chip')
+    const label = getByTestId('ChipLabel')
+    const value = getByTestId('ChipValue')
+    expect(chip).toBeInTheDocument()
+    expect(label).toHaveTextContent(defaultProps.label)
+    // @ts-ignore
+    expect(value).toHaveTextContent(defaultProps.value)
+  })
 
-    const chipValueElement = screen.getByTestId('ChipValue');
-    expect(chipValueElement.innerHTML).toEqual('100');
-  });
+  it('renders the chip with the provided class name', () => {
+    const { getByTestId } = render(<Chip {...defaultProps} />)
+    const chip = getByTestId('Chip')
+    // @ts-ignore
+    expect(chip).toHaveClass(defaultProps.className)
+  })
 })
-
-export default {}

@@ -1,32 +1,36 @@
-import React from 'react'
+import { createContext, useContext, useState, useEffect, MutableRefObject, ReactNode } from 'react'
 import * as liveryPlayer from '@liveryvideo/player'
 
 import { PlayerConfigurationContext } from './PlayerConfigurationContext'
 
-export const PlayerContext = React.createContext({
-  buffer: null,
+export const PlayerContext = createContext({
+  buffer: '',
   engineName: '',
   latency: null,
   playbackState: null,
   quality: null,
-  setGraph: null,
-  setPlayer: null,
+  setGraph: (object: MutableRefObject<null>) => {},
+  setPlayer: (object: MutableRefObject<null>) => {},
   version: '',
 })
 
-export const PlayerProvider = ({ children }) => {
-  const { logLevel } = React.useContext(PlayerConfigurationContext)
+interface PlayerProviderProps {
+  children: ReactNode
+}
 
-  const [player, setPlayer] = React.useState<any>(null)
-  const [graph, setGraph] = React.useState<any>(null)
+export const PlayerProvider = ({ children }: PlayerProviderProps) => {
+  const { logLevel } = useContext(PlayerConfigurationContext)
 
-  const [buffer, setBuffer] = React.useState<number | string>(0)
-  const [engineName, setEngineName] = React.useState('')
-  const [latency, setLatency] = React.useState<string | number>(0)
-  const [playbackState, setPlaybackState] = React.useState('')
-  const [quality, setQuality] = React.useState('')
+  const [player, setPlayer] = useState<any>(null)
+  const [graph, setGraph] = useState<any>(null)
 
-  React.useEffect(() => {
+  const [buffer, setBuffer] = useState<number | string>(0)
+  const [engineName, setEngineName] = useState('')
+  const [latency, setLatency] = useState<string | number>(0)
+  const [playbackState, setPlaybackState] = useState('')
+  const [quality, setQuality] = useState('')
+
+  useEffect(() => {
     if (!player) {
       return
     }
@@ -42,8 +46,11 @@ export const PlayerProvider = ({ children }) => {
       }
 
       setEngineName(engine.constructor.className.replace('Engine', ''))
+      // @ts-ignore
       engine.onProperty('buffer', buffer => updateBuffer(buffer))
+      // @ts-ignore
       engine.onProperty('latency', latency => updateLatency(latency))
+      // @ts-ignore
       engine.onProperty('playbackState', playbackState => setPlaybackState(playbackState))
       engine.onProperty('activeQuality', () => updateQuality(engine))
       engine.onProperty('qualities', () => updateQuality(engine))
@@ -51,13 +58,13 @@ export const PlayerProvider = ({ children }) => {
     })
   }, [player])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (graph && player) {
       graph.player = player
     }
   }, [graph, player])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (player) {
       player.logLevel = logLevel
     }

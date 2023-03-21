@@ -1,6 +1,6 @@
 import React from 'react'
 import Select from './Select'
-import { DEFAULT_STREAM, CUSTOM_STREAM } from '@constants/stream'
+import { DEFAULT_STREAM, CUSTOM_STREAM } from '@/constants/stream'
 
 export default {
   title: 'Components/Atoms/Select',

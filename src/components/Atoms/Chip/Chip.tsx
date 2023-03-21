@@ -1,9 +1,8 @@
-import React from 'react'
-import cx from '@utils/cx'
+import classNames from '@/utils/classNames'
 
 import * as styles from './Chip.css'
 
-interface ChipProps {
+export interface ChipProps {
   mode?: 'light' | 'dark'
   label: string
   value?: string | number
@@ -12,7 +11,7 @@ interface ChipProps {
 
 const Chip = ({ mode = 'light', label, value, className }: ChipProps) => {
   return (
-    <div className={cx(styles.chipContainer[mode], className)} data-testid="Chip">
+    <div className={classNames(styles.chipContainer[mode], className)} data-testid="Chip">
       <span className={styles.label} data-testid="ChipLabel">
         {label}
       </span>

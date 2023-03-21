@@ -1,15 +1,15 @@
-import React from 'react'
+import { ForwardRefRenderFunction, InputHTMLAttributes, forwardRef } from 'react'
 
-import cx from '@utils/cx'
+import classNames from '@/utils/classNames'
 
 import * as styles from './TextField.css'
 
-interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface TextFieldProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string
 }
 
-const TextField: React.ForwardRefRenderFunction<HTMLInputElement, TextFieldProps> = ({ className, ...props }, ref) => {
-  return <input ref={ref} {...props} className={cx(styles.input, className)} data-testid="TextField" />
+const TextField: ForwardRefRenderFunction<HTMLInputElement, TextFieldProps> = ({ className, ...props }, ref) => {
+  return <input ref={ref} {...props} className={classNames(styles.input, className)} data-testid="TextField" />
 }
 
-export default React.forwardRef(TextField)
+export default forwardRef(TextField)

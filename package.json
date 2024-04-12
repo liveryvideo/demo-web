@@ -8,8 +8,8 @@
   "license": "MIT",
   "repository": "github:liveryvideo/demo-web",
   "dependencies": {
-    "@liveryvideo/player": "^7.9.0",
-    "@sentry/react": "^7.107.0",
+    "@liveryvideo/player": "^7.10.0",
+    "@sentry/react": "^7.110.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",
-    "@testing-library/react": "^14.2.2",
+    "@testing-library/react": "^15.0.1",
     "@testing-library/user-event": "^14.5.2",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.2.5",

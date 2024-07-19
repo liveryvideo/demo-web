@@ -119,7 +119,7 @@ class App extends Component {
   getStreamId() {
     const params = new URLSearchParams(window.location.search);
     const streamId = params.get("stream");
-    return streamId || "5ddb98f5e4b0937e6a4507f2";
+    return streamId || "6613d164e4b0bf3ad645f3c6";
   }
 
   setStream() {

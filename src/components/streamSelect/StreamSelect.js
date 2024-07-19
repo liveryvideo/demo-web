@@ -6,11 +6,11 @@ class StreamSelect extends Component {
     super(props);
 
     this.defaultStreams = [
-      { id: "5ddb98f5e4b0937e6a4507f2", name: "Livery Demo" },
+      { id: "6613d164e4b0bf3ad645f3c6", name: "Livery Demo" },
     ];
 
     this.state = {
-      currentStream: "5ddb98f5e4b0937e6a4507f2",
+      currentStream: "6613d164e4b0bf3ad645f3c6",
       streamIdInput: "",
     };
   }
@@ -49,7 +49,7 @@ class StreamSelect extends Component {
     let id = "";
     let customId = "";
     if (!streamParam) {
-      id = "5ddb98f5e4b0937e6a4507f2";
+      id = "6613d164e4b0bf3ad645f3c6";
     } else {
       if (this.defaultStreams.find((stream) => stream.id === streamParam)) {
         id = streamParam;

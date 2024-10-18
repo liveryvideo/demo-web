@@ -8,10 +8,10 @@
   "license": "MIT",
   "repository": "github:liveryvideo/demo-web",
   "dependencies": {
-    "@liveryvideo/player": "^7.11.0",
-    "@sentry/react": "^7.112.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "@liveryvideo/player": "^7.12.1",
+    "@sentry/react": "^8.34.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -23,11 +23,11 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.4.2",
-    "@testing-library/react": "^15.0.4",
+    "@testing-library/jest-dom": "^6.6.2",
+    "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
     "eslint-config-prettier": "^9.1.0",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.3",
     "react-scripts": "^5.0.1"
   }
 }
